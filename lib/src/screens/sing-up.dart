@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ucar_app/src/components/app_bar_custom.dart';
 import 'package:ucar_app/src/screens/background.dart';
 
 import '../components/already_have_an_account.dart';
+import '../components/drop_down_button.dart';
 import '../components/rounded_button.dart';
 import '../components/rounded_input_field.dart';
 import '../components/rounded_password_field.dart';
 import '../theme/colors.dart';
 import '../theme/fontsizes.dart';
-import 'login.dart';
 
 class SingUp extends StatelessWidget {
   const SingUp({Key? key}) : super(key: key);
@@ -52,10 +51,10 @@ class SingUp extends StatelessWidget {
                     hintText: "ID Universidad",
                     onChanged: (value) {},
                     icon: Icons.shield_rounded),
-                RoundedInputField(
-                    hintText: "Carrera Pregrado",
-                    onChanged: (value) {},
-                    icon: Icons.collections_bookmark_rounded),
+                DropDownButtonCustom(
+                    hintText: "Carrera Universitaria",                    
+                    icon: Icons.collections_bookmark_rounded, 
+                    list: ['One', 'Two', 'Free', 'Four'],),
                 RoundedInputField(
                     hintText: "Nombres",
                     onChanged: (value) {},
