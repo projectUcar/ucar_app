@@ -19,9 +19,6 @@ class RoundedPasswordField extends StatelessWidget {
         cursorColor: textGray,
         style: const TextStyle(color: textGray, fontSize: 17),
         decoration: const InputDecoration(
-          //isDense: true,                      // Added this
-          //contentPadding: EdgeInsets.all(10),  // Added this
-          //contentPadding: EdgeInsets.only(top: 15),
           hintText: "Contraseña",
           hintStyle: TextStyle(color: textGray,),
           icon: Icon(

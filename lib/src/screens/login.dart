@@ -19,6 +19,12 @@ class Welcome extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children:  [
+              Container(
+                height: 100,
+                width: 100,
+                color: textGray,
+              ),              
+            SizedBox(height: size.height * 0.03),
               const Text("¡Bienvenido\nNuevamente!",
               style: TextStyle(
                 color: textWhite, 
@@ -28,6 +34,7 @@ class Welcome extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: size.height * 0.03),
+            
             const Text(
               "Inicia sesión con tu cuenta existente de UCAR", 
               style: TextStyle(
@@ -59,7 +66,7 @@ class Welcome extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: size.height * 0.05),
+            SizedBox(height: size.height * 0.04),
             RoundedButton(
               text: "INICIAR SESIÓN",
               press: () {},
