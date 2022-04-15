@@ -8,13 +8,15 @@ import '../components/already_have_an_account.dart';
 import '../components/rounded_button.dart';
 import '../components/rounded_input_field.dart';
 
-class Welcome extends StatelessWidget {
-  const Welcome({Key? key}) : super(key: key);
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Background(
+    return  Scaffold(
+      backgroundColor: primary,
+      body: Background(
       child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -74,19 +76,16 @@ class Welcome extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
               press: () {
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return Container();
-                    },
-                  ),
+                  "/sing-up"
                 );
               }
             )
           ],
         )
       ),
+      )
     );
   }
 }

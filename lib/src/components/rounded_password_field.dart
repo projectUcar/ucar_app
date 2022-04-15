@@ -4,10 +4,13 @@ import '../theme/fontsizes.dart';
 import 'text_field_container.dart';
 
 class RoundedPasswordField extends StatelessWidget {
+  final String text;
   final ValueChanged<String> onChanged;
+
   const RoundedPasswordField({
     Key ? key,
-    required this.onChanged,
+    required this.onChanged, 
+    this.text = "Contraseña",
   }) : super(key: key);
 
   @override
@@ -18,14 +21,14 @@ class RoundedPasswordField extends StatelessWidget {
         onChanged: onChanged,
         cursorColor: textGray,
         style: const TextStyle(color: textGray, fontSize: 17),
-        decoration: const InputDecoration(
-          hintText: "Contraseña",
-          hintStyle: TextStyle(color: textGray,),
-          icon: Icon(
+        decoration:  InputDecoration(
+          hintText: text,
+          hintStyle: const TextStyle(color: textGray,),
+          icon: const Icon(
             Icons.lock,
             color: textGray,
           ),
-          suffixIcon: Icon(            
+          suffixIcon: const Icon(            
             Icons.visibility,
             color: textGray,
           ),

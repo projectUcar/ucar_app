@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ucar_app/src/screens/login.dart';
+import 'package:ucar_app/src/screens/sing-up.dart';
 import 'package:ucar_app/src/theme/colors.dart';
 
 void main() {
@@ -15,13 +16,16 @@ class UcarApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ucar App',
+      initialRoute: '/',
       theme: ThemeData(
         primaryColor: textWhite,
       ),
-      home: const Scaffold(
-        backgroundColor: primary,
-        body: Welcome()
-        ),
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/': (context) => const LoginScreen(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/sing-up': (context) => const SingUp(),
+      },
     );
   }
 }
