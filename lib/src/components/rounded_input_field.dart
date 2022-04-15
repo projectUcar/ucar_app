@@ -23,6 +23,8 @@ class RoundedInputField extends StatelessWidget {
         cursorColor: textGray,
         style: const TextStyle(color: textGray, fontSize: 16),
         decoration: InputDecoration(
+          // isDense: true,                      // Added this
+          // contentPadding: EdgeInsets.all(8),  // Added this
           icon: Icon(
             icon,
             color: textGray,
