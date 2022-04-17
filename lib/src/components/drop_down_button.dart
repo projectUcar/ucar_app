@@ -16,17 +16,12 @@ class DropDownButtonCustom extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DropDownButtonCustom> createState() => DropDownButtonCustomState(
-      hintText: hintText, icon: icon, list: list);
+  State<DropDownButtonCustom> createState() => DropDownButtonCustomState();
 }
 
 class DropDownButtonCustomState extends State<DropDownButtonCustom> {
-  String hintText;
-  final IconData icon;
-  final List<String> list;
 
-  DropDownButtonCustomState(
-      {required this.hintText, required this.icon, required this.list});
+  DropDownButtonCustomState();
 
   String? _selected;
 
@@ -35,7 +30,7 @@ class DropDownButtonCustomState extends State<DropDownButtonCustom> {
     return TextFieldContainer(
         child: DropdownButtonHideUnderline(
       child: DropdownButton<String>(
-        hint: Text(hintText, style: const TextStyle(color: textGray, fontSize: 17)),
+        hint: Text(widget.hintText, style: const TextStyle(color: textGray, fontSize: 17)),
         isExpanded: true,
         dropdownColor: secondary,
         icon: const Icon(
@@ -49,7 +44,7 @@ class DropDownButtonCustomState extends State<DropDownButtonCustom> {
         onChanged: (String? value) => setState(() {
           _selected = value ;
         }),
-        items: list.map<DropdownMenuItem<String>>((String value) {
+        items: widget.list.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value),

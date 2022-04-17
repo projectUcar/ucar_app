@@ -11,14 +11,13 @@ class RoundedPasswordField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<RoundedPasswordField> createState() => _RoundedPasswordFieldState(text: text);
+  State<RoundedPasswordField> createState() => _RoundedPasswordFieldState();
 }
 
 class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
-   final String text;
    bool _secureText = true;
 
-  _RoundedPasswordFieldState({required this.text});
+  _RoundedPasswordFieldState();
 
 
   @override

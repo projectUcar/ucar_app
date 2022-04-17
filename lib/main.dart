@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ucar_app/src/screens/login.dart';
-import 'package:ucar_app/src/screens/sing-up.dart';
+import 'package:ucar_app/src/screens/sing_up.dart';
 import 'package:ucar_app/src/theme/colors.dart';
 
 void main() {
