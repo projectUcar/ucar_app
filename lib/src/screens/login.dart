@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ucar_app/src/components/rounded_password_field.dart';
 import 'package:ucar_app/src/screens/background.dart';
+import 'package:ucar_app/src/screens/passenger/pass_home.dart';
 import 'package:ucar_app/src/theme/colors.dart';
 import 'package:ucar_app/src/theme/fontsizes.dart';
 
@@ -14,6 +15,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    TextEditingController _textNameUser = TextEditingController(text: "");
+
     return  Scaffold(
       backgroundColor: primary,
       body: Background(
@@ -69,14 +72,15 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.04),
             RoundedButton(
               text: "INICIAR SESIÓN",
-              press: () {},
+              press: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePassenger(name: "Andrey")));
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
               press: () {
                 Navigator.pushNamed(
-                  context,
-                  "/sing-up"
+                  context, "/sing-up"
                 );
               }
             )

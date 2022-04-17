@@ -5,14 +5,13 @@ import 'package:ucar_app/src/theme/fontsizes.dart';
 class RoundedButton extends StatelessWidget {
   final String text;
   final VoidCallback  press;
-  final Color color, textColor;
+  final Color color;
 
   const RoundedButton({
     Key ? key,
     required this.text,
     required this.press,
     this.color = orangeDark,
-    this.textColor = Colors.white,
   }) : super(key: key);
 
   @override
@@ -32,14 +31,14 @@ class RoundedButton extends StatelessWidget {
     return ElevatedButton(
       child: Text(
         text,
-        style: TextStyle(color: textColor, fontSize: subTitleFontSize, fontWeight: FontWeight.bold),
+        style: const TextStyle(color: textWhite, fontSize: subTitleFontSize, fontWeight: FontWeight.bold),
       ),
       onPressed: press,
       style: ElevatedButton.styleFrom(
           primary: color,
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-          textStyle: TextStyle(
-              color: textColor, fontSize: 14, fontWeight: FontWeight.w500)),
+          textStyle: const TextStyle(
+              color: textWhite, fontSize: 14, fontWeight: FontWeight.w500)),
     );
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ucar_app/src/theme/colors.dart';
 
-class TextFieldContainer extends StatelessWidget {
+class SearchFieldContainer extends StatelessWidget {
   final Widget child;
 
-  const TextFieldContainer({ 
+  const SearchFieldContainer({ 
     Key? key, 
     required this.child 
     }) : super(key: key);
@@ -15,11 +15,11 @@ class TextFieldContainer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      width: size.width * 0.90,
-      height: 55,
+      width: size.width * 0.80,
+      height: 42,
       decoration: BoxDecoration(
-        color: secondary,
-        borderRadius: BorderRadius.circular(20),
+        color: textGray,
+        borderRadius: BorderRadius.circular(10),
       ),
       child: child,
     );
