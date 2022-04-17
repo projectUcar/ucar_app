@@ -21,9 +21,9 @@ class UcarApp extends StatelessWidget {
         primaryColor: textWhite,
       ),
       routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
+        // Cuando se navega a la ruta "/" se muestra la pantalla de Iniciar Sesión
         '/': (context) => const LoginScreen(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
+        // Cuando se navega a la ruta "/sing-up", se muestra la pantalla de Registro
         '/sing-up': (context) => const SingUp(),
       },
     );

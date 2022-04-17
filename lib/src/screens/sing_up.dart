@@ -49,12 +49,13 @@ class SingUp extends StatelessWidget {
                 SizedBox(height: size.height * 0.03),
                 RoundedInputField(
                     hintText: "ID Universidad",
+                    textImputType: TextInputType.number,
                     onChanged: (value) {},
                     icon: Icons.shield_rounded),
                 DropDownButtonCustom(
                     hintText: "Carrera Universitaria",                    
                     icon: Icons.collections_bookmark_rounded, 
-                    list: ['One', 'Two', 'Free', 'Four'],),
+                    list: const ['Administración de Empresas', 'Administración de Negocios Internacionales', 'Ciencias Políticas y Gobierno', 'Comunicación Social - Periodismo', "Derecho", "Diseño Gráfico", "Ingeniería Ambiental", "Ingeniería Civil", "Ingeniería Electrónica", "Ingeniería Eléctrica", "Ingeniería Industrial", "Ingeniería Mecánica", "Ingeniería de Sistemas e Informática", "Psicología"],),
                 RoundedInputField(
                     hintText: "Nombres",
                     onChanged: (value) {},
@@ -65,18 +66,18 @@ class SingUp extends StatelessWidget {
                     icon: Icons.person),
                 RoundedInputField(
                     hintText: "Email",
+                    textImputType: TextInputType.emailAddress,
                     onChanged: (value) {},
                     icon: Icons.email_rounded),
                 RoundedInputField(
                     hintText: "Teléfono",
+                    textImputType: TextInputType.number,
                     onChanged: (value) {},
                     icon: Icons.phone),
-                RoundedPasswordField(
-                  onChanged: (value) {},
+                const RoundedPasswordField(
                 ),
-                RoundedPasswordField(
+                const RoundedPasswordField(
                   text: "Repetir contraseña",
-                  onChanged: (value) {},
                 ),
                 SizedBox(height: size.height * 0.03),
                 RoundedButton(

@@ -50,9 +50,7 @@ class LoginScreen extends StatelessWidget {
               onChanged: (value) {}, 
               icon: Icons.person,
             ),
-            RoundedPasswordField(
-              onChanged: (value) {},
-            ),
+            const RoundedPasswordField(),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

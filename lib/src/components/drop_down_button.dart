@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ucar_app/src/theme/colors.dart';
-import 'package:ucar_app/src/theme/fontsizes.dart';
 
 import 'text_field_container.dart';
 
@@ -18,7 +17,7 @@ class DropDownButtonCustom extends StatefulWidget {
 
   @override
   State<DropDownButtonCustom> createState() => DropDownButtonCustomState(
-      hintText: this.hintText, icon: this.icon, list: this.list);
+      hintText: hintText, icon: icon, list: list);
 }
 
 class DropDownButtonCustomState extends State<DropDownButtonCustom> {
@@ -36,7 +35,7 @@ class DropDownButtonCustomState extends State<DropDownButtonCustom> {
     return TextFieldContainer(
         child: DropdownButtonHideUnderline(
       child: DropdownButton<String>(
-        hint: Text(hintText, style: TextStyle(color: textGray, fontSize: 17)),
+        hint: Text(hintText, style: const TextStyle(color: textGray, fontSize: 17)),
         isExpanded: true,
         dropdownColor: secondary,
         icon: const Icon(
