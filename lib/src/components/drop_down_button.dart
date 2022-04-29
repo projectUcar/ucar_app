@@ -6,11 +6,13 @@ import 'text_field_container.dart';
 class DropDownButtonCustom extends StatefulWidget {
   String hintText;
   final IconData icon;
+  final double sizeFinal;
   final List<String> list;
 
   DropDownButtonCustom({
     Key? key,
     required this.hintText,
+    this.sizeFinal = 0.90,
     required this.icon,
     required this.list,
   }) : super(key: key);
@@ -28,6 +30,7 @@ class DropDownButtonCustomState extends State<DropDownButtonCustom> {
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
+      sizeFinal: widget.sizeFinal,
         child: DropdownButtonHideUnderline(
       child: DropdownButton<String>(
         hint: Text(widget.hintText, style: const TextStyle(color: textGray, fontSize: 17)),

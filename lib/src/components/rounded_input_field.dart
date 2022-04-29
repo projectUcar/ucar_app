@@ -5,11 +5,13 @@ import 'package:ucar_app/src/theme/colors.dart';
 class RoundedInputField extends StatelessWidget {
   final String hintText;
   final IconData icon;
+  final double sizeFinal;
   final TextInputType textImputType;
   final ValueChanged<String> onChanged;
 
   const RoundedInputField({
     Key ? key,
+    this.sizeFinal = 0.90,
     required this.hintText,
     required this.icon,
     required this.onChanged, 
@@ -21,6 +23,7 @@ class RoundedInputField extends StatelessWidget {
     TextEditingController _textController = TextEditingController(text: "");
 
     return TextFieldContainer(
+      sizeFinal: sizeFinal,
       child: TextField(
         controller: _textController,
         onChanged: onChanged,

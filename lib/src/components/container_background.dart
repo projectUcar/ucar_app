@@ -19,7 +19,7 @@ class ContainerBackground extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
+          margin: const EdgeInsets.symmetric(vertical: 5),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           width: size.width * 0.90,
           height: height,

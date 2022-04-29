@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ucar_app/src/components/rounded_password_field.dart';
 import 'package:ucar_app/src/screens/background.dart';
 import 'package:ucar_app/src/screens/passenger/pass_home.dart';
@@ -24,11 +25,11 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children:  [
-              Container(
-                height: 100,
-                width: 100,
-                color: textGray,
-              ),              
+              SvgPicture.asset(
+              "assets/icons/bucaramanga-1.svg",
+              //color: backgroundSvg,
+              height: 101,
+            ),          
             SizedBox(height: size.height * 0.03),
               const Text("¡Bienvenido\nNuevamente!",
               style: TextStyle(

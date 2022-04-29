@@ -24,6 +24,8 @@ class RecorridosDia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle _bodyStyle = const TextStyle(color: textGray, fontSize: bodyTextFontSize);
+
     return ContainerBackground(
       color: backgroundCard,
       height: 82, 
@@ -50,18 +52,21 @@ class RecorridosDia extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.room, color: textWhite, size: 24,),
+                    const Icon(Icons.room, color: textWhite, size: 24),
                     Text(destination, style: const TextStyle(color: textWhite, fontSize: subTitleFontSize+4, fontWeight: FontWeight.bold))
                   ],
                 ),
               ],
             ),
-            Column(
-              children: [
-                Text(timeExit.format(context), style: const TextStyle(color: textWhite, fontSize: bodyTextFontSize, fontWeight: FontWeight.w900)),
-                Text(cantDrivers.toString()+" Conductores", style: const TextStyle(color: textGray, fontSize: bodyTextFontSize)),
-                Text(quotas.toString()+" Cupos Totales", style: const TextStyle(color: textGray, fontSize: bodyTextFontSize)),
-              ],
+            Container(
+              constraints: const BoxConstraints(maxWidth: 120.0),
+              child: Column(
+                children: [
+                  Text(timeExit.format(context), style: const TextStyle(color: textWhite, fontSize: bodyTextFontSize, fontWeight: FontWeight.w900)),
+                  Text(cantDrivers.toString()+" Conductores", style: _bodyStyle, overflow: TextOverflow.ellipsis),
+                  Text(quotas.toString()+" Cupos Totales", style: _bodyStyle, overflow: TextOverflow.ellipsis),
+                ],
+              ),
             )
           ],
         )

@@ -69,11 +69,24 @@ class SingUp extends StatelessWidget {
                     textImputType: TextInputType.emailAddress,
                     onChanged: (value) {},
                     icon: Icons.email_rounded),
-                RoundedInputField(
-                    hintText: "Teléfono",
-                    textImputType: TextInputType.number,
-                    onChanged: (value) {},
-                    icon: Icons.phone),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //crossAxisAlignment: Cros,
+                  children: [
+                    RoundedInputField(
+                        hintText: "Teléfono",
+                        //textImputType: TextInputType.number,
+                        sizeFinal: 0.50,
+                        onChanged: (value) {},
+                        icon: Icons.phone
+                      ),
+                    DropDownButtonCustom(
+                      sizeFinal: 0.35,
+                    hintText: "Género",                    
+                    icon: Icons.collections_bookmark_rounded, 
+                    list: const ["Hombre", "Mujer", "Otro", "No especificar"])
+                  ],
+                ),
                 const RoundedPasswordField(
                 ),
                 const RoundedPasswordField(

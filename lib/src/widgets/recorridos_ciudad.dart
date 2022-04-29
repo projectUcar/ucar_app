@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:ucar_app/src/widgets/container_list.dart';
 
 import '../components/container_background.dart';
 import '../theme/colors.dart';
@@ -24,32 +24,30 @@ class RecorridoCiudad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle _bodyStyle = const TextStyle(color: textGray, fontSize: bodyTextFontSize);
     return ContainerBackground(
       color: backgroundCard,
       height: 136, 
       child:Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 100,
+          Image.asset(
+            name == "Girón"? "assets/images/giron.png" : "assets/images/"+name.toLowerCase()+".png",
             height: 100,
-            color: textGray,
           ),
-          
-          // SvgPicture.asset(
-          //     "assets/icons/floridablanca.svg",
-          //     color: backgroundSvg,
-          //     height: 101,
-          //   ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(name, style: const TextStyle(color: textWhite, fontSize: subTitleFontSize+4, fontWeight: FontWeight.bold)),
-              Row(children: [PersonRounded(size: 17, sizeIcon: 15,),PersonRounded(size: 17, sizeIcon: 15),PersonRounded(size: 17, sizeIcon: 15), Text(" "+cantDrivers.toString()+" Conductores", style: const TextStyle(color: textGray, fontSize: bodyTextFontSize))]),
-              Row(children: [Text(routes.toString()+" Recorridos, ", style: const TextStyle(color: textGray, fontSize: bodyTextFontSize)), Text(quotas.toString()+" Cupos totales", style: const TextStyle(color: textGray, fontSize: bodyTextFontSize))])
+              const SizedBox(height: 10,),
+              Row(children: [const PersonRounded(size: 17, sizeIcon: 15,),PersonRounded(size: 17, sizeIcon: 15),PersonRounded(size: 17, sizeIcon: 15), Text(" "+cantDrivers.toString()+" Conductores", style: _bodyStyle, overflow: TextOverflow.ellipsis)]),
+              const SizedBox(height: 8,),
+              Container(constraints: const BoxConstraints(maxWidth: 210), child: Row(children: [Text(routes.toString()+" Recorridos, ", style: _bodyStyle, overflow: TextOverflow.ellipsis), Text(quotas.toString()+" Cupos totales ", style: _bodyStyle, overflow: TextOverflow.ellipsis)])),
+              const SizedBox(height: 7,),
+              ListContainer(destinations: destinations)
             ],
-          )
+          ),
         ],
       )
     );
