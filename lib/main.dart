@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ucar_app/src/screens/login.dart';
-import 'package:ucar_app/src/screens/sing-up.dart';
+import 'package:ucar_app/src/screens/passenger/pass_home.dart';
+import 'package:ucar_app/src/screens/sing_up.dart';
 import 'package:ucar_app/src/theme/colors.dart';
 
 void main() {
@@ -21,10 +22,12 @@ class UcarApp extends StatelessWidget {
         primaryColor: textWhite,
       ),
       routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
+        // Cuando se navega a la ruta "/" se muestra la pantalla de Iniciar Sesión
         '/': (context) => const LoginScreen(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
+        // Cuando se navega a la ruta "/sing-up", se muestra la pantalla de Registro
         '/sing-up': (context) => const SingUp(),
+        // Cuando se navega a la ruta "/sing-up", se muestra la pantalla de Registro
+        //'/home-pass': (context) => const HomePassenger(),
       },
     );
   }
