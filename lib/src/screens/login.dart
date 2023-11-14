@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children:  [
               SvgPicture.asset(
-              "assets/icons/bucaramanga-1.svg",
+              "assets/icons/bucaramanga.svg",
               //color: backgroundSvg,
               height: 101,
             ),          
@@ -63,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                   child: const Text(
                     "¿Olvidaste tu contraseña?",
                     style: TextStyle(
-                      color: textOrange,
+                      color: lightBlue,
                       fontSize: bodyTextFontSize
                     ),
                   ),

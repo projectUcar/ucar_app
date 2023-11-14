@@ -24,22 +24,24 @@ class HomePassenger extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
           child: AppBarCustom(
-            color: backgroundSvg,
+            color: primary,
             text: "Hola, "+name,
-            leanding: true,
+            leanding: true, //CAMBIAR A FALSE PARA NO IR A LOGIN
           ),
           preferredSize: Size.fromHeight(50),
         ),
       backgroundColor: primary,
 
         
-      body: Background(
+      body: SizedBox(
         child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 RoundedInputField(
                   hintText: "¿A dónde vas?",
+                  height: 40,
+                  fontSize: bodyTextFontSize,
                   onChanged: (value) {}, 
                   icon: Icons.search,
                 ),
@@ -54,7 +56,7 @@ class HomePassenger extends StatelessWidget {
                           const Text(
                             "Nuestros Conductores",
                             style: TextStyle(
-                              fontSize: subTitleFontSize,
+                              fontSize: subTitleTwoFontSize,
                               fontWeight: FontWeight.bold,
                               color: textWhite
                             ),
@@ -82,7 +84,7 @@ class HomePassenger extends StatelessWidget {
                           const Text(
                             "Recorridos para hoy",
                             style: TextStyle(
-                              fontSize: subTitleFontSize,
+                              fontSize: subTitleTwoFontSize,
                               fontWeight: FontWeight.bold,
                               color: textWhite
                             ),
@@ -103,7 +105,7 @@ class HomePassenger extends StatelessWidget {
                           const Text(
                             "Explora otras opciones",
                             style: TextStyle(
-                              fontSize: subTitleFontSize,
+                              fontSize: subTitleTwoFontSize,
                               fontWeight: FontWeight.bold,
                               color: textWhite
                             ),

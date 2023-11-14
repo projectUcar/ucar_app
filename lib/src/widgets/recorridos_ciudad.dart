@@ -35,6 +35,7 @@ class RecorridoCiudad extends StatelessWidget {
           Image.asset(
             name == "Girón"? "assets/images/giron.png" : "assets/images/"+name.toLowerCase()+".png",
             height: 100,
+            fit: BoxFit.cover,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

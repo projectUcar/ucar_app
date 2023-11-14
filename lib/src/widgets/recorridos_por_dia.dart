@@ -32,7 +32,7 @@ class RecorridosDia extends StatelessWidget {
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(day, style: const TextStyle(color: textOrange, fontSize: titleFontSize-10, fontWeight: FontWeight.w900),),
+            Text(day, style: const TextStyle(color: textLightBlue, fontSize: titleFontSize-10, fontWeight: FontWeight.w900),),
             Container(
               width: 2.5,
               height: 50,
@@ -46,7 +46,7 @@ class RecorridosDia extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.room, color: textOrange, size: 24,),
+                    const Icon(Icons.room, color: textLightBlue, size: 24,),
                     Text(departure, style: const TextStyle(color: textWhite, fontSize: subTitleFontSize+4, fontWeight: FontWeight.bold))
                   ],
                 ),
@@ -61,6 +61,7 @@ class RecorridosDia extends StatelessWidget {
             Container(
               constraints: const BoxConstraints(maxWidth: 120.0),
               child: Column(
+                
                 children: [
                   Text(timeExit.format(context), style: const TextStyle(color: textWhite, fontSize: bodyTextFontSize, fontWeight: FontWeight.w900)),
                   Text(cantDrivers.toString()+" Conductores", style: _bodyStyle, overflow: TextOverflow.ellipsis),

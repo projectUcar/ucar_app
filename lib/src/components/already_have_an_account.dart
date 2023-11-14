@@ -27,7 +27,7 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
             login ? "Regístrate" : "Inicia Sesión",
             style: const TextStyle(
               fontSize: bodyTextFontSize,
-              color: textOrange,
+              color: lightBlue,
               fontWeight: FontWeight.bold,
             ),
           ),

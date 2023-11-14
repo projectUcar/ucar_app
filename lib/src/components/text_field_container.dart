@@ -3,11 +3,13 @@ import 'package:ucar_app/src/theme/colors.dart';
 
 class TextFieldContainer extends StatelessWidget {
   final double sizeFinal;
+  final double height;
   final Widget child;
 
   const TextFieldContainer({ 
     Key? key, 
     this.sizeFinal = 0.90,
+    this.height = 55,
     required this.child 
     }) : super(key: key);
 
@@ -18,7 +20,7 @@ class TextFieldContainer extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       width: size.width * sizeFinal,
-      height: 55,
+      height: height,
       decoration: BoxDecoration(
         color: secondary,
         borderRadius: BorderRadius.circular(20),

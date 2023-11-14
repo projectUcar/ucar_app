@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ucar_app/src/screens/login.dart';
-import 'package:ucar_app/src/screens/passenger/pass_home.dart';
 import 'package:ucar_app/src/screens/sing_up.dart';
 import 'package:ucar_app/src/theme/colors.dart';
 

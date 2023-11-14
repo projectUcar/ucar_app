@@ -21,7 +21,7 @@ class PersonRounded extends StatelessWidget {
           height: size,
           width: size,
           decoration: const BoxDecoration(
-            color: textOrange,
+            color: textLightBlue,
           shape: BoxShape.circle
           ),
         ),
