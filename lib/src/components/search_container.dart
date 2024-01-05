@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/theme/colors.dart';
+import '../theme/colors.dart';
 
 class SearchFieldContainer extends StatelessWidget {
   final Widget child;
@@ -18,7 +18,7 @@ class SearchFieldContainer extends StatelessWidget {
       width: size.width * 0.80,
       height: 42,
       decoration: BoxDecoration(
-        color: textGray,
+        color: MyColors.textGrey,
         borderRadius: BorderRadius.circular(10),
       ),
       child: child,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ucar_app/src/theme/colors.dart';
 
 class PersonRounded extends StatelessWidget {
-  //final int cant;
   final double size;
   final double sizeIcon;
 
@@ -21,11 +20,11 @@ class PersonRounded extends StatelessWidget {
           height: size,
           width: size,
           decoration: const BoxDecoration(
-            color: textOrange,
+            color: MyColors.textGrey,
           shape: BoxShape.circle
           ),
         ),
-        Icon(Icons.person_rounded, color: secondary, size: sizeIcon,)
+        Icon(Icons.person_rounded, color: MyColors.secondary, size: sizeIcon,)
       ] 
     );
   }

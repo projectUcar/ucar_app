@@ -1,12 +1,17 @@
 import 'dart:ui';
 
-const Color primary = Color.fromARGB(255, 9, 8, 7);
-const Color secondary = Color.fromARGB(255, 61, 61, 61);
-const Color backgroundSvg = Color.fromARGB(139, 61, 61, 61);
-const Color backgroundCard = Color.fromARGB(255, 40, 40, 39);
-const Color success = Color.fromARGB(255, 25, 173, 138);
-const Color danger = Color.fromARGB(255, 180, 85, 85);
-const Color orangeDark = Color.fromARGB(255, 169, 79, 15);
-const Color textWhite = Color.fromARGB(255, 255, 255, 255);
-const Color textGray = Color.fromARGB(255, 196, 196, 196);
-const Color textOrange = Color.fromARGB(255, 246, 154, 89);
+class MyColors {
+  MyColors._();
+
+  static const primary = Color(0xFF090807);
+  static const secondary = Color(0xFF3D3D3D);
+  static const backgroundSvg = Color(0x893D3D3D);
+  static const backgroundCard = Color(0xFF282827);
+  static const success = Color(0xFF19AD8A);
+  static const danger = Color(0xFFB45555);
+  static const orangeDark = Color(0xFFF99157);
+  static const textWhite = Color(0xFFFFFFFF);
+  static const textGrey = Color(0xFFC4C4C4);
+  static const textOrange = Color(0xFFF69A59);
+
+}

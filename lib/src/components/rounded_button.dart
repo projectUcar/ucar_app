@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/theme/colors.dart';
-import 'package:ucar_app/src/theme/fontsizes.dart';
+
+import '../theme/colors.dart';
+import '../theme/custom_styles.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;
-  final VoidCallback  press;
+  final VoidCallback press;
   final Color color;
 
   const RoundedButton({
     Key ? key,
     required this.text,
     required this.press,
-    this.color = orangeDark,
+    this.color = MyColors.orangeDark,
   }) : super(key: key);
 
   @override
@@ -31,14 +32,14 @@ class RoundedButton extends StatelessWidget {
     return ElevatedButton(
       child: Text(
         text,
-        style: const TextStyle(color: textWhite, fontSize: subTitleFontSize, fontWeight: FontWeight.bold),
+        style: CustomStyles.boldStyle.copyWith(fontSize: 20, color: MyColors.textWhite),
       ),
       onPressed: press,
       style: ElevatedButton.styleFrom(
-          primary: color,
+          backgroundColor: color,
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-          textStyle: const TextStyle(
-              color: textWhite, fontSize: 14, fontWeight: FontWeight.w500)),
+          textStyle: CustomStyles.whiteStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)
+      ),
     );
   }
 }

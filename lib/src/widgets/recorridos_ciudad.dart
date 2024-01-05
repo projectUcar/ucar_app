@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/widgets/container_list.dart';
 
+import '../theme/custom_styles.dart';
+import 'container_list.dart';
 import '../components/container_background.dart';
 import '../theme/colors.dart';
 import '../theme/fontsizes.dart';
@@ -24,9 +25,9 @@ class RecorridoCiudad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle _bodyStyle = const TextStyle(color: textGray, fontSize: bodyTextFontSize);
+    TextStyle _bodyStyle = CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize);
     return ContainerBackground(
-      color: backgroundCard,
+      color: MyColors.backgroundCard,
       height: 136, 
       child:Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -39,9 +40,9 @@ class RecorridoCiudad extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(name, style: const TextStyle(color: textWhite, fontSize: subTitleFontSize+4, fontWeight: FontWeight.bold)),
+              Text(name, style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.subTitleFontSize +4, fontWeight: FontWeight.bold)),
               const SizedBox(height: 10,),
-              Row(children: [const PersonRounded(size: 17, sizeIcon: 15,),PersonRounded(size: 17, sizeIcon: 15),PersonRounded(size: 17, sizeIcon: 15), Text(" "+cantDrivers.toString()+" Conductores", style: _bodyStyle, overflow: TextOverflow.ellipsis)]),
+              Row(children: [const PersonRounded(size: 17, sizeIcon: 15,),const PersonRounded(size: 17, sizeIcon: 15),const PersonRounded(size: 17, sizeIcon: 15), Text(" "+cantDrivers.toString()+" Conductores", style: _bodyStyle, overflow: TextOverflow.ellipsis)]),
               const SizedBox(height: 8,),
               Container(constraints: const BoxConstraints(maxWidth: 210), child: Row(children: [Text(routes.toString()+" Recorridos, ", style: _bodyStyle, overflow: TextOverflow.ellipsis), Text(quotas.toString()+" Cupos totales ", style: _bodyStyle, overflow: TextOverflow.ellipsis)])),
               const SizedBox(height: 7,),

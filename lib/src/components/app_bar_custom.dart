@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/theme/fontsizes.dart';
+
+import '../theme/colors.dart';
+import '../theme/fontsizes.dart';
+import '../theme/custom_styles.dart';
 
 class AppBarCustom extends StatelessWidget {
 
   final String text;
   final Color color;
-  final bool leanding;
+  final bool leadingBoolean;
 
   const AppBarCustom({
     Key? key, 
     required this.text, 
-    this.leanding = true,
+    this.leadingBoolean = true,
     required this.color,
   }) : super(key: key);
 
@@ -20,12 +23,24 @@ class AppBarCustom extends StatelessWidget {
       elevation: 0.8,
       backgroundColor: color,
       centerTitle: true,
-      titleTextStyle: TextStyle(fontSize: titleFontSize-10),
-      automaticallyImplyLeading: leanding,
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back_ios,
+          color: MyColors.orangeDark,
+        ),
+        onPressed: (){
+          Navigator.of(context).pop();//Navigator.pop(context); //Así también funciona
+        },
+      ),
+      titleTextStyle: const TextStyle(
+        fontSize: Fontsizes.titleFontSize-10,
+        color: MyColors.textOrange
+      ),
+      automaticallyImplyLeading: leadingBoolean,
       //title: Text(text.split(" ").length.toString()),
       title: text.split(" ").length > 1  ? Row( mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(text.split(" ")[0] + " "),
-        Text(text.split(" ")[1], style: const TextStyle(fontWeight: FontWeight.bold),)
+        Text(text.split(" ")[1], style: CustomStyles.boldStyle,)
       ],) : const Text(""),
       
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/theme/colors.dart';
+
+import '../theme/colors.dart';
+import '../theme/custom_styles.dart';
 import 'text_field_container.dart';
 
 class RoundedPasswordField extends StatefulWidget {
@@ -25,21 +27,21 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
     return TextFieldContainer(
       child: TextField(
         obscureText: _secureText,
-        cursorColor: textGray,
-        style: const TextStyle(color: textGray, fontSize: 17),
+        cursorColor: MyColors.textGrey,
+        style: CustomStyles.greyStyle.copyWith(fontSize: 17),
         decoration:  InputDecoration(
           hintText: widget.text,
-          hintStyle: const TextStyle(color: textGray,),
+          hintStyle: CustomStyles.greyStyle,
           icon: const Icon(
             Icons.lock,
-            color: textGray,
+            color: MyColors.textGrey,
           ),
           suffixIcon: IconButton(            
             icon: Icon(
               _secureText ? Icons.visibility : Icons.visibility_off
               //Icons.visibility
             ),
-            color: textGray,
+            color: MyColors.textGrey,
             onPressed: (){
               setState(() {
                 _secureText = !_secureText;

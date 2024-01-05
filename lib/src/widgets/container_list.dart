@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/theme/colors.dart';
 
+import '../theme/colors.dart';
+import '../theme/custom_styles.dart';
 import '../theme/fontsizes.dart';
 
 class ListContainer extends StatelessWidget {
@@ -15,19 +16,18 @@ class ListContainer extends StatelessWidget {
         children: [
           for (var item in destinations)
             Container(
-              margin: EdgeInsets.only(right: 5),
-              padding: EdgeInsets.only(left: 8, right: 8),
-              child: Text(item,
-                  style: const TextStyle(
-                      color: textGray, fontSize: smallTextFontSize),
-                      overflow: TextOverflow.ellipsis,),
+              margin: const EdgeInsets.only(right: 5),
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              child: Text(
+                item,
+                style: CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.smallTextFontSize),
+                overflow: TextOverflow.ellipsis,
+              ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: secondary,
+                color: MyColors.secondary,
               ),
-              constraints: BoxConstraints(
-                maxWidth: 60
-              ),
+              constraints: const BoxConstraints(maxWidth: 60),
             ),
         ],
       );
@@ -36,24 +36,21 @@ class ListContainer extends StatelessWidget {
         children: [
           for (var i = 0; i < 3; i++)
             Container(
-              child: Text(destinations[i],
-                  style: const TextStyle(
-                      color: textGray, fontSize: smallTextFontSize),
-                      overflow: TextOverflow.ellipsis,
-                  ),
+              child: Text(
+                destinations[i],
+                style: CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.smallTextFontSize),
+                overflow: TextOverflow.ellipsis,
+              ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: secondary,
+                color: MyColors.secondary,
               ),
-              constraints: BoxConstraints(
-                maxWidth: 60
-              ),
-              margin: EdgeInsets.only(right: 5),
-              padding: EdgeInsets.only(left: 8, right: 8),
+              constraints: const BoxConstraints(maxWidth: 60),
+              margin: const EdgeInsets.only(right: 5),
+              padding: const EdgeInsets.only(left: 8, right: 8),
             ),
           Text("+" + (destinations.length - 3).toString(),
-              style: const TextStyle(
-                  color: textGray, fontSize: smallTextFontSize)),
+              style: CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.smallTextFontSize)),
         ],
       );
     }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/components/text_field_container.dart';
-import 'package:ucar_app/src/theme/colors.dart';
+
+import 'text_field_container.dart';
+import '../theme/colors.dart';
+import '../theme/custom_styles.dart';
 
 class RoundedInputField extends StatelessWidget {
   final String hintText;
@@ -28,15 +30,15 @@ class RoundedInputField extends StatelessWidget {
         controller: _textController,
         onChanged: onChanged,
         keyboardType: textImputType,
-        cursorColor: textGray,
-        style: const TextStyle(color: textGray, fontSize: 16),
+        cursorColor: MyColors.textGrey,
+        style: CustomStyles.greyStyle.copyWith(fontSize: 16),
         decoration: InputDecoration(
           icon: Icon(
             icon,
-            color: textGray,
+            color: MyColors.textGrey,
           ),
           hintText: hintText,
-          hintStyle: const TextStyle(color: textGray, ),
+          hintStyle: CustomStyles.greyStyle,
           border: InputBorder.none,
         ),
       ),

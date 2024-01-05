@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/theme/colors.dart';
 
+import '../theme/colors.dart';
+import '../theme/custom_styles.dart';
 import '../theme/fontsizes.dart';
 
 class AlreadyHaveAnAccountCheck extends StatelessWidget {
@@ -19,17 +20,13 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
       children: <Widget>[
         Text(
           login ? "¿No tienes una cuenta? " : "¿Ya tienes una cuenta? ",
-          style: const TextStyle(color: textWhite, fontSize: bodyTextFontSize),
+          style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize),
         ),
         GestureDetector(
           onTap: press,
           child: Text(
             login ? "Regístrate" : "Inicia Sesión",
-            style: const TextStyle(
-              fontSize: bodyTextFontSize,
-              color: textOrange,
-              fontWeight: FontWeight.bold,
-            ),
+            style: CustomStyles.boldStyle.copyWith(color: MyColors.textGrey, fontSize: Fontsizes.bodyTextFontSize),
           ),
         )
       ],
