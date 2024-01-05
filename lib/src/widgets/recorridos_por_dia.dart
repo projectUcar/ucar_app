@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ucar_app/src/components/container_background.dart';
+import 'package:ucar_app/src/theme/custom_styles.dart';
 
 import '../theme/colors.dart';
 import '../theme/fontsizes.dart';
 
-class RecorridosDia extends StatelessWidget {
+class RecorridosDia extends StatelessWidget{
   final String day;
   final String departure;
   final String destination;
@@ -24,21 +25,21 @@ class RecorridosDia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle _bodyStyle = const TextStyle(color: textGray, fontSize: bodyTextFontSize);
+    TextStyle _bodyStyle = CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize);
 
     return ContainerBackground(
-      color: backgroundCard,
+      color: MyColors.backgroundCard,
       height: 82, 
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(day, style: const TextStyle(color: textOrange, fontSize: titleFontSize-10, fontWeight: FontWeight.w900),),
+            Text(day, style: CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.titleFontSize - 10, fontWeight: FontWeight.w900),),
             Container(
               width: 2.5,
               height: 50,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: textGray,
+                color: MyColors.textGrey,
               ),
             ),
             Column(
@@ -46,14 +47,14 @@ class RecorridosDia extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.room, color: textOrange, size: 24,),
-                    Text(departure, style: const TextStyle(color: textWhite, fontSize: subTitleFontSize+4, fontWeight: FontWeight.bold))
+                    const Icon(Icons.room, color: MyColors.textGrey, size: 24,),
+                    Text(departure, style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.subTitleFontSize + 4, fontWeight: FontWeight.bold))
                   ],
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.room, color: textWhite, size: 24),
-                    Text(destination, style: const TextStyle(color: textWhite, fontSize: subTitleFontSize+4, fontWeight: FontWeight.bold))
+                    const Icon(Icons.room, color: MyColors.textWhite, size: 24),
+                    Text(destination, style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.subTitleFontSize + 4, fontWeight: FontWeight.bold))
                   ],
                 ),
               ],
@@ -62,7 +63,7 @@ class RecorridosDia extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 120.0),
               child: Column(
                 children: [
-                  Text(timeExit.format(context), style: const TextStyle(color: textWhite, fontSize: bodyTextFontSize, fontWeight: FontWeight.w900)),
+                  Text(timeExit.format(context), style: CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize, fontWeight: FontWeight.w900)),
                   Text(cantDrivers.toString()+" Conductores", style: _bodyStyle, overflow: TextOverflow.ellipsis),
                   Text(quotas.toString()+" Cupos Totales", style: _bodyStyle, overflow: TextOverflow.ellipsis),
                 ],

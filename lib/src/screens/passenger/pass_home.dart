@@ -1,16 +1,14 @@
-// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:ucar_app/src/screens/background.dart';
-import 'package:ucar_app/src/theme/colors.dart';
-import 'package:ucar_app/src/theme/fontsizes.dart';
-import 'package:ucar_app/src/widgets/person_rounded.dart';
-import 'package:ucar_app/src/widgets/recorridos_ciudad.dart';
-import 'package:ucar_app/src/widgets/recorridos_por_dia.dart';
-
+import '../background.dart';
+import '../../theme/colors.dart';
+import '../../theme/fontsizes.dart';
+import '../../widgets/person_rounded.dart';
+import '../../widgets/recorridos_ciudad.dart';
+import '../../widgets/recorridos_por_dia.dart';
 import '../../components/app_bar_custom.dart';
 import '../../components/rounded_input_field.dart';
+import '../../theme/custom_styles.dart';
 
 class HomePassenger extends StatelessWidget {
   final String name;
@@ -24,13 +22,13 @@ class HomePassenger extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
           child: AppBarCustom(
-            color: backgroundSvg,
+            color: MyColors.backgroundSvg,
             text: "Hola, "+name,
-            leanding: true,
+            leadingBoolean: true,
           ),
-          preferredSize: Size.fromHeight(50),
+          preferredSize: const Size.fromHeight(50),
         ),
-      backgroundColor: primary,
+      backgroundColor: MyColors.primary,
 
         
       body: Background(
@@ -51,19 +49,15 @@ class HomePassenger extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          const Text(
+                          Text(
                             "Nuestros Conductores",
-                            style: TextStyle(
-                              fontSize: subTitleFontSize,
-                              fontWeight: FontWeight.bold,
-                              color: textWhite
-                            ),
+                            style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.subTitleFontSize, fontWeight: FontWeight.bold,),
                           ),
-                          const Icon(Icons.arrow_forward_ios_rounded, color: textWhite,),                    
+                          const Icon(Icons.arrow_forward_ios_rounded, color: MyColors.textWhite,),                    
                         ],
                       ),
                       SizedBox(height: size.height * 0.01),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
@@ -79,17 +73,13 @@ class HomePassenger extends StatelessWidget {
                       Row(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          const Text(
+                          Text(
                             "Recorridos para hoy",
-                            style: TextStyle(
-                              fontSize: subTitleFontSize,
-                              fontWeight: FontWeight.bold,
-                              color: textWhite
-                            ),
+                            style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.subTitleFontSize, fontWeight: FontWeight.bold,),
                           ),
                         ],
                       ),
-                      RecorridosDia(
+                      const RecorridosDia(
                         day: "Miércoles", 
                         departure: "UPB", 
                         destination: "Mutis", 
@@ -100,38 +90,34 @@ class HomePassenger extends StatelessWidget {
                       Row(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          const Text(
+                          Text(
                             "Explora otras opciones",
-                            style: TextStyle(
-                              fontSize: subTitleFontSize,
-                              fontWeight: FontWeight.bold,
-                              color: textWhite
-                            ),
+                            style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.subTitleFontSize, fontWeight: FontWeight.bold,),
                           ),
                         ],
                       ),
-                      RecorridoCiudad(
+                      const RecorridoCiudad(
                         name: "Floridablanca", 
                         cantDrivers: 3, 
                         quotas: 3, 
                         routes: 12, 
                         destinations: ["Cañaveral", "Florida", "La Cumbre", "Palmeras"]
                       ),
-                      RecorridoCiudad(
+                      const RecorridoCiudad(
                         name: "Bucaramanga", 
                         cantDrivers: 25, 
                         quotas: 10, 
                         routes: 110, 
                         destinations: ["Mutis", "Real de Minas", "Cabecera" , "Parque Turbay", "El Prado"]
                       ),
-                      RecorridoCiudad(
+                      const RecorridoCiudad(
                         name: "Piedecuesta", 
                         cantDrivers: 10, 
                         quotas: 12, 
                         routes: 15, 
                         destinations: ["Cañaveral", "Florida", "LaCumbre"]
                       ),
-                      RecorridoCiudad(
+                      const RecorridoCiudad(
                         name: "Girón", 
                         cantDrivers: 9, 
                         quotas: 10, 

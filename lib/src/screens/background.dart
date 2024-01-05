@@ -25,7 +25,7 @@ class Background extends StatelessWidget {
             left: 0,
             child: SvgPicture.asset(
               "assets/icons/figuraArriba.svg",
-              color: backgroundSvg,
+              color: MyColors.backgroundSvg,
               height: size.height * 0.5,
             ),
           ),
@@ -34,7 +34,7 @@ class Background extends StatelessWidget {
             right: 0,
             child: SvgPicture.asset(
               "assets/icons/figuraAbajo.svg",
-              color: backgroundSvg,
+              color: MyColors.backgroundSvg,
               height: size.height * 0.15,
             ),
           ),
