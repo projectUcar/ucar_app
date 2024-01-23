@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'my_input_theme.dart';
 
-class MyThemes{
+class MyThemes {
   static ThemeData defaultTheme = ThemeData(
     useMaterial3: true,
     primaryColor: MyColors.textWhite,
     inputDecorationTheme: MyInputTheme().theme(),
+    scaffoldBackgroundColor: MyColors.primary,
     // textTheme: const TextTheme(
     //   displayLarge: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
     //   displayMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),

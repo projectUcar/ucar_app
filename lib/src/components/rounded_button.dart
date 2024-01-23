@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ucar_app/src/config/size_config.dart';
 
 import '../theme/colors.dart';
 import '../theme/custom_styles.dart';
@@ -17,10 +18,9 @@ class RoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      width: size.width * 0.8,
+      width: SizeConfig.displayWidth(context) * 0.8,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
         child: newElevatedButton(),

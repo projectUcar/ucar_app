@@ -11,14 +11,14 @@ class UserSignupViewModel extends UserViewModel<UserSignUpData> with ValidInput{
     return UserSignupViewModel(UserSignUpData.newData());
   }
 
-  bool get nameIsValid => nameValidator(userData.getName) == null;
-  bool get phonenumberIsValid => phonenumberValidator(userData.getPhonenumber) == null;
-  bool get lastnameIsValid => lastnameValidator(userData.getLastname) == null;
-  bool get emailIsValid => emailValidator(userData.getEmail) == null;
-  bool get passwordIsValid => passwordValidator(userData.getPassword) == null;
-  bool get passwordConfirmIsValid => passwordConfirmationValidator(userData.getPasswordConfirmation) == null;
-  bool get careerIsValid => careerValidator(userData.getCareer) == null;
-  bool get genderIsValid => genderValidator(userData.getGender) == null;
+  bool get nameIsValid => nameValidator(getUserData.getName) == null;
+  bool get phonenumberIsValid => phonenumberValidator(getUserData.getPhonenumber) == null;
+  bool get lastnameIsValid => lastnameValidator(getUserData.getLastname) == null;
+  bool get emailIsValid => emailValidator(getUserData.getEmail) == null;
+  bool get passwordIsValid => passwordValidator(getUserData.getPassword) == null;
+  bool get passwordConfirmIsValid => passwordConfirmationValidator(getUserData.getPasswordConfirmation) == null;
+  bool get careerIsValid => careerValidator(getUserData.getCareer) == null;
+  bool get genderIsValid => genderValidator(getUserData.getGender) == null;
   
   @override
   bool isValid() =>
@@ -34,50 +34,31 @@ class UserSignupViewModel extends UserViewModel<UserSignUpData> with ValidInput{
     if (s == null || s.isWhitespace()) {
       return 'Campo Confirmación requerido';
     }
-    if (s != userData.getPassword) {
+    if (s != getUserData.getPassword) {
       return 'Different password';
     }
     return null;
   }
 
   @override
-  copyWith(Enum field, String? s) {
-    switch (field) {
-      case SignUpEnum.career:
-        userData.setCareer = s ?? '';
-        break;
-      case SignUpEnum.name:
-        userData.setName = s ?? '';
-        break;
-      case SignUpEnum.phonenumber:
-        userData.setPhonenumber = s ?? '';
-        break;
-      case SignUpEnum.lastname:
-        userData.setLastname = s ?? '';
-        break;
-      case SignUpEnum.email:
-        userData.setEmail = s ?? '';
-        break;
-      case SignUpEnum.password:
-        userData.setPassword = s ?? '';
-        break;
-      case SignUpEnum.passwordConfirmation:
-        userData.setPasswordConfirmation = s ?? '';
-        break;
-      case SignUpEnum.gender:
-        userData.setGender = s ?? '';
-        break;
-      default:
-        break;
-    }
-    return this;
+  copyWith({String? name, String? phonenumber, String? lastname, String? email, String? password, String? passwordConfirmation, String? gender, String? career}) {
+    return UserSignupViewModel(
+      UserSignUpData(
+        name: name ?? getUserData.getName,
+        phonenumber: phonenumber ?? getUserData.getPhonenumber,
+        lastname: lastname ?? getUserData.getLastname,
+        email: email ?? getUserData.getEmail,
+        password: password ?? getUserData.getPassword,
+        passwordConfirmation: passwordConfirmation ?? getUserData.getPasswordConfirmation,
+        gender: gender ?? getUserData.getGender,
+        career: career ?? getUserData.getCareer
+      )
+    );
   }
 
   @override
   String toString() {
-    return 'userData: ${userData.toString()}';
+    return 'userData: ${getUserData.toString()}';
   }
   
 }
-
-enum SignUpEnum{career, name, phonenumber, lastname, email, password, passwordConfirmation, gender}

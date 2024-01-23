@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../theme/colors.dart';
-import '../theme/custom_styles.dart';
-import 'general/text_field_template.dart';
+import '../../../theme/colors.dart';
+import '../../../theme/custom_styles.dart';
+import 'text_field_template.dart';
 
 class OrdinaryFormField extends TextFieldTemplate {
   

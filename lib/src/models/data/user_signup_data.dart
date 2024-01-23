@@ -32,15 +32,6 @@ class UserSignUpData extends UserData{
   String? get getGender => _gender;
   String? get getCareer => _career;
 
-  set setName(String value) => _name = value;
-  set setPhonenumber(String value) => _phonenumber = value;
-  set setLastname(String value) => _lastname = value;
-  set setEmail(String value) => _email = value;
-  set setPassword(String value) => _password = value;
-  set setPasswordConfirmation(String value) => _passwordConfirmation = value;
-  set setGender(String value) => _gender = value;
-  set setCareer(String value) => _career = value;
-
   @override
   String toString() => "($_career, $_name, $_phonenumber, $_lastname, $_email, ${super.formatPassword(_password)}, ${super.formatPassword(_passwordConfirmation)}, $_gender)";
 }

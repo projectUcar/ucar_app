@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/components/general/text_field_template.dart';
+import 'package:ucar_app/src/components/form_fields/text_fields/text_field_template.dart';
 
-import '../theme/colors.dart';
-import '../theme/custom_styles.dart';
+import '../../../theme/colors.dart';
+import '../../../theme/custom_styles.dart';
 
 class PasswordFormField extends TextFieldTemplate{
   const PasswordFormField({

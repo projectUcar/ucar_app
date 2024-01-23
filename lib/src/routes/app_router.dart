@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screens/login.dart';
-import '../screens/sign_up.dart';
-
+import '../screens/forms/form_screen.dart';
 class AppRouter{
   static const String root = "/",
   signUp = '/sign-up';

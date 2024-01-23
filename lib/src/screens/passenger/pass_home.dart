@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:ucar_app/src/config/size_config.dart';
 import '../background.dart';
 import '../../theme/colors.dart';
 import '../../theme/fontsizes.dart';
@@ -17,8 +18,6 @@ class HomePassenger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: PreferredSize(
           child: AppBarCustom(
@@ -28,9 +27,6 @@ class HomePassenger extends StatelessWidget {
           ),
           preferredSize: const Size.fromHeight(50),
         ),
-      backgroundColor: MyColors.primary,
-
-        
       body: Background(
         child: SingleChildScrollView(
             child: Column(
@@ -42,7 +38,7 @@ class HomePassenger extends StatelessWidget {
                   icon: Icons.search,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: size.width / 19.5),
+                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.displayWidth(context) / 19.5),
                   child: Column(
                     children: [
                       Row(
@@ -56,7 +52,7 @@ class HomePassenger extends StatelessWidget {
                           const Icon(Icons.arrow_forward_ios_rounded, color: MyColors.textWhite,),                    
                         ],
                       ),
-                      SizedBox(height: size.height * 0.01),
+                      SizedBox(height: SizeConfig.displayHeight(context) * 0.01),
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         // ignore: prefer_const_literals_to_create_immutables
@@ -69,7 +65,7 @@ class HomePassenger extends StatelessWidget {
                           PersonRounded(size: 50, sizeIcon: 35),
                         ],
                       ),
-                      SizedBox(height: size.height * 0.02),
+                      SizedBox(height: SizeConfig.displayHeight(context) * 0.02),
                       Row(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [

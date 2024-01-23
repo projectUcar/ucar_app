@@ -1,7 +1,15 @@
+
 import 'package:flutter/material.dart';
-//import 'package:ucar_app/src/routes/routes.dart';
-import 'package:ucar_app/src/ucar_app.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'src/blocs/gps/gps_bloc.dart';
+import 'src/ucar_app.dart';
 
 void main() {
-  runApp(const UcarApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => GpsBloc())
+      ],
+      child: const UcarApp())
+  );
 }

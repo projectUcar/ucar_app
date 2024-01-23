@@ -1,16 +1,16 @@
 import '../data/user_data.dart';
 
 abstract class UserViewModel<T extends UserData>{
-  final T userData;
+  final T _userData;
 
-  const UserViewModel(this.userData);
+  const UserViewModel(T userData): _userData = userData;
+
+  T get getUserData => _userData;
   
   @override
-  String toString() {
-    return 'UserData: ${userData.toString()}';
-  }
+  String toString() => 'UserData: ${_userData.toString()}';
 
   bool isValid();
 
-  UserViewModel copyWith(Enum field, String? s);
+  UserViewModel copyWith();
 }

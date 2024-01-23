@@ -9,32 +9,25 @@ class UserLoginViewModel extends UserViewModel<UserLogInData> with ValidInput{
     return UserLoginViewModel(UserLogInData.newData());
   }
 
-  bool get emailOrPhonenumberIsValid => emailValidator(userData.getEmailOrPhonenumber) == null || phonenumberValidator(userData.getEmailOrPhonenumber) == null;
-  bool get passwordIsValid => passwordValidator(userData.getPassword) == null;
+  bool get emailOrPhonenumberIsValid => emailValidator(getUserData.getEmailOrPhonenumber) == null || phonenumberValidator(getUserData.getEmailOrPhonenumber) == null;
+  bool get passwordIsValid => passwordValidator(getUserData.getPassword) == null;
 
   @override
   bool isValid() => emailOrPhonenumberIsValid && passwordIsValid;
 
   @override
-  copyWith(Enum field, String? s) {
-    switch (field) {
-      case LogInEnum.emailOrPhonenumber:
-        userData.setEmailOrPhonenumber = s ?? '';
-        break;
-      case LogInEnum.password:
-        userData.setPassword = s ?? '';
-        break;
-      default:
-        break;
-    }
-    return this;
+  copyWith({String? emailOrPhonenumber, String? password}) {
+    return UserLoginViewModel(
+      UserLogInData(
+        emailOrPhonenumber: emailOrPhonenumber ?? getUserData.getEmailOrPhonenumber,
+        password: password ?? getUserData.getPassword
+      )
+    );
   }
 
   @override
   String toString() {
-    return 'userData: ${userData.toString()}';
+    return 'userData: ${getUserData.toString()}';
   }
   
 }
-
-enum LogInEnum {emailOrPhonenumber, password}
