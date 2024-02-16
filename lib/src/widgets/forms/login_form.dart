@@ -1,6 +1,7 @@
 part of 'form_template.dart';
-class LogInForm extends FormTemplate<UserLoginViewModel> {
-  const LogInForm({super.key, required super.formKey, required super.onChanged, required super.viewModel}) : super(text: 'Entrar');
+
+class LogInForm extends FormTemplate<UserLoginState, LogInCubit> {
+  const LogInForm({super.key, required super.formKey, required super.onChanged, required super.cubit}) : super(text: 'Entrar');
 
   @override
   State<LogInForm> createState() => _LogInFormState();
@@ -22,45 +23,53 @@ class _LogInFormState extends FormTemplateState<LogInForm> {
     passwordFocusNode.dispose();
     super.dispose();
   }
-  
+
   @override
-  List<Widget> _buildChildren() => <Widget>[
+  Widget build(BuildContext context) {
+    return BlocProvider<LogInCubit>(
+      create: (context) => LogInCubit(),
+      child: super.build(context),
+    );
+  }
+
+  @override
+  List<Widget> _buildChildren(BuildContext context) => <Widget>[
     //EMAIL O TELEFONO
     OrdinaryFormField(
       autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
-      onChanged: (s) => 
-        widget.onChanged(widget.viewModel.copyWith(emailOrPhonenumber: s) as UserLoginViewModel),
-      validator: widget.viewModel.emailValidator,
-      currentValue: widget.viewModel.getUserData.getEmailOrPhonenumber,
+      onChanged: (s) => widget.onChanged(widget.cubit.updateEmailOrPhonenumber(s)),
+      validator: widget.cubit.state.emailValidator,
+      currentValue: widget.cubit.state.getUserData.getEmailOrPhonenumber,
       focusNode: emailFocusNode,
       nextFocusNode: passwordFocusNode,
       fieldType: FieldTypes.email,
     ),
     //CONTRASEÑA
     PasswordFormField(
-      autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
+      autovalidateMode: (_submitted.value)? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
       focusNode: passwordFocusNode,
       nextFocusNode: super.buttonFocusNode,
-      onChanged: (s) => 
-        widget.onChanged(widget.viewModel.copyWith(password: s) as UserLoginViewModel),
-      currentValue: widget.viewModel.getUserData.getPassword,
+      onChanged: (s) => widget.onChanged(widget.cubit.updatePassword(s)),
+      currentValue: widget.cubit.state.getUserData.getPassword,
       fieldType: FieldTypes.loginPassword,
-      validator: widget.viewModel.passwordValidator,
+      validator: widget.cubit.state.passwordValidator,
     ),
     Container(
       alignment: Alignment.topRight,
-      child: Text("¿Olvidaste tu contraseña?",
-        style: CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize)),
+      child: Text("¿Olvidaste tu contraseña?", style: CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize)),
     ),
   ];
-  
+
   @override
-  VoidCallback get _onSubmit => () {
+  AsyncCallback get _onSubmit => () async{
     _submitted.value = true;
-    if (widget.formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
-      );
+    if (widget.formKey.currentState!.validate() && widget.cubit.state.isValid()) {
+      try {
+        final response = await widget.cubit.submit(widget.cubit.state);
+        debugPrint(response.statusCode.toString());
+      } on DioException catch (e) {
+        debugPrint('${e.requestOptions.method} ${e.requestOptions.data}');
+      }
     }
   };
 }

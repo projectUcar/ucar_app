@@ -1,9 +1,9 @@
 part of 'form_screen.dart';
-class LogInScreen extends FormScreen<UserLoginViewModel> {
+class LogInScreen extends FormScreen<UserLoginState, LogInCubit> {
   LogInScreen({super.key});
 
   @override
-  ValueNotifier<UserLoginViewModel> _usNotifier() => ValueNotifier(UserLoginViewModel.newUser());
+  ValueNotifier<UserLoginState> _usNotifier() => ValueNotifier(UserLoginState.newUser());
 
   @override
   List<Widget> _buildChildren(BuildContext context) => <Widget>[
@@ -15,7 +15,7 @@ class LogInScreen extends FormScreen<UserLoginViewModel> {
       Text("Inicia sesión con tu cuenta existente de UCAR",
         style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize)
       ),
-      buildValueListenable(),
+      buildValueListenable(context),
       AlreadyHaveAnAccountCheck(press: () {
         Navigator.pushNamed(context, "/sign-up");
       })
@@ -23,12 +23,12 @@ class LogInScreen extends FormScreen<UserLoginViewModel> {
       padding: EdgeInsets.symmetric(vertical: SizeConfig.displayHeight(context) * 0.015),
       child: child,
     )).toList();
-
+    
   @override
-  FormTemplate<UserLoginViewModel> _getForm(BuildContext context, UserLoginViewModel viewModel) => LogInForm(
+  FormTemplate<UserLoginState, LogInCubit> _getForm(BuildContext context, UserLoginState userState) => LogInForm(
     formKey: formKey,
-    onChanged: (value) => viewModel = value,
-    viewModel: viewModel
+    onChanged: (value) => userState = value,
+    cubit: LogInCubit(),
   );
 
 }

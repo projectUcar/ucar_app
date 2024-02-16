@@ -1,12 +1,12 @@
 import '../data/user_login_data.dart';
 import '../templates/valid_input.dart';
-import 'user_view_model.dart';
+import 'user_state.dart';
 
-class UserLoginViewModel extends UserViewModel<UserLogInData> with ValidInput{
-  const UserLoginViewModel(super.userData);
+class UserLoginState extends UserState<UserLogInData> with ValidInput<UserLogInData>{
+  const UserLoginState(super.userData);
 
-  factory UserLoginViewModel.newUser() {
-    return UserLoginViewModel(UserLogInData.newData());
+  factory UserLoginState.newUser() {
+    return UserLoginState(UserLogInData.newData());
   }
 
   bool get emailOrPhonenumberIsValid => emailValidator(getUserData.getEmailOrPhonenumber) == null || phonenumberValidator(getUserData.getEmailOrPhonenumber) == null;
@@ -17,7 +17,7 @@ class UserLoginViewModel extends UserViewModel<UserLogInData> with ValidInput{
 
   @override
   copyWith({String? emailOrPhonenumber, String? password}) {
-    return UserLoginViewModel(
+    return UserLoginState(
       UserLogInData(
         emailOrPhonenumber: emailOrPhonenumber ?? getUserData.getEmailOrPhonenumber,
         password: password ?? getUserData.getPassword
