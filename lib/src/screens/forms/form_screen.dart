@@ -1,13 +1,16 @@
 library form_screen;
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
+import '../../blocs/forms/cubits/form_validator_cubit.dart';
+import '../../blocs/forms/cubits/login_cubit.dart';
+import '../../blocs/forms/cubits/signup_cubit.dart';
 
 import '../../components/already_have_an_account.dart';
 import '../../components/app_bar_custom.dart';
 import '../../config/size_config.dart';
-import '../../models/vm/user_login_view_model.dart';
-import '../../models/vm/user_signup_view_model.dart';
-import '../../models/vm/user_view_model.dart';
+import '../../blocs/forms/states/user_login_state.dart';
+import '../../blocs/forms/states/user_signup_state.dart';
+import '../../blocs/forms/states/user_state.dart';
 import '../../theme/colors.dart';
 import '../../theme/custom_styles.dart';
 import '../../theme/fontsizes.dart';
@@ -15,7 +18,7 @@ import '../../widgets/forms/form_template.dart';
 import '../background.dart';
 part 'login.dart';
 part 'sign_up.dart';
-abstract class FormScreen<T extends UserViewModel> extends StatelessWidget {
+abstract class FormScreen<T extends UserState, U extends FormValidatorCubit> extends StatelessWidget {
   FormScreen({super.key, bool? withAppBar}): _withAppBar = withAppBar ?? false;
 
   final formKey = GlobalKey<FormState>();
@@ -47,12 +50,12 @@ abstract class FormScreen<T extends UserViewModel> extends StatelessWidget {
   }
 
   @mustCallSuper
-  ValueListenableBuilder<T> buildValueListenable() => ValueListenableBuilder<T>(
+  ValueListenableBuilder<T> buildValueListenable(BuildContext context) => ValueListenableBuilder<T>(
       valueListenable: _usNotifier(),
-      builder: (context, viewModel, _) => _getForm(context, viewModel),
+      builder: (context, userState, _) => _getForm(context, userState),
   );
 
-  FormTemplate<T> _getForm( BuildContext context, T viewModel);
+  FormTemplate<T, U> _getForm(BuildContext context, T userState);
 
   List<Widget> _buildChildren(BuildContext context);
 }

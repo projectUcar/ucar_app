@@ -8,11 +8,11 @@ class PasswordFormField extends TextFieldTemplate{
   const PasswordFormField({
     super.key,
     required super.onChanged,
-    required super.validator,
-    required super.currentValue,
     required super.fieldType,
-    required super.autovalidateMode,
-    required super.focusNode,
+    super.currentValue,
+    super.validator,
+    super.autovalidateMode,
+    super.focusNode,
     super.nextFocusNode,
   });
 
@@ -27,7 +27,6 @@ class PasswordFormField extends TextFieldTemplate{
         onFieldSubmitted: (_) => nextFocusNode?.requestFocus(),
         obscureText: _pv,
         cursorColor: MyColors.orangeDark,
-        initialValue: currentValue,
         validator: validator,
         onChanged: onChanged,
         style: CustomStyles.whiteStyle,

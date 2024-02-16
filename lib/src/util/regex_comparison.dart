@@ -1,6 +1,6 @@
 extension RegexComparison on String{
   static const String phonenumberRegExp = r"(3\d{9})|(60[1245678]\d{7})", //Corregida
-  nameRegExp = r"[A-ZÑÁÉÍÓÚ][a-zñáéíóúü]{1,}(\s[A-ZÑÁÉÍÓÚ][a-zñáéíóúü]{1,}){0,2}", //Corregida
+  nameRegExp = r"^[A-ZÑÁÉÍÓÚ][a-zñáéíóúü]{1,}(\s[A-ZÑÁÉÍÓÚ][a-zñáéíóúü]{1,}){0,2}$", //Corregida
   lastnameRegExp = r"^[A-ZÑÁÉÍÓÚ][a-zñáéíóúü]{1,}(\s[A-ZÑÁÉÍÓÚ][a-zñáéíóúü]{1,})?$", //Corregida
   emailRegExp = r"[a-z]+\.[a-z]+(\.[2][0]\d{2})?@upb\.edu\.co", //Corregida
   passwordRegExp = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$";

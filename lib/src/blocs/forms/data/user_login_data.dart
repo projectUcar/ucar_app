@@ -1,4 +1,4 @@
-import 'package:ucar_app/src/models/data/user_data.dart';
+import 'package:ucar_app/src/blocs/forms/data/user_data.dart';
 
 class UserLogInData extends UserData{
   String? _emailOrPhonenumber, _password;
@@ -16,4 +16,10 @@ class UserLogInData extends UserData{
 
   @override
   String toString() => "($_emailOrPhonenumber, ${super.formatPassword(_password)})";
+  
+  @override
+  Map toJson() => {
+    'email': getEmailOrPhonenumber,
+    'password': getPassword
+  };
 }

@@ -32,6 +32,8 @@ class AppBarCustom extends StatelessWidget {
           color: MyColors.orangeDark,
         ),
         onPressed: (){
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) currentFocus.unfocus();
           Navigator.of(context).pop();//Navigator.pop(context); //Así también funciona
         },
       ),

@@ -1,6 +1,8 @@
-import '../../util/regex_comparison.dart';
+import '../../../util/regex_comparison.dart';
+import '../data/user_data.dart';
+import '../states/user_state.dart';
 
-mixin ValidInput{
+mixin ValidInput<T extends UserData> on UserState<T>{
   
   String? nameValidator(String? s) => RegexComparison.defaultValidator(s, 'Nombre(s)', RegexComparison.nameRegExp);
   
@@ -14,6 +16,6 @@ mixin ValidInput{
 
   String? genderValidator(String? s) => RegexComparison.selectionValidator(s, 'Género');
   
-  String? careerValidator(String? s) => RegexComparison.selectionValidator(s, 'Carrera');
+  String? groupValidator(String? s) => RegexComparison.selectionValidator(s, 'Carrera');
   
 }

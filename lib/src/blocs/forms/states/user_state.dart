@@ -1,9 +1,9 @@
 import '../data/user_data.dart';
 
-abstract class UserViewModel<T extends UserData>{
+abstract class UserState<T extends UserData>{
   final T _userData;
 
-  const UserViewModel(T userData): _userData = userData;
+  const UserState(T userData): _userData = userData;
 
   T get getUserData => _userData;
   
@@ -12,5 +12,5 @@ abstract class UserViewModel<T extends UserData>{
 
   bool isValid();
 
-  UserViewModel copyWith();
+  UserState copyWith();
 }
