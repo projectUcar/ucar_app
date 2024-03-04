@@ -1,13 +1,13 @@
 part of 'form_template.dart';
 
 class SignUpForm extends FormTemplate<UserSignupState, SignUpCubit>{
-  const SignUpForm({super.key, required super.formKey, required super.onChanged, required super.cubit}) : super(text: 'Registrar');
+  const SignUpForm({super.key, required super.formKey, required super.onChanged, required super.cubit}) : super(text: 'Registrar', redirect: AppRouter.root);
 
   @override
   State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _SignUpFormState extends FormTemplateState<SignUpForm> {
+class _SignUpFormState extends _FormTemplateState<SignUpForm> {
 
   late FocusNode nameFocusNode, phonenumberFocusNode, lastnameFocusNode, emailFocusNode, passwordFocusNode, passwordConfirmationFocusNode, genderFocusNode, careerFocusNode;
 
@@ -40,7 +40,7 @@ class _SignUpFormState extends FormTemplateState<SignUpForm> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SignUpCubit>(
-      create: (context) => SignUpCubit(),
+      create: (context) => widget.cubit,
       child: super.build(context),
     );
   }
@@ -50,7 +50,7 @@ class _SignUpFormState extends FormTemplateState<SignUpForm> {
     //NOMBRES
     OrdinaryFormField(
       autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
-      onChanged: (s) => widget.onChanged(widget.cubit.updateName(s)),
+      onChanged: (s) => widget.cubit.updateName(s),
       validator: widget.cubit.state.nameValidator,
       currentValue: widget.cubit.state.getUserData.getName,
       focusNode: nameFocusNode,
@@ -60,7 +60,7 @@ class _SignUpFormState extends FormTemplateState<SignUpForm> {
     //APELLIDOS
     OrdinaryFormField(
       autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
-      onChanged: (s) => widget.onChanged(widget.cubit.updateLastname(s)),
+      onChanged: (s) => widget.cubit.updateLastname(s),
       validator: widget.cubit.state.lastnameValidator,
       currentValue: widget.cubit.state.getUserData.getLastname,
       focusNode: lastnameFocusNode,
@@ -71,7 +71,7 @@ class _SignUpFormState extends FormTemplateState<SignUpForm> {
     SelectionFormField(
       autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
       onChanged: (s) {
-        widget.onChanged(widget.cubit.updateGender(s));
+        widget.cubit.updateGender(s);
         careerFocusNode.requestFocus();
       },
       validator: widget.cubit.state.genderValidator,
@@ -84,7 +84,7 @@ class _SignUpFormState extends FormTemplateState<SignUpForm> {
     SelectionFormField(
       autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
       onChanged: (s) {
-        widget.onChanged(widget.cubit.updateGroup(s));
+        widget.cubit.updateGroup(s);
         phonenumberFocusNode.requestFocus();
       },
       validator: widget.cubit.state.groupValidator,
@@ -96,8 +96,7 @@ class _SignUpFormState extends FormTemplateState<SignUpForm> {
     //TELEFONO
     OrdinaryFormField(
       autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
-      onChanged: (s) => 
-        widget.onChanged(widget.cubit.updatePhonenumber(s)),
+      onChanged: (s) => widget.cubit.updatePhonenumber(s),
       validator: widget.cubit.state.phonenumberValidator,
       currentValue: widget.cubit.state.getUserData.getPhonenumber,
       focusNode: phonenumberFocusNode,
@@ -108,8 +107,7 @@ class _SignUpFormState extends FormTemplateState<SignUpForm> {
     //EMAIL
     OrdinaryFormField(
       autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
-      onChanged: (s) => 
-        widget.onChanged(widget.cubit.updateEmail(s)),
+      onChanged: (s) => widget.cubit.updateEmail(s),
       validator: widget.cubit.state.emailValidator,
       currentValue: widget.cubit.state.getUserData.getEmail,
       focusNode: emailFocusNode,
@@ -121,8 +119,7 @@ class _SignUpFormState extends FormTemplateState<SignUpForm> {
       autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
       focusNode: passwordFocusNode,
       nextFocusNode: passwordConfirmationFocusNode,
-      onChanged: (s) => 
-        widget.onChanged(widget.cubit.updatePassword(s)),
+      onChanged: (s) => widget.cubit.updatePassword(s),
       currentValue: widget.cubit.state.getUserData.getPassword,
       fieldType: FieldTypes.password,
       validator: widget.cubit.state.passwordValidator,
@@ -132,24 +129,11 @@ class _SignUpFormState extends FormTemplateState<SignUpForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       focusNode: passwordConfirmationFocusNode,
       nextFocusNode: super.buttonFocusNode,
-      onChanged: (s) => 
-        widget.onChanged(widget.cubit.updatePasswordConfirmation(s)),
+      onChanged: (s) => widget.cubit.updatePasswordConfirmation(s),
       currentValue: widget.cubit.state.getUserData.getPasswordConfirmation,
       fieldType: FieldTypes.confirmation,
       validator: widget.cubit.state.passwordConfirmationValidator,
     ),
   ];
   
-  @override
-  AsyncCallback get _onSubmit => () async{
-    _submitted.value = true;
-    if (widget.formKey.currentState!.validate() && widget.cubit.state.isValid()) {
-      try {
-        final response = await widget.cubit.submit(widget.cubit.state);
-        debugPrint(response.statusCode.toString());
-      } on DioException catch (e) {
-        debugPrint('${e.requestOptions.method} | ${e.response!.statusCode} | ${e.response!.statusMessage}');
-      }
-    }
-  };
 }

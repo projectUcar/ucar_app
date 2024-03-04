@@ -1,13 +1,13 @@
 part of 'form_template.dart';
 
 class LogInForm extends FormTemplate<UserLoginState, LogInCubit> {
-  const LogInForm({super.key, required super.formKey, required super.onChanged, required super.cubit}) : super(text: 'Entrar');
+  const LogInForm({super.key, required super.formKey, required super.onChanged, required super.cubit}) : super(text: 'Entrar', redirect: AppRouter.homePass);
 
   @override
   State<LogInForm> createState() => _LogInFormState();
 }
 
-class _LogInFormState extends FormTemplateState<LogInForm> {
+class _LogInFormState extends _FormTemplateState<LogInForm> {
   late FocusNode emailFocusNode, passwordFocusNode;
 
   @override
@@ -27,7 +27,7 @@ class _LogInFormState extends FormTemplateState<LogInForm> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LogInCubit>(
-      create: (context) => LogInCubit(),
+      create: (context) => widget.cubit,
       child: super.build(context),
     );
   }
@@ -37,7 +37,7 @@ class _LogInFormState extends FormTemplateState<LogInForm> {
     //EMAIL O TELEFONO
     OrdinaryFormField(
       autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
-      onChanged: (s) => widget.onChanged(widget.cubit.updateEmailOrPhonenumber(s)),
+      onChanged: (s) => widget.cubit.updateEmailOrPhonenumber(s),
       validator: widget.cubit.state.emailValidator,
       currentValue: widget.cubit.state.getUserData.getEmailOrPhonenumber,
       focusNode: emailFocusNode,
@@ -49,7 +49,7 @@ class _LogInFormState extends FormTemplateState<LogInForm> {
       autovalidateMode: (_submitted.value)? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
       focusNode: passwordFocusNode,
       nextFocusNode: super.buttonFocusNode,
-      onChanged: (s) => widget.onChanged(widget.cubit.updatePassword(s)),
+      onChanged: (s) => widget.cubit.updatePassword(s),
       currentValue: widget.cubit.state.getUserData.getPassword,
       fieldType: FieldTypes.loginPassword,
       validator: widget.cubit.state.passwordValidator,
@@ -60,16 +60,4 @@ class _LogInFormState extends FormTemplateState<LogInForm> {
     ),
   ];
 
-  @override
-  AsyncCallback get _onSubmit => () async{
-    _submitted.value = true;
-    if (widget.formKey.currentState!.validate() && widget.cubit.state.isValid()) {
-      try {
-        final response = await widget.cubit.submit(widget.cubit.state);
-        debugPrint(response.statusCode.toString());
-      } on DioException catch (e) {
-        debugPrint('${e.requestOptions.method} ${e.requestOptions.data}');
-      }
-    }
-  };
 }

@@ -1,9 +1,6 @@
 part of 'form_screen.dart';
 class SignUpScreen extends FormScreen<UserSignupState, SignUpCubit> {
-  SignUpScreen({super.key}):super(withAppBar: true);
-
-  @override
-  ValueNotifier<UserSignupState> _usNotifier() => ValueNotifier(UserSignupState.newUser());
+  SignUpScreen({super.key}):super(withAppBar: true, usNotifier: ValueNotifier(UserSignupState.newUser()));
 
   @override
   List<Widget> _buildChildren(BuildContext context) => <Widget>[
@@ -18,6 +15,6 @@ class SignUpScreen extends FormScreen<UserSignupState, SignUpCubit> {
   FormTemplate<UserSignupState, SignUpCubit> _getForm(BuildContext context, UserSignupState userState) => SignUpForm(
     formKey: formKey,
     onChanged: (value) => userState = value,
-    cubit: SignUpCubit()
+    cubit: SignUpCubit(userState: userState)
   );
 }

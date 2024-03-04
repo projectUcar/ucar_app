@@ -1,7 +1,7 @@
 import 'user_data.dart';
 
 class UserSignUpData extends UserData{
-  String? _name, _phonenumber, _lastname, _email, _password, _passwordConfirmation, _gender, _group;
+  final String? _name, _phonenumber, _lastname, _email, _password, _passwordConfirmation, _gender, _group;
   UserSignUpData({String? name, String? phonenumber, String? lastname, String? email, String? password, String? passwordConfirmation, String? gender, String? group})
   : _name = name,
     _phonenumber = phonenumber,
@@ -33,17 +33,17 @@ class UserSignUpData extends UserData{
   String? get getGroup => _group;
 
   @override
-  String toString() => "($_group, $_name, $_phonenumber, $_lastname, $_email, ${super.formatPassword(_password)}, ${super.formatPassword(_passwordConfirmation)}, $_gender)";
+  String toString() => "($_name, $_lastname, $_email, $_group, $_phonenumber, $_gender, ${super.formatPassword(_password)}, ${super.formatPassword(_passwordConfirmation)})";
   
   @override
-  Map toJson() => {
-    "firstName": getEmail,
-    "lastName" : getLastname,
-    "email" : getEmail,
-    "carrer" : getGroup,
-    "phoneNumber" : getPhonenumber,
-    "gender" : getGender,
-    "password" : getPassword,
-    "confirmPassword" : getPasswordConfirmation,
-  };
+  Map<String, String> toJson() => {
+    "firstName": getName!,
+    "lastName": getLastname!,
+    "email": getEmail!,
+    "carrer": getGroup!,
+    "phoneNumber": getPhonenumber!,
+    "gender": getGender!,
+    "password": getPassword!,
+    "confirmPassword": getPasswordConfirmation!,
+  }; //El método solo se ejecutará cuando el formulario esté correcto. Por tanto, no habrá datos nulos en este punto
 }

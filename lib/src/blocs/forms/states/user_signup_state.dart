@@ -4,10 +4,10 @@ import '../../../util/regex_comparison.dart';
 import '../data/user_signup_data.dart';
 
 class UserSignupState extends UserState<UserSignUpData> with ValidInput<UserSignUpData>{
-  const UserSignupState(super.userData);
+  UserSignupState(super.userData, {required super.resultState, required super.submitted});
 
   factory UserSignupState.newUser() {
-    return UserSignupState(UserSignUpData.newData());
+    return UserSignupState(UserSignUpData.newData(), resultState: ResultState.missing(), submitted: false);
   }
 
   bool get nameIsValid => nameValidator(getUserData.getName) == null;
@@ -40,8 +40,9 @@ class UserSignupState extends UserState<UserSignUpData> with ValidInput<UserSign
   }
 
   @override
-  copyWith({String? name, String? phonenumber, String? lastname, String? email, String? password, String? passwordConfirmation, String? gender, String? group}) {
+  UserSignupState copyWith({ResultState? newRS, bool? submitted, String? name, String? phonenumber, String? lastname, String? email, String? password, String? passwordConfirmation, String? gender, String? group}) {
     return UserSignupState(
+      resultState: newRS ?? getResultState,
       UserSignUpData(
         name: name ?? getUserData.getName,
         phonenumber: phonenumber ?? getUserData.getPhonenumber,
@@ -51,13 +52,10 @@ class UserSignupState extends UserState<UserSignUpData> with ValidInput<UserSign
         passwordConfirmation: passwordConfirmation ?? getUserData.getPasswordConfirmation,
         gender: gender ?? getUserData.getGender,
         group: group ?? getUserData.getGroup
-      )
+      ),
+      submitted: submitted ?? getSubmitted
     );
   }
 
-  @override
-  String toString() {
-    return 'userData: ${getUserData.toString()}';
-  }
   
 }

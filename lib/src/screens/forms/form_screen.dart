@@ -1,10 +1,9 @@
 library form_screen;
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import '../../blocs/forms/cubits/form_validator_cubit.dart';
-import '../../blocs/forms/cubits/login_cubit.dart';
-import '../../blocs/forms/cubits/signup_cubit.dart';
 
+import '../../blocs/forms/cubits/form_validator_cubit.dart';
+import '../../util/widget_list_format.dart';
 import '../../components/already_have_an_account.dart';
 import '../../components/app_bar_custom.dart';
 import '../../config/size_config.dart';
@@ -19,12 +18,12 @@ import '../background.dart';
 part 'login.dart';
 part 'sign_up.dart';
 abstract class FormScreen<T extends UserState, U extends FormValidatorCubit> extends StatelessWidget {
-  FormScreen({super.key, bool? withAppBar}): _withAppBar = withAppBar ?? false;
+  FormScreen({super.key, bool? withAppBar, required ValueNotifier<T> usNotifier}): _withAppBar = withAppBar ?? false, _usNotifier = usNotifier;
 
   final formKey = GlobalKey<FormState>();
   final bool _withAppBar;
 
-  ValueNotifier<T> _usNotifier();
+  final ValueNotifier<T> _usNotifier;
 
   @mustCallSuper
   @override
@@ -51,8 +50,8 @@ abstract class FormScreen<T extends UserState, U extends FormValidatorCubit> ext
 
   @mustCallSuper
   ValueListenableBuilder<T> buildValueListenable(BuildContext context) => ValueListenableBuilder<T>(
-      valueListenable: _usNotifier(),
-      builder: (context, userState, _) => _getForm(context, userState),
+    valueListenable: _usNotifier,
+    builder: (context, userState, _) => _getForm(context, _usNotifier.value),
   );
 
   FormTemplate<T, U> _getForm(BuildContext context, T userState);

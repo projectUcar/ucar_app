@@ -1,27 +1,31 @@
-import 'package:dio/dio.dart';
-
-import '../../../helpers/authentication/base_helper.dart';
-import 'form_validator_cubit.dart';
-import '../states/user_signup_state.dart';
-
+part of 'form_validator_cubit.dart';
 class SignUpCubit extends FormValidatorCubit<UserSignupState> {
-  SignUpCubit():super(userState: UserSignupState.newUser());
+  SignUpCubit({required super.userState});
 
-  UserSignupState updateName(String? s) => update(state.copyWith(name: s) as UserSignupState);
-  UserSignupState updatePhonenumber(String? s) => update(state.copyWith(phonenumber: s) as UserSignupState);
-  UserSignupState updateLastname(String? s) => update(state.copyWith(lastname: s) as UserSignupState);
-  UserSignupState updateEmail(String? s) => update(state.copyWith(email: s) as UserSignupState);
-  UserSignupState updatePassword(String? s) => update(state.copyWith(password: s) as UserSignupState);
-  UserSignupState updatePasswordConfirmation(String? s) => update(state.copyWith(passwordConfirmation: s) as UserSignupState);
-  UserSignupState updateGroup(String? s) => update(state.copyWith(group: s) as UserSignupState);
-  UserSignupState updateGender(String? s) => update(state.copyWith(gender: s) as UserSignupState);
+  void updateName(String? s) => emit(state.copyWith(name: s));
+  void updatePhonenumber(String? s) => emit(state.copyWith(phonenumber: s));
+  void updateLastname(String? s) => emit(state.copyWith(lastname: s));
+  void updateEmail(String? s) => emit(state.copyWith(email: s));
+  void updatePassword(String? s) => emit(state.copyWith(password: s));
+  void updatePasswordConfirmation(String? s) => emit(state.copyWith(passwordConfirmation: s));
+  void updateGroup(String? s) => emit(state.copyWith(group: s));
+  void updateGender(String? s) => emit(state.copyWith(gender: s));
   
   @override
   void reset() => emit(UserSignupState.newUser());
   
   @override
-  Future<Response> submit(UserSignupState userState) {
+  Future<void> submit() async {
     final helper = SignUpHelper();
-    return helper.submit(state.getUserData);
+    try {
+      Response<String> response = await helper.submit(state.getUserData);
+      if (response.statusCode! >= 400) {
+        _updateResultState(ResultState.rejected(message: BadResponseModel.fromAPI(response).message));
+      }else{
+        _updateResultState(ResultState.accepted());
+      }
+    } on DioException catch (e) {
+      _updateResultState(ResultState.rejected(message: e.getMessage()));
+    }
   }
 }

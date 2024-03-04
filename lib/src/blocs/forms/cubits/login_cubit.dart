@@ -1,22 +1,26 @@
-import 'package:dio/dio.dart';
-import '../../../helpers/authentication/base_helper.dart';
-
-import 'form_validator_cubit.dart';
-import '../states/user_login_state.dart';
-
+part of 'form_validator_cubit.dart';
 class LogInCubit extends FormValidatorCubit<UserLoginState> {
-  LogInCubit() : super(userState: UserLoginState.newUser());
+  LogInCubit({required super.userState});
 
-  UserLoginState updateEmailOrPhonenumber(String? s) => update(state.copyWith(emailOrPhonenumber: s) as UserLoginState);
-  UserLoginState updatePassword(String? s) => update(state.copyWith(password: s) as UserLoginState);
+  void updateEmailOrPhonenumber(String? s) => emit(state.copyWith(emailOrPhonenumber: s));
+  void updatePassword(String? s) => emit(state.copyWith(password: s));
 
   @override
   void reset() => emit(UserLoginState.newUser());
 
   @override
-  Future<Response> submit(UserLoginState userState) {
+  Future<void> submit() async{
     final helper = LogInHelper();
-    return helper.submit(state.getUserData);
+    try {
+      Response<String> response = await helper.submit(state.getUserData);
+      if (response.statusCode! >= 400) {
+        _updateResultState(ResultState.rejected(message: BadResponseModel.fromAPI(response).message));
+      }else{
+        _updateResultState(ResultState.accepted());
+      }
+    } on DioException catch (e) {
+      _updateResultState(ResultState.rejected(message: e.getMessage()));
+    }
   }
   
 }

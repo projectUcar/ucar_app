@@ -15,12 +15,8 @@ abstract class BaseHelper<T extends UserData>{
 
   BaseHelper({required this.endpoint});
 
-  Future<Response> submit(T data) async {
-    try {
-      final response = await _client.postData(endpoint, jsonEncode(data.toJson()));
-      return response;
-    } on DioException catch (_) {
-      rethrow;
-    }
+  Future<Response<String>> submit(T data) async {
+    final response = await _client.postData(endpoint, jsonEncode(data.toJson()));
+    return response;
   }
 }
