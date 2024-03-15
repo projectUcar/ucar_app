@@ -14,18 +14,18 @@ class RecorridosDia extends StatelessWidget{
   final int quotas;
 
   const RecorridosDia({ 
-    Key? key, 
+    super.key, 
     required this.day, 
     required this.departure, 
     required this.destination, 
     required this.timeExit, 
     required this.cantDrivers, 
     required this.quotas 
-    }) : super(key: key);
+    });
 
   @override
   Widget build(BuildContext context) {
-    TextStyle _bodyStyle = CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize);
+    TextStyle bodyStyle = CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize);
 
     return ContainerBackground(
       color: MyColors.backgroundCard,
@@ -64,8 +64,8 @@ class RecorridosDia extends StatelessWidget{
               child: Column(
                 children: [
                   Text(timeExit.format(context), style: CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize, fontWeight: FontWeight.w900)),
-                  Text(cantDrivers.toString()+" Conductores", style: _bodyStyle, overflow: TextOverflow.ellipsis),
-                  Text(quotas.toString()+" Cupos Totales", style: _bodyStyle, overflow: TextOverflow.ellipsis),
+                  Text("$cantDrivers Conductores", style: bodyStyle, overflow: TextOverflow.ellipsis),
+                  Text("$quotas Cupos Totales", style: bodyStyle, overflow: TextOverflow.ellipsis),
                 ],
               ),
             )

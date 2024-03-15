@@ -1,14 +1,13 @@
-import 'package:ucar_app/src/models/templates/valid_input.dart';
-import 'package:ucar_app/src/models/vm/user_view_model.dart';
-import 'package:ucar_app/src/util/regex_comparison.dart';
-
+import '../templates/valid_input.dart';
+import 'user_state.dart';
+import '../../../util/regex_comparison.dart';
 import '../data/user_signup_data.dart';
 
-class UserSignupViewModel extends UserViewModel<UserSignUpData> with ValidInput{
-  const UserSignupViewModel(super.userData);
+class UserSignupState extends UserState<UserSignUpData> with ValidInput<UserSignUpData>{
+  UserSignupState(super.userData, {required super.resultState, required super.submitted});
 
-  factory UserSignupViewModel.newUser() {
-    return UserSignupViewModel(UserSignUpData.newData());
+  factory UserSignupState.newUser() {
+    return UserSignupState(UserSignUpData.newData(), resultState: ResultState.missing(), submitted: false);
   }
 
   bool get nameIsValid => nameValidator(getUserData.getName) == null;
@@ -17,7 +16,7 @@ class UserSignupViewModel extends UserViewModel<UserSignUpData> with ValidInput{
   bool get emailIsValid => emailValidator(getUserData.getEmail) == null;
   bool get passwordIsValid => passwordValidator(getUserData.getPassword) == null;
   bool get passwordConfirmIsValid => passwordConfirmationValidator(getUserData.getPasswordConfirmation) == null;
-  bool get careerIsValid => careerValidator(getUserData.getCareer) == null;
+  bool get groupIsValid => groupValidator(getUserData.getGroup) == null;
   bool get genderIsValid => genderValidator(getUserData.getGender) == null;
   
   @override
@@ -27,7 +26,7 @@ class UserSignupViewModel extends UserViewModel<UserSignUpData> with ValidInput{
   emailIsValid &&
   passwordIsValid &&
   passwordConfirmIsValid &&
-  careerIsValid &&
+  groupIsValid &&
   genderIsValid;
   
   String? passwordConfirmationValidator(String? s){
@@ -35,14 +34,15 @@ class UserSignupViewModel extends UserViewModel<UserSignUpData> with ValidInput{
       return 'Campo Confirmación requerido';
     }
     if (s != getUserData.getPassword) {
-      return 'Different password';
+      return 'Contraseña diferente';
     }
     return null;
   }
 
   @override
-  copyWith({String? name, String? phonenumber, String? lastname, String? email, String? password, String? passwordConfirmation, String? gender, String? career}) {
-    return UserSignupViewModel(
+  UserSignupState copyWith({ResultState? newRS, bool? submitted, String? name, String? phonenumber, String? lastname, String? email, String? password, String? passwordConfirmation, String? gender, String? group}) {
+    return UserSignupState(
+      resultState: newRS ?? getResultState,
       UserSignUpData(
         name: name ?? getUserData.getName,
         phonenumber: phonenumber ?? getUserData.getPhonenumber,
@@ -51,14 +51,11 @@ class UserSignupViewModel extends UserViewModel<UserSignUpData> with ValidInput{
         password: password ?? getUserData.getPassword,
         passwordConfirmation: passwordConfirmation ?? getUserData.getPasswordConfirmation,
         gender: gender ?? getUserData.getGender,
-        career: career ?? getUserData.getCareer
-      )
+        group: group ?? getUserData.getGroup
+      ),
+      submitted: submitted ?? getSubmitted
     );
   }
 
-  @override
-  String toString() {
-    return 'userData: ${getUserData.toString()}';
-  }
   
 }

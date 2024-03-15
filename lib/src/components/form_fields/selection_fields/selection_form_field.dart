@@ -8,7 +8,7 @@ import '../../../theme/custom_styles.dart';
 class SelectionFormField extends FormFieldTemplate {
   final SelectionFieldTypes selectionFieldType;
 
-  const SelectionFormField({Key? key, required super.onChanged, required super.currentValue, required super.focusNode, required super.fieldType, required this.selectionFieldType, super.validator, super.autovalidateMode,}): super(key: key);
+  const SelectionFormField({super.key, required super.onChanged, required super.currentValue, required super.focusNode, required super.fieldType, required this.selectionFieldType, super.validator, super.autovalidateMode,});
 
   @override
   Widget build(BuildContext context) {

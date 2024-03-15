@@ -1,10 +1,19 @@
 library form_template;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../storage/auth_client.dart';
+import '../../util/widget_list_format.dart';
+import '../../config/size_config.dart';
+import '../../routes/app_router.dart';
+import '../temporaries/dio_alert_dialog.dart';
+import '../temporaries/async_progress_dialog.dart';
+import '../../blocs/forms/cubits/form_validator_cubit.dart';
 import '../../components/form_fields/selection_fields/selection_form_field.dart';
-import '../../models/vm/user_login_view_model.dart';
-import '../../models/vm/user_signup_view_model.dart';
+import '../../blocs/forms/states/user_login_state.dart';
+import '../../blocs/forms/states/user_signup_state.dart';
+import '../../blocs/forms/states/user_state.dart';
 import '../../theme/colors.dart';
 import '../../theme/custom_styles.dart';
 import '../../theme/fontsizes.dart';
@@ -14,20 +23,18 @@ import '../../components/form_fields/text_fields/password_form_field.dart';
 part 'login_form.dart';
 part 'sign_up_form.dart';
 
-abstract class FormTemplate<UserViewModel> extends StatefulWidget {
-  const FormTemplate({super.key, required this.formKey, required this.onChanged, required this.viewModel, required this.text});
+abstract class FormTemplate<T extends UserState, U extends FormValidatorCubit> extends StatefulWidget with WidgetListFormatter{
+  const FormTemplate({super.key, required this.formKey, required this.cubit, required this.text, required this.successRoute});
 
   final GlobalKey<FormState> formKey;
-  final ValueChanged<UserViewModel> onChanged;
-  final UserViewModel viewModel;
-  final String text;
+  final U cubit;
+  final String text, successRoute;
 
   @override
-  State<FormTemplate> createState();
-
+  State<FormTemplate<T, U>> createState();
 }
 
-abstract class FormTemplateState<T extends FormTemplate> extends State<T>{
+abstract class _FormTemplateState<X extends FormTemplate> extends State<X>{
   
   late FocusNode buttonFocusNode;
   final ValueNotifier<bool> _submitted = ValueNotifier<bool>(false);
@@ -41,38 +48,60 @@ abstract class FormTemplateState<T extends FormTemplate> extends State<T>{
   @mustCallSuper
   @override
   Widget build(BuildContext context) {
-
-    return Form(
-      key: widget.formKey,
-      child: ValueListenableBuilder<bool>(
-        valueListenable: _submitted, 
-        builder: (context, value, _) => Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: _finalList().map((child) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: child,
-          )).toList(),
-        ),
-      )
+    return BlocSelector<FormValidatorCubit, UserState, bool>(
+      bloc: widget.cubit,
+      selector: (state) => widget.cubit.rebuildCondition,
+      builder: (context, currentlyValid) {
+        return Form(
+          key: widget.formKey,
+          autovalidateMode: (_submitted.value) ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
+          child: ValueListenableBuilder<bool>(
+            valueListenable: _submitted, 
+            builder: (context, value, _) => Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: widget.formatList(_finalList(context), SizeConfig.displayHeight(context) * 0.03)
+            ),
+          )
+        );
+      }
     );
   }
 
-  VoidCallback get _onSubmit;
+  @mustCallSuper
+  Future<void> _onSubmit() async{
+    _submitted.value = true;
+    if (widget.formKey.currentState!.validate() && widget.cubit.state.isValid()) {
+      AsyncProgressDialog.show(context);
+      await widget.cubit.submit();
+      if(context.mounted) AsyncProgressDialog.dismiss(context);
+    }
+  }
 
   @mustCallSuper
-  List<Widget> _finalList() {
-    List<Widget> list = _buildChildren();
+  List<Widget> _finalList(BuildContext context) {
+    List<Widget> list = _buildChildren(context);
 
     list.add(FloatingActionButton.extended(
       focusNode: buttonFocusNode,
       foregroundColor: MyColors.primary,
       backgroundColor: MyColors.orangeDark,
-      onPressed: _onSubmit,
+      onPressed: () => _onSubmit().then<void>((_) {
+        if (widget.cubit.state.isRejected) {DioAlertDialog.fromDioError(context, widget.cubit.state);}
+        else if (widget.cubit.state.isAccepted) {redirect();}
+      }),
       label: Text(widget.text, style: CustomStyles.boldStyle.copyWith(fontSize: 20))
     ));
     return list;
   }
 
-  List<Widget> _buildChildren();
+  List<Widget> _buildChildren(BuildContext context);
+
+  @override
+  void dispose() {
+    buttonFocusNode.dispose();
+    super.dispose();
+  }
+  
+  Future<void> redirect();
 }

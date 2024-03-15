@@ -1,13 +1,10 @@
 part of 'form_screen.dart';
-class SignUpScreen extends FormScreen<UserSignupViewModel> {
-  SignUpScreen({super.key}):super(withAppBar: true);
-
-  @override
-  ValueNotifier<UserSignupViewModel> _usNotifier() => ValueNotifier(UserSignupViewModel.newUser());
+class SignUpScreen extends FormScreen<UserSignupState, SignUpCubit> {
+  SignUpScreen({super.key}):super(withAppBar: true, usNotifier: ValueNotifier(UserSignupState.newUser()));
 
   @override
   List<Widget> _buildChildren(BuildContext context) => <Widget>[
-    buildValueListenable(),
+    buildValueListenable(context),
     AlreadyHaveAnAccountCheck(
       login: false,
       press: () => Navigator.pop(context),
@@ -15,9 +12,8 @@ class SignUpScreen extends FormScreen<UserSignupViewModel> {
   ];
 
   @override
-  FormTemplate<UserSignupViewModel> _getForm(BuildContext context, UserSignupViewModel viewModel) => SignUpForm(
+  FormTemplate<UserSignupState, SignUpCubit> _getForm(BuildContext context, UserSignupState userState) => SignUpForm(
     formKey: formKey,
-    onChanged: (value) => viewModel = value,
-    viewModel: viewModel
+    cubit: SignUpCubit(userState: userState)
   );
 }

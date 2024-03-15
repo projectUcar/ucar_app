@@ -10,11 +10,11 @@ class RoundedButton extends StatelessWidget {
   final Color color;
 
   const RoundedButton({
-    Key ? key,
+    super.key,
     required this.text,
     required this.press,
     this.color = MyColors.orangeDark,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +30,15 @@ class RoundedButton extends StatelessWidget {
 
   Widget newElevatedButton() {
     return ElevatedButton(
-      child: Text(
-        text,
-        style: CustomStyles.boldStyle.copyWith(fontSize: 20, color: MyColors.textWhite),
-      ),
       onPressed: press,
       style: ElevatedButton.styleFrom(
           backgroundColor: color,
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
           textStyle: CustomStyles.whiteStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)
+      ),
+      child: Text(
+        text,
+        style: CustomStyles.boldStyle.copyWith(fontSize: 20, color: MyColors.textWhite),
       ),
     );
   }

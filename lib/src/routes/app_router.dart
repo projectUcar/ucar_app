@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:ucar_app/src/screens/loading_screen.dart';
+import 'package:ucar_app/src/screens/passenger/pass_home.dart';
 
 import '../screens/forms/form_screen.dart';
 class AppRouter{
   static const String root = "/",
-  signUp = '/sign-up';
+  login = "/log-in",
+  signUp = '/sign-up',
+  homePass = 'home-pass';
   
   static Route<dynamic>? onGenerateRoute(RouteSettings settings){
     switch (settings.name) {
       case root:
+        return MaterialPageRoute(
+          builder: (context) =>const LoadingScreen(),
+          settings: settings
+        );
+      case login:
         return MaterialPageRoute(
           builder: (context) =>LogInScreen(),
           settings: settings
@@ -15,6 +24,10 @@ class AppRouter{
       case signUp:
         return MaterialPageRoute(
           builder: (context) => SignUpScreen(),
+        );
+      case homePass:
+        return MaterialPageRoute(
+          builder: (context) => HomePassenger(name: settings.arguments as String)
         );
       default:
         return null;

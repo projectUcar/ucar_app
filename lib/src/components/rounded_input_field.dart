@@ -12,22 +12,22 @@ class RoundedInputField extends StatelessWidget {
   final ValueChanged<String> onChanged;
 
   const RoundedInputField({
-    Key ? key,
+    super.key,
     this.sizeFinal = 0.90,
     required this.hintText,
     required this.icon,
     required this.onChanged, 
      this.textImputType = TextInputType.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _textController = TextEditingController(text: "");
+    TextEditingController textController = TextEditingController(text: "");
 
     return TextFieldContainer(
       sizeFinal: sizeFinal,
       child: TextField(
-        controller: _textController,
+        controller: textController,
         onChanged: onChanged,
         keyboardType: textImputType,
         cursorColor: MyColors.textGrey,

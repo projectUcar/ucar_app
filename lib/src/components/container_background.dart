@@ -7,11 +7,11 @@ class ContainerBackground extends StatelessWidget {
   final Widget child;
 
   const ContainerBackground({ 
-    Key? key,
+    super.key,
     required this.color, 
     required this.height,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

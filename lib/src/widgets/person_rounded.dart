@@ -6,10 +6,10 @@ class PersonRounded extends StatelessWidget {
   final double sizeIcon;
 
   const PersonRounded({ 
-    Key? key,
+    super.key,
     required this.sizeIcon,
     required this.size,
-    }) : super(key: key);
+    });
 
   @override
   Widget build(BuildContext context) {
