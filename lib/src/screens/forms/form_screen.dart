@@ -6,7 +6,6 @@ import '../../blocs/forms/cubits/form_validator_cubit.dart';
 import '../../util/widget_list_format.dart';
 import '../../components/already_have_an_account.dart';
 import '../../components/app_bar_custom.dart';
-import '../../config/size_config.dart';
 import '../../blocs/forms/states/user_login_state.dart';
 import '../../blocs/forms/states/user_signup_state.dart';
 import '../../blocs/forms/states/user_state.dart';
@@ -28,20 +27,27 @@ abstract class FormScreen<T extends UserState, U extends FormValidatorCubit> ext
   @mustCallSuper
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _withAppBar ? const PreferredSize(
-        child: AppBarCustom(
-          color: MyColors.backgroundSvg,
-          text: "",
-        ),
-        preferredSize: Size.fromHeight(50),
-      ): null,
-      body: Background(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: _buildChildren(context),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(formKey.currentContext ?? context);
+        if (!currentFocus.hasPrimaryFocus) currentFocus.unfocus();
+      },
+      behavior: HitTestBehavior.opaque,
+      child: Scaffold(
+        appBar: _withAppBar ? const PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: AppBarCustom(
+            color: MyColors.backgroundSvg,
+            text: "",
+          ),
+        ): null,
+        body: Background(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _buildChildren(context),
+            ),
           ),
         ),
       ),
@@ -51,7 +57,7 @@ abstract class FormScreen<T extends UserState, U extends FormValidatorCubit> ext
   @mustCallSuper
   ValueListenableBuilder<T> buildValueListenable(BuildContext context) => ValueListenableBuilder<T>(
     valueListenable: _usNotifier,
-    builder: (context, userState, _) => _getForm(context, _usNotifier.value),
+    builder: (context, userState, _) => _getForm(context, userState),
   );
 
   FormTemplate<T, U> _getForm(BuildContext context, T userState);

@@ -2,7 +2,6 @@ library base_helper;
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
-
 import '../../blocs/forms/data/user_data.dart';
 import '../../blocs/forms/data/user_login_data.dart';
 import '../../blocs/forms/data/user_signup_data.dart';
@@ -18,5 +17,10 @@ abstract class BaseHelper<T extends UserData>{
   Future<Response<String>> submit(T data) async {
     final response = await _client.postData(endpoint, jsonEncode(data.toJson()));
     return response;
+  }
+
+  String getToken(String response){
+    Map<String, dynamic> json = jsonDecode(response) as Map<String, dynamic>;
+    return json["token"];
   }
 }

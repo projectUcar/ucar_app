@@ -14,18 +14,18 @@ import '../../theme/custom_styles.dart';
 class HomePassenger extends StatelessWidget {
   final String name;
 
-  const HomePassenger({Key? key, required this.name}) : super(key: key);
+  const HomePassenger({super.key, this.name = "nuevo"});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
           child: AppBarCustom(
             color: MyColors.backgroundSvg,
-            text: "Hola, "+name,
-            leadingBoolean: true,
+            text: "Hola, $name",
+            leadingBoolean: false,
           ),
-          preferredSize: const Size.fromHeight(50),
         ),
       body: Background(
         child: SingleChildScrollView(

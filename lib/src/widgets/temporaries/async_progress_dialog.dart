@@ -9,13 +9,13 @@ abstract class AsyncProgressDialog{
       context: context,
       builder: (_) {
         return PopScope(
+          canPop: false,
           child: Container(
             width: SizeConfig.displayWidth(context),
             height: SizeConfig.displayHeight(context),
             color: MyColors.primary.withOpacity(0.9),
             child: const Center(child: CircularProgressIndicator(color: MyColors.orangeDark,),),
           ),
-          canPop: false,
         );
       },
     );

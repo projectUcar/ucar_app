@@ -3,6 +3,7 @@ library form_template;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../storage/auth_client.dart';
 import '../../util/widget_list_format.dart';
 import '../../config/size_config.dart';
 import '../../routes/app_router.dart';
@@ -23,12 +24,11 @@ part 'login_form.dart';
 part 'sign_up_form.dart';
 
 abstract class FormTemplate<T extends UserState, U extends FormValidatorCubit> extends StatefulWidget with WidgetListFormatter{
-  const FormTemplate({super.key, required this.formKey, required this.onChanged, required this.cubit, required this.text, required this.redirect});
+  const FormTemplate({super.key, required this.formKey, required this.cubit, required this.text, required this.successRoute});
 
   final GlobalKey<FormState> formKey;
-  final ValueChanged<T> onChanged;
   final U cubit;
-  final String text, redirect;
+  final String text, successRoute;
 
   @override
   State<FormTemplate<T, U>> createState();
@@ -50,7 +50,7 @@ abstract class _FormTemplateState<X extends FormTemplate> extends State<X>{
   Widget build(BuildContext context) {
     return BlocSelector<FormValidatorCubit, UserState, bool>(
       bloc: widget.cubit,
-      selector: (state) => !(state.isValid()), //El widget sólo se redibujará cuando se cumpla que el estado es inválido
+      selector: (state) => widget.cubit.rebuildCondition,
       builder: (context, currentlyValid) {
         return Form(
           key: widget.formKey,
@@ -74,7 +74,7 @@ abstract class _FormTemplateState<X extends FormTemplate> extends State<X>{
     if (widget.formKey.currentState!.validate() && widget.cubit.state.isValid()) {
       AsyncProgressDialog.show(context);
       await widget.cubit.submit();
-      AsyncProgressDialog.dismiss(context);
+      if(context.mounted) AsyncProgressDialog.dismiss(context);
     }
   }
 
@@ -87,9 +87,8 @@ abstract class _FormTemplateState<X extends FormTemplate> extends State<X>{
       foregroundColor: MyColors.primary,
       backgroundColor: MyColors.orangeDark,
       onPressed: () => _onSubmit().then<void>((_) {
-        debugPrint(widget.cubit.state.toString());
         if (widget.cubit.state.isRejected) {DioAlertDialog.fromDioError(context, widget.cubit.state);}
-        else if (widget.cubit.state.isAccepted) {Navigator.of(context).pushReplacementNamed(widget.redirect);}
+        else if (widget.cubit.state.isAccepted) {redirect();}
       }),
       label: Text(widget.text, style: CustomStyles.boldStyle.copyWith(fontSize: 20))
     ));
@@ -104,5 +103,5 @@ abstract class _FormTemplateState<X extends FormTemplate> extends State<X>{
     super.dispose();
   }
   
-  
+  Future<void> redirect();
 }

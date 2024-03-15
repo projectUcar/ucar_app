@@ -14,7 +14,6 @@ class SignUpScreen extends FormScreen<UserSignupState, SignUpCubit> {
   @override
   FormTemplate<UserSignupState, SignUpCubit> _getForm(BuildContext context, UserSignupState userState) => SignUpForm(
     formKey: formKey,
-    onChanged: (value) => userState = value,
     cubit: SignUpCubit(userState: userState)
   );
 }

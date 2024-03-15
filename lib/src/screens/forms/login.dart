@@ -15,16 +15,11 @@ class LogInScreen extends FormScreen<UserLoginState, LogInCubit> with WidgetList
     buildValueListenable(context),
     AlreadyHaveAnAccountCheck(press: () {
       Navigator.pushNamed(context, "/sign-up");
-    })], SizeConfig.displayHeight(context) * 0.03);
-  // .map((child) => Padding(
-  //   padding: EdgeInsets.symmetric(vertical: SizeConfig.displayHeight(context) * 0.015),
-  //   child: child,
-  // )).toList();
+    })], 20);
     
   @override
   FormTemplate<UserLoginState, LogInCubit> _getForm(BuildContext context, UserLoginState userState) => LogInForm(
     formKey: formKey,
-    onChanged: (value) => userState = value,
     cubit: LogInCubit(userState: userState),
   );
 

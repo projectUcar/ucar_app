@@ -1,7 +1,7 @@
 part of 'form_template.dart';
 
 class SignUpForm extends FormTemplate<UserSignupState, SignUpCubit>{
-  const SignUpForm({super.key, required super.formKey, required super.onChanged, required super.cubit}) : super(text: 'Registrar', redirect: AppRouter.root);
+  const SignUpForm({super.key, required super.formKey, required super.cubit}) : super(text: 'Registrar', successRoute: AppRouter.root);
 
   @override
   State<SignUpForm> createState() => _SignUpFormState();
@@ -135,5 +135,8 @@ class _SignUpFormState extends _FormTemplateState<SignUpForm> {
       validator: widget.cubit.state.passwordConfirmationValidator,
     ),
   ];
+  
+  @override
+  Future<void> redirect() => Navigator.of(context).pushNamedAndRemoveUntil(widget.successRoute, (_) => false);
   
 }

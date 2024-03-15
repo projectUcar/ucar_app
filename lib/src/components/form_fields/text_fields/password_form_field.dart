@@ -18,14 +18,14 @@ class PasswordFormField extends TextFieldTemplate{
 
   @override
   Widget build(BuildContext context) {
-    bool _pv = true;
+    bool pv = true;
     return StatefulBuilder(
       builder: (context, refresh) => TextFormField(
         autovalidateMode: autovalidateMode,
         keyboardType: TextInputType.visiblePassword,
         focusNode: focusNode,
         onFieldSubmitted: (_) => nextFocusNode?.requestFocus(),
-        obscureText: _pv,
+        obscureText: pv,
         cursorColor: MyColors.orangeDark,
         validator: validator,
         onChanged: onChanged,
@@ -38,8 +38,8 @@ class PasswordFormField extends TextFieldTemplate{
             color: MyColors.orangeDark,
           ),
           suffixIcon: GestureDetector(
-            onTap: () => refresh(() => _pv = !_pv),
-            child: !_pv ? const Icon(Icons.visibility): const Icon(Icons.visibility_off),
+            onTap: () => refresh(() => pv = !pv),
+            child: !pv ? const Icon(Icons.visibility): const Icon(Icons.visibility_off),
           )
         ),
       ),

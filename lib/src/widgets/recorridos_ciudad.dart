@@ -15,17 +15,17 @@ class RecorridoCiudad extends StatelessWidget {
   final List<String> destinations;
 
   const RecorridoCiudad({ 
-    Key? key, 
+    super.key, 
     required this.name, 
     required this.cantDrivers, 
     required this.quotas, 
     required this.routes, 
     required this.destinations    
-   }) : super(key: key);
+   });
 
   @override
   Widget build(BuildContext context) {
-    TextStyle _bodyStyle = CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize);
+    TextStyle bodyStyle = CustomStyles.greyStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize);
     return ContainerBackground(
       color: MyColors.backgroundCard,
       height: 136, 
@@ -34,7 +34,7 @@ class RecorridoCiudad extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
-            name == "Girón"? "assets/images/giron.png" : "assets/images/"+name.toLowerCase()+".png",
+            name == "Girón"? "assets/images/giron.png" : "assets/images/${name.toLowerCase()}.png",
             height: 100,
           ),
           Column(
@@ -42,9 +42,9 @@ class RecorridoCiudad extends StatelessWidget {
             children: [
               Text(name, style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.subTitleFontSize +4, fontWeight: FontWeight.bold)),
               const SizedBox(height: 10,),
-              Row(children: [const PersonRounded(size: 17, sizeIcon: 15,),const PersonRounded(size: 17, sizeIcon: 15),const PersonRounded(size: 17, sizeIcon: 15), Text(" "+cantDrivers.toString()+" Conductores", style: _bodyStyle, overflow: TextOverflow.ellipsis)]),
+              Row(children: [const PersonRounded(size: 17, sizeIcon: 15,),const PersonRounded(size: 17, sizeIcon: 15),const PersonRounded(size: 17, sizeIcon: 15), Text(" $cantDrivers Conductores", style: bodyStyle, overflow: TextOverflow.ellipsis)]),
               const SizedBox(height: 8,),
-              Container(constraints: const BoxConstraints(maxWidth: 210), child: Row(children: [Text(routes.toString()+" Recorridos, ", style: _bodyStyle, overflow: TextOverflow.ellipsis), Text(quotas.toString()+" Cupos totales ", style: _bodyStyle, overflow: TextOverflow.ellipsis)])),
+              Text("${routes.toString()} Recorridos, ${quotas.toString()} cupos totales", style: bodyStyle, overflow: TextOverflow.ellipsis),
               const SizedBox(height: 7,),
               ListContainer(destinations: destinations)
             ],

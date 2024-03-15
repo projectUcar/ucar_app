@@ -8,9 +8,9 @@ class Background extends StatelessWidget {
   final Widget child;
 
   const Background({
-    Key ? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class Background extends StatelessWidget {
             left: 0,
             child: SvgPicture.asset(
               "assets/icons/figuraArriba.svg",
-              color: MyColors.backgroundSvg,
+              colorFilter: const ColorFilter.mode(MyColors.backgroundSvg, BlendMode.srcIn),
               height: SizeConfig.displayHeight(context) * 0.5,
             ),
           ),
@@ -34,7 +34,7 @@ class Background extends StatelessWidget {
             right: 0,
             child: SvgPicture.asset(
               "assets/icons/figuraAbajo.svg",
-              color: MyColors.backgroundSvg,
+              colorFilter: const ColorFilter.mode(MyColors.backgroundSvg, BlendMode.srcIn),
               height: SizeConfig.displayHeight(context) * 0.15,
             ),
           ),
