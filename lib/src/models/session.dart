@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:jwt_decoder/jwt_decoder.dart';
+
 class Session{
   final String _token, _name, _lastname, _email, _id;
   final int _iat, _exp;
@@ -29,7 +31,22 @@ class Session{
   int get iat => _iat;
   int get exp => _exp;
   bool get logged => _logged;
+  bool get sessionExpired => JwtDecoder.isExpired(_token);
 
+  bool isDriver() {
+    for (Role element in role) {
+      if (element.isDriver) return true;
+    }
+    return false;
+  }
+
+  bool isAdmin() {
+    for (Role element in role) {
+      if (element.isAdmin) return true;
+    }
+    return false;
+  }
+  
   factory Session.fromJson(Map<String, dynamic> json){
     return Session(
       token: json["token"], 
@@ -60,20 +77,29 @@ class Session{
     };
   }
 
-  static List<Role> roles(List<dynamic> roleList) {
-    List<Role> roles = [];
-    for (dynamic element in roleList) {
-      if (element is Role) roles.add(element);
-    }
-    return roles;
-  }
+  Session copyWith({String? name, String? lastname, String? email, String? id, int? iat, int? exp, String? token, List<Role>? role, bool? logged}) => Session(
+    name: name ?? _name,
+    lastname: lastname ?? _lastname,
+    email: email ?? _email,
+    id: id ?? _id,
+    iat: iat ?? _iat,
+    exp: exp ?? _exp,
+    token: token ?? _token,
+    sessionCreatedAt: _sessionCreatedAt,
+    role: role ?? _role,
+    logged: logged ?? _logged,
+  );
 }
 
 class Role {
-  String name;
-  Role({required this.name});
+  String _name;
+  static const _driverRole = "driver", _adminRole = "admin";
+  Role({required String name}) : _name = name;
   factory Role.fromJson(Map<String, dynamic> json) => Role(name: json["name"]);
   Map<String, dynamic> toJson() => {
-    "name": name,
+    "name": _name,
   };
+
+  bool get isDriver => _name == _driverRole;
+  bool get isAdmin => _name == _adminRole;
 }

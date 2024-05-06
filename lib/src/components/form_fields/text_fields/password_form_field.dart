@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/components/form_fields/text_fields/text_field_template.dart';
 
-import '../../../theme/colors.dart';
-import '../../../theme/custom_styles.dart';
+import 'text_field_template.dart';
+import '../../../theme/themes.dart';
 
 class PasswordFormField extends TextFieldTemplate{
   const PasswordFormField({
     super.key,
     required super.onChanged,
     required super.fieldType,
+    super.readOnly = false,
     super.currentValue,
     super.validator,
     super.autovalidateMode,
@@ -21,12 +21,13 @@ class PasswordFormField extends TextFieldTemplate{
     bool pv = true;
     return StatefulBuilder(
       builder: (context, refresh) => TextFormField(
+        readOnly: readOnly,
         autovalidateMode: autovalidateMode,
         keyboardType: TextInputType.visiblePassword,
         focusNode: focusNode,
         onFieldSubmitted: (_) => nextFocusNode?.requestFocus(),
         obscureText: pv,
-        cursorColor: MyColors.orangeDark,
+        cursorColor: MyColors.purpleTheme,
         validator: validator,
         onChanged: onChanged,
         style: CustomStyles.whiteStyle,
@@ -35,7 +36,7 @@ class PasswordFormField extends TextFieldTemplate{
           hintText: fieldType.getHintText,
           prefixIcon: Icon(
             fieldType.getPrefixIcon,
-            color: MyColors.orangeDark,
+            color: MyColors.purpleTheme,
           ),
           suffixIcon: GestureDetector(
             onTap: () => refresh(() => pv = !pv),

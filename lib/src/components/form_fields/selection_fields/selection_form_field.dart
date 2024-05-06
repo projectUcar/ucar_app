@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../form_field_template.dart';
-import '../../../theme/colors.dart';
 import '../field_types.dart';
-import '../../../theme/custom_styles.dart';
+import '../form_field_template.dart';
+import '../../../theme/themes.dart';
 
 class SelectionFormField extends FormFieldTemplate {
   final SelectionFieldTypes selectionFieldType;
@@ -25,7 +24,7 @@ class SelectionFormField extends FormFieldTemplate {
         style: CustomStyles.whiteStyle.copyWith(fontSize: 16),
         borderRadius: const BorderRadius.all(Radius.circular(20)),
         decoration: InputDecoration(
-          prefixIcon: Icon(fieldType.getPrefixIcon, color: MyColors.orangeDark,),
+          prefixIcon: Icon(fieldType.getPrefixIcon, color: MyColors.purpleTheme,),
           labelText: fieldType.getLabelText,
           hintText: fieldType.getHintText
         ),

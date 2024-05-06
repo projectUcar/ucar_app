@@ -35,5 +35,15 @@ class AuthClient{
     await _storage.write(key: "SESSION", value: jsonEncode(session.toJson()));
   }
 
-
+  Future<bool> logout() async => await session.then((value) {
+    if (value != null){
+      try {
+        _storage.write(key: "SESSION", value: jsonEncode(value.copyWith(logged: false).toJson()));
+        return true;
+      } catch (_) {
+        return false;
+      }
+    }
+    return false;
+  });
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ucar_app/src/config/size_config.dart';
 
-import '../theme/colors.dart';
-import '../theme/custom_styles.dart';
+import '../theme/themes.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;
@@ -13,7 +12,7 @@ class RoundedButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.press,
-    this.color = MyColors.orangeDark,
+    this.color = MyColors.purpleTheme,
   });
 
   @override

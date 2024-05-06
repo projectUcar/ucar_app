@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "112273207460",
+    "project_id": "u-car-ajha24",
+    "storage_bucket": "u-car-ajha24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112273207460:android:8ff639709d675c726e7631",
+        "android_client_info": {
+          "package_name": "com.ucar_team.ucar_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjGHdwKRWb7rp8Z7Ie54KWbJEwiFbTiGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

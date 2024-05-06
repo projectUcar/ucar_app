@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/colors.dart';
-import '../theme/fontsizes.dart';
-import '../theme/custom_styles.dart';
+import '../theme/themes.dart';
 
 class AppBarCustom extends StatelessWidget {
 
@@ -17,6 +15,8 @@ class AppBarCustom extends StatelessWidget {
     required this.color,
   });
 
+  List<String> get titleWordsList => text.split(" ");
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -29,7 +29,7 @@ class AppBarCustom extends StatelessWidget {
       leading: (leadingBoolean) ? IconButton(
         icon: const Icon(
           Icons.arrow_back_ios,
-          color: MyColors.orangeDark,
+          color: MyColors.purpleTheme,
         ),
         onPressed: (){
           FocusScopeNode currentFocus = FocusScope.of(context);
@@ -39,12 +39,12 @@ class AppBarCustom extends StatelessWidget {
       ): null,
       titleTextStyle: const TextStyle(
         fontSize: Fontsizes.titleFontSize-10,
-        color: MyColors.textOrange
+        color: MyColors.purpleTheme
       ),
       //title: Text(text.split(" ").length.toString()),
-      title: text.split(" ").length > 1  ? Row( mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text("${text.split(" ")[0]} "),
-        Text(text.split(" ")[1], style: CustomStyles.boldStyle,)
+      title: titleWordsList.length > 1  ? Row( mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text("${titleWordsList[0]} "),
+        Text(titleWordsList[1], style: CustomStyles.boldStyle)
       ],) : const Text(""),
       
     );

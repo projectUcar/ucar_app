@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ucar_app/src/config/size_config.dart';
-import 'package:ucar_app/src/theme/colors.dart';
+import 'package:ucar_app/src/theme/themes.dart';
 
 abstract class AsyncProgressDialog{
   static show(BuildContext context){
@@ -14,7 +14,7 @@ abstract class AsyncProgressDialog{
             width: SizeConfig.displayWidth(context),
             height: SizeConfig.displayHeight(context),
             color: MyColors.primary.withOpacity(0.9),
-            child: const Center(child: CircularProgressIndicator(color: MyColors.orangeDark,),),
+            child: const Center(child: CircularProgressIndicator(color: MyColors.purpleTheme,),),
           ),
         );
       },

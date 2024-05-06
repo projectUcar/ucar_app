@@ -12,7 +12,7 @@ extension RegexComparison on String{
       return 'Llena el campo obligatorio $field';
     }
     else if (!s.isValidField(regexp)) {
-      return '$field inválido';
+      return 'Campo $field inválido';
     }
     return null;
   }

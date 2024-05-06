@@ -137,6 +137,9 @@ class _SignUpFormState extends _FormTemplateState<SignUpForm> {
   ];
   
   @override
-  Future<void> redirect() => Navigator.of(context).pushNamedAndRemoveUntil(widget.successRoute, (_) => false);
+  Future<void> redirect() async {
+    Navigator.of(context).pushNamedAndRemoveUntil(widget.successRoute, (_) => false);
+    super.redirect();
+  }
   
 }

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' as material;
-import '../../blocs/forms/states/user_state.dart';
+import '../../blocs/blocs.dart';
 
 abstract class DioAlertDialog{
   static fromDioError(BuildContext context, UserState userState) {

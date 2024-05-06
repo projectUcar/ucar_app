@@ -3,6 +3,8 @@ part of 'gps_bloc.dart';
 class GpsState extends Equatable {
   
   final bool enabledGPS, permissionGrantedGPS;
+
+  bool get isAllReady => enabledGPS && permissionGrantedGPS;
   
   const GpsState({required this.enabledGPS, required this.permissionGrantedGPS});
   

@@ -10,7 +10,8 @@ class LogInScreen extends FormScreen<UserLoginState, LogInCubit> with WidgetList
       textAlign: TextAlign.center,
     ),
     Text("Inicia sesión con tu cuenta existente de UCAR",
-      style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize)
+      style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.bodyTextFontSize),
+      textAlign: TextAlign.center,
     ),
     buildValueListenable(context),
     AlreadyHaveAnAccountCheck(press: () {

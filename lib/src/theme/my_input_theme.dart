@@ -3,7 +3,7 @@ import 'package:ucar_app/src/theme/colors.dart';
 
 class MyInputTheme {
   TextStyle _buildTextStyle(Color color, {double size = 16.0}) {
-    return TextStyle( color: color, fontSize: size);
+    return TextStyle(color: color, fontSize: size);
   }
 
   OutlineInputBorder _buildBorder(Color color) {
@@ -14,7 +14,7 @@ class MyInputTheme {
   }
 
   InputDecorationTheme theme() => InputDecorationTheme(
-    contentPadding: const EdgeInsets.all(16),
+    contentPadding: const EdgeInsets.all(10),
     isDense: true,
     floatingLabelBehavior: FloatingLabelBehavior.auto,
     constraints: const BoxConstraints(maxWidth: 150),
@@ -23,7 +23,7 @@ class MyInputTheme {
     enabledBorder: _buildBorder(Colors.grey[600]!),
     errorBorder: _buildBorder(Colors.red),
     focusedErrorBorder: _buildBorder(const Color.fromARGB(255, 223, 15, 0)),
-    focusedBorder: _buildBorder(MyColors.orangeDark),
+    focusedBorder: _buildBorder(MyColors.purpleTheme),
     disabledBorder: _buildBorder(MyColors.textGrey),
 
     // Estilos de texto
@@ -32,6 +32,6 @@ class MyInputTheme {
     floatingLabelStyle: _buildTextStyle(MyColors.textGrey),
     errorStyle: _buildTextStyle(Colors.red, size: 12.0),
     hintStyle: _buildTextStyle(MyColors.textGrey),
-    labelStyle: _buildTextStyle(MyColors.orangeDark),
+    labelStyle: _buildTextStyle(MyColors.purpleTheme),
   );
 }

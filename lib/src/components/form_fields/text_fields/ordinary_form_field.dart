@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../theme/colors.dart';
-import '../../../theme/custom_styles.dart';
+import '../../../theme/themes.dart';
 import 'text_field_template.dart';
 
 class OrdinaryFormField extends TextFieldTemplate {
@@ -15,6 +14,7 @@ class OrdinaryFormField extends TextFieldTemplate {
     required super.focusNode,
     required super.nextFocusNode,
     required super.fieldType,
+    super.readOnly = false,
     super.maxLength,
     super.autovalidateMode,
   });
@@ -22,6 +22,7 @@ class OrdinaryFormField extends TextFieldTemplate {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
       autovalidateMode: autovalidateMode,
       focusNode: focusNode,
       onFieldSubmitted: (_) => nextFocusNode?.requestFocus(),
@@ -30,14 +31,14 @@ class OrdinaryFormField extends TextFieldTemplate {
       maxLength: maxLength,
       maxLengthEnforcement: maxLength != null ? MaxLengthEnforcement.enforced : MaxLengthEnforcement.none,
       onChanged: onChanged,
-      cursorColor: MyColors.orangeDark,
+      cursorColor: MyColors.purpleTheme,
       style: CustomStyles.whiteStyle,
       decoration: InputDecoration(
         hintText: fieldType.getHintText,
         labelText: fieldType.getLabelText,
         prefixIcon: Icon(
           fieldType.getPrefixIcon,
-          color: MyColors.orangeDark,
+          color: MyColors.purpleTheme,
         ),
       ),
       validator: validator,

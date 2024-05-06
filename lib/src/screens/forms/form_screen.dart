@@ -2,18 +2,13 @@ library form_screen;
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 
-import '../../blocs/forms/cubits/form_validator_cubit.dart';
+import '../../blocs/blocs.dart';
 import '../../util/widget_list_format.dart';
 import '../../components/already_have_an_account.dart';
 import '../../components/app_bar_custom.dart';
-import '../../blocs/forms/states/user_login_state.dart';
-import '../../blocs/forms/states/user_signup_state.dart';
-import '../../blocs/forms/states/user_state.dart';
-import '../../theme/colors.dart';
-import '../../theme/custom_styles.dart';
-import '../../theme/fontsizes.dart';
+import '../../theme/themes.dart';
 import '../../widgets/forms/form_template.dart';
-import '../background.dart';
+import '../wrappers/background.dart';
 part 'login.dart';
 part 'sign_up.dart';
 abstract class FormScreen<T extends UserState, U extends FormValidatorCubit> extends StatelessWidget {

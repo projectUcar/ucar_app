@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/colors.dart';
-import '../theme/custom_styles.dart';
-import '../theme/fontsizes.dart';
+import '../theme/themes.dart';
 
 class AlreadyHaveAnAccountCheck extends StatelessWidget {
   final bool login;

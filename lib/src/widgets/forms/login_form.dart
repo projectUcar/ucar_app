@@ -1,7 +1,7 @@
 part of 'form_template.dart';
 
 class LogInForm extends FormTemplate<UserLoginState, LogInCubit> {
-  const LogInForm({super.key, required super.formKey, required super.cubit}) : super(text: 'Entrar', successRoute: AppRouter.homePass);
+  const LogInForm({super.key, required super.formKey, required super.cubit}) : super(text: 'Entrar', successRoute: AppRouter.landing);
 
   @override
   State<LogInForm> createState() => _LogInFormState();
@@ -63,7 +63,9 @@ class _LogInFormState extends _FormTemplateState<LogInForm> {
   @override
   Future<void> redirect() async {
     final session = await AuthClient().session;
-    if (session!.logged && context.mounted) Navigator.pushNamedAndRemoveUntil(context, widget.successRoute, (_) => false, arguments: session.name);
+    if (session!.logged && context.mounted) {
+      Navigator.pushNamedAndRemoveUntil(context, widget.successRoute, (_) => false, arguments: session.name);
+      super.redirect();
+    }
   }
-
 }

@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ucar_app/src/config/size_config.dart';
 import 'package:ucar_app/src/routes/app_router.dart';
 import '../storage/auth_client.dart';
-import '../theme/colors.dart';
+import '../theme/themes.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -16,8 +16,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   
   @override
   void initState() {
-    _readData();
     super.initState();
+    _readData();
   }
 
   @override
@@ -27,22 +27,25 @@ class _LoadingScreenState extends State<LoadingScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset("assets/icons/ucarLogo.svg"),
+            SvgPicture.asset("assets/icons/ucar_logo.svg", height: SizeConfig.displayHeight(context) * 0.3),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: SizeConfig.displayWidth(context) * 0.2),
-              child: const LinearProgressIndicator(color: MyColors.orangeDark,),
+              child: const LinearProgressIndicator(color: MyColors.purpleTheme,),
             )
-          ]
+          ].map((child) => Padding(
+            padding: EdgeInsets.symmetric(vertical: SizeConfig.displayWidth(context) * 0.015),
+            child: child,
+          )).toList()
         )
       ),
     );
   }
 
   Future<void> _readData() async{
-    final session = await Future.delayed(const Duration(seconds: 5)).then((_) => AuthClient().session);
-    if (session!.logged && context.mounted) {
-      Navigator.pushReplacementNamed(context, AppRouter.homePass, arguments: session.name);
-    }else if(!session.logged && context.mounted){
+    final session = await AuthClient().session;
+    if (session != null && session.logged && !session.sessionExpired && context.mounted) {
+      Navigator.pushReplacementNamed(context, AppRouter.landing, arguments: session.name);
+    }else if(context.mounted){
       Navigator.pushReplacementNamed(context, AppRouter.login);
     }
   }

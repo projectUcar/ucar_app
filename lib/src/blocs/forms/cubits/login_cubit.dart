@@ -19,7 +19,7 @@ class LogInCubit extends FormValidatorCubit<UserLoginState, LogInHelper> {
         _updateResultState(ResultState.accepted());
       }
     } on DioException catch (e) {
-      _updateResultState(ResultState.rejected(message: e.getMessage()));
+      _updateResultState(ResultState.rejected(message: '${e.getMessage()}.'));
     }
   }
   

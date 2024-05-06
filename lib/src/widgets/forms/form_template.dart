@@ -3,23 +3,18 @@ library form_template;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../storage/auth_client.dart';
-import '../../util/widget_list_format.dart';
-import '../../config/size_config.dart';
-import '../../routes/app_router.dart';
-import '../temporaries/dio_alert_dialog.dart';
-import '../temporaries/async_progress_dialog.dart';
-import '../../blocs/forms/cubits/form_validator_cubit.dart';
-import '../../components/form_fields/selection_fields/selection_form_field.dart';
-import '../../blocs/forms/states/user_login_state.dart';
-import '../../blocs/forms/states/user_signup_state.dart';
-import '../../blocs/forms/states/user_state.dart';
-import '../../theme/colors.dart';
-import '../../theme/custom_styles.dart';
-import '../../theme/fontsizes.dart';
+import '../../blocs/blocs.dart';
 import '../../components/form_fields/field_types.dart';
+import '../../components/form_fields/selection_fields/selection_form_field.dart';
 import '../../components/form_fields/text_fields/ordinary_form_field.dart';
 import '../../components/form_fields/text_fields/password_form_field.dart';
+import '../../config/size_config.dart';
+import '../../routes/app_router.dart';
+import '../../storage/auth_client.dart';
+import '../../theme/themes.dart';
+import '../../util/widget_list_format.dart';
+import '../temporaries/async_progress_dialog.dart';
+import '../temporaries/dio_alert_dialog.dart';
 part 'login_form.dart';
 part 'sign_up_form.dart';
 
@@ -80,12 +75,10 @@ abstract class _FormTemplateState<X extends FormTemplate> extends State<X>{
 
   @mustCallSuper
   List<Widget> _finalList(BuildContext context) {
-    List<Widget> list = _buildChildren(context);
-
-    list.add(FloatingActionButton.extended(
+    List<Widget> list = _buildChildren(context)..add(FloatingActionButton.extended(
       focusNode: buttonFocusNode,
       foregroundColor: MyColors.primary,
-      backgroundColor: MyColors.orangeDark,
+      backgroundColor: MyColors.purpleTheme,
       onPressed: () => _onSubmit().then<void>((_) {
         if (widget.cubit.state.isRejected) {DioAlertDialog.fromDioError(context, widget.cubit.state);}
         else if (widget.cubit.state.isAccepted) {redirect();}
@@ -103,5 +96,6 @@ abstract class _FormTemplateState<X extends FormTemplate> extends State<X>{
     super.dispose();
   }
   
-  Future<void> redirect();
+  @mustCallSuper
+  Future<void> redirect() => widget.cubit.close();
 }
