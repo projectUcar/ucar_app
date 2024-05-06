@@ -21,10 +21,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ucar_logo_hdpi">
 
-        <meta-data 
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB_R6pSQAE5D53DFKjf1KaKkIjAAw_Msw8"
-        />
+        
 
         <activity
             android:name=".MainActivity"
