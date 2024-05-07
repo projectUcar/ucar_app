@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ucar_app/src/blocs/blocs.dart';
+import 'package:ucar_app/src/screens/map_screen.dart';
 
 import '../screens/forms/form_screen.dart';
 import '../screens/loading_screen.dart';
@@ -6,7 +8,7 @@ import '../screens/top_level_pages/detailed_routes.dart';
 import '../screens/wrappers/landing_page.dart';
 
 class AppRouter {
-  static const String root = "/", login = "/log-in", signUp = '/sign-up', landing = 'landing', cityDetail = 'detailedRoutes';
+  static const String root = "/", login = "/log-in", signUp = '/sign-up', landing = 'landing', cityDetail = 'detailedRoutes', tripMap = 'tripMap';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -20,6 +22,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => LandingPage(name: settings.arguments as String));
       case cityDetail:
         return MaterialPageRoute(builder: (context) => DetailedCityRoutes(args: settings.arguments as DetailedCityRoutesArgs));
+      case tripMap:
+        return MaterialPageRoute(builder: (context) => MapScreen(tripModel: settings.arguments as TripModel));
       default:
         return null;
     }

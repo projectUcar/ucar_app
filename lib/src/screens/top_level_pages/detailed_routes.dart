@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ucar_app/src/routes/app_router.dart';
 
 import '../wrappers/gps_access_screen.dart';
 import '../../blocs/blocs.dart';
@@ -114,9 +115,7 @@ class _TripCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton.icon(
-                  onPressed: () {
-                
-                  },
+                  onPressed: () => Navigator.pushNamed(context, AppRouter.tripMap, arguments: model),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                       (Set<MaterialState> states) {

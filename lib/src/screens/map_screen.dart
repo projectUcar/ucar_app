@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../config/size_config.dart';
-
+import '../blocs/blocs.dart';
+import '../theme/themes.dart';
 class MapScreen extends StatelessWidget {
-  const MapScreen({super.key});
+  MapScreen({super.key, required this.tripModel}): mapStyle = CustomMapStyle();
 
+  final TripModel tripModel;
+  final CustomMapStyle mapStyle;
   final _initialCameraPosition = const CameraPosition(
     target: LatLng(7.037584, -73.072450),
     zoom: 15
@@ -14,12 +16,10 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: SizeConfig.displayWidth(context) * 0.8,
-          height: SizeConfig.displayWidth(context) * 0.8,
-          child: GoogleMap(initialCameraPosition: _initialCameraPosition),
-        ),
+      appBar: AppBar(title: Text("${tripModel.origin} - ${tripModel.destination}", style: const TextStyle(fontSize: Fontsizes.subTitleTwoFontSize),)),
+      body: GoogleMap(
+        initialCameraPosition: _initialCameraPosition,
+        onMapCreated: mapStyle.onMapCreated,
       ),
     );
   }

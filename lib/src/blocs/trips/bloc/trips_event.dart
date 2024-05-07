@@ -7,14 +7,10 @@ abstract class TripsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetTripsList extends TripsEvent {
-  final DestinationType destinationType;
-
-  const GetTripsList({required this.destinationType});
+class GetTripsToU extends TripsEvent {
+  const GetTripsToU();
 }
 
-class DestinationTypeUpdate extends TripsEvent{
-  final DestinationType destinationType;
-
-  const DestinationTypeUpdate({required this.destinationType});
+class GetTripsFromU extends TripsEvent {
+  const GetTripsFromU();
 }

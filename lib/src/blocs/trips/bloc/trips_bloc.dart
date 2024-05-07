@@ -11,30 +11,28 @@ import '../models/trip_model.dart';
 
 part 'trips_event.dart';
 part 'trips_state.dart';
-part 'trips_destination_type.dart';
 
 class TripsBloc extends Bloc<TripsEvent, TripsState> with TokenValidation<TripsEvent, TripsState>{
-  TripsBloc() : _helper = TripsHelper(), super(const TripsInitial(type: DestinationType.none)) {
-    on<GetTripsList>((event, emit) async{
-      emit(TripsLoading(type: event.destinationType));
+  TripsBloc() : _helper = TripsHelper(), super(const TripsLoading()) {
+    on<TripsEvent>((event, emit) async{
+      if (state is! TripsLoading) emit(const TripsLoading());
       List<CitySummaryModel> summaries = [];
       final token = await verifyToken();
       try {
         for (Cities city in Cities.values) {
           List<TripModel> data;
-          if (event.destinationType == DestinationType.toHome) {
+          if (event is GetTripsFromU) {
             data = await _helper.fetchTripsFromUniversity(city.nameFormat, token!);
           }else{
             data = await _helper.fetchTripsToUniversity(city.nameFormat, token!);
           }
-          summaries.add(CitySummaryModel.fromTripList(data, city.nameFormat, event.destinationType == DestinationType.toHome));
+          summaries.add(CitySummaryModel.fromTripList(data, city.nameFormat, event is GetTripsFromU));
         }
-        emit(TripsReturned(summaries, type: event.destinationType));
+        emit(TripsReturned(summaries));
       } on DioException catch (e) {
-        emit(TripsError(e.getMessage(), type: event.destinationType));
+        emit(TripsError(e.getMessage()));
       }
     });
-    on<DestinationTypeUpdate>((event, emit) => emit(state.copyWith(event.destinationType)));
   }
   final TripsHelper _helper;
 }
