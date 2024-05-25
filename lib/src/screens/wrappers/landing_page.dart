@@ -23,8 +23,7 @@ class _LandingPageState extends State<LandingPage> {
 
   final List<BottomNavigationBarItem> _bottomNavItems = const <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
-    BottomNavigationBarItem(icon: Icon(Icons.directions_car_filled_rounded), label: 'Historial'),
-    BottomNavigationBarItem(icon: Icon(Icons.calendar_month_rounded), label: 'Agenda'),
+    BottomNavigationBarItem(icon: Icon(Icons.calendar_month_rounded), label: 'Mis viajes'),
     BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Ajustes'),
   ];
 
@@ -49,9 +48,8 @@ class _LandingPageState extends State<LandingPage> {
               index: value.currentIndex,
               children: [
                 HomePassenger(key: const PageStorageKey<String>("HomePassengerKEY"), bloc: TripsBloc()),
-                (value.loadedPages.contains(1)) ? const Center(key: PageStorageKey<String>("HistoryKEY"), child: Text('Página de historial', style: TextStyle(color: MyColors.textWhite))) : Container(),
-                (value.loadedPages.contains(2)) ? const Center(key: PageStorageKey<String>("ScheduleKEY"), child: Text('Página de agenda', style: TextStyle(color: MyColors.textWhite))) : Container(),
-                (value.loadedPages.contains(3)) ? ProfileSettings(key: const PageStorageKey<String>("ProfileKEY"), bloc: ProfileBloc()) : Container(),
+                (value.loadedPages.contains(1)) ? const Center(key: PageStorageKey<String>("HistoryKEY"), child: Text('Página de viajes', style: TextStyle(color: MyColors.textWhite))) : Container(),
+                (value.loadedPages.contains(2)) ? ProfileSettings(key: const PageStorageKey<String>("ProfileKEY"), bloc: ProfileBloc()) : Container(),
               ]
             )
           ),

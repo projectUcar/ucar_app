@@ -30,4 +30,7 @@ abstract class Env{
 
   @EnviedField(varName: 'TRIPS_FROM_U_ENDPOINT', obfuscate: true)
   static final String tripsFromUEndpoint = _Env.tripsFromUEndpoint;
+
+  @EnviedField(varName: 'ORS_KEY', obfuscate: true)
+  static final String orsKey = _Env.orsKey;
 }

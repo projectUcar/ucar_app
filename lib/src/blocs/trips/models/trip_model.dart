@@ -6,6 +6,9 @@ class TripModel extends Equatable{
   final List<dynamic> passengers;
   final DateTime departureDate, createdAt, updatedAt;
 
+  String get id => _id;
+  bool get toUniversity => destination.contains("Universidad Pontificia Bolivariana");
+
   const TripModel({
     required String id,
     required this.origin,

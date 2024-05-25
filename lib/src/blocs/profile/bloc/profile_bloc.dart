@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../util/fail_to_message.dart';
 import '../../../util/image_picker_utils.dart';
 import '../../../util/options/genders.dart';
-import '../../../helpers/authentication/profile_helper.dart';
+import '../../../helpers/helpers.dart';
 import '../../blocs.dart';
 import '../../token_validation.dart';
 part 'profile_event.dart';

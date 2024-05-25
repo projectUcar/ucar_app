@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/routes/app_router.dart';
-
+import 'package:geocoding/geocoding.dart';
+import 'package:ucar_app/src/widgets/temporaries/async_progress_dialog.dart';
 import '../wrappers/gps_access_screen.dart';
-import '../../blocs/blocs.dart';
+import 'map_screen.dart';
 import '../../theme/themes.dart';
+import '../../routes/app_router.dart';
+import '../../blocs/blocs.dart';
 
 class DetailedCityRoutesArgs{
   final List<TripModel> _tripsList;
@@ -71,9 +73,9 @@ class _TripCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color: place == _upbVal ? MyColors.backgroundBlue: MyColors.success,
+        color: place.contains(_upbVal) ? MyColors.backgroundBlue: MyColors.success,
       ),
-      child: Text(place == _upbVal ? "UPB" : place, style: const TextStyle(fontSize: Fontsizes.subTitleTwoFontSize, color: MyColors.textWhite, fontWeight: FontWeight.bold)),
+      child: Text(place.contains(_upbVal) ? "UPB" : place, style: const TextStyle(fontSize: Fontsizes.subTitleTwoFontSize, color: MyColors.textWhite, fontWeight: FontWeight.bold)),
     );
   }
   
@@ -92,7 +94,16 @@ class _TripCard extends StatelessWidget {
     );
   }
 
-  @override
+  Future<List<Location>> get locations async{
+    final originLocation = await locationFromAddress("${model.origin}${(model.toUniversity) ? ", ${model.city}, Santander, Colombia": addressFormat(model.origin)}").then((value) => value.first);
+    final destinationLocation = await locationFromAddress("${model.destination}${(!model.toUniversity) ? ", ${model.city}, Santander, Colombia": addressFormat(model.destination)}").then((value) => value.first);
+    return [originLocation, destinationLocation];
+  }
+
+  String addressFormat(String address) {
+    const String plusString = "Seccional Bucaramanga";
+    return address.contains(plusString) ? "" : " $plusString";
+  }@override
   Widget build(BuildContext context) {
     return Card(
       color: MyColors.backgroundCard,
@@ -115,7 +126,15 @@ class _TripCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton.icon(
-                  onPressed: () => Navigator.pushNamed(context, AppRouter.tripMap, arguments: model),
+                  onPressed: () async{
+                    AsyncProgressDialog.show(context);
+                    List<Location> current = await locations;
+                    MapScreenArgs args = await MapScreenArgs.create(tripModel: model, locations: current);
+                    if (context.mounted) {
+                      AsyncProgressDialog.dismiss(context);
+                      Navigator.pushNamed(context, AppRouter.tripMap, arguments: args);
+                    }
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                       (Set<MaterialState> states) {

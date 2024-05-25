@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/blocs/blocs.dart';
-import 'package:ucar_app/src/screens/map_screen.dart';
 
 import '../screens/forms/form_screen.dart';
 import '../screens/loading_screen.dart';
-import '../screens/top_level_pages/detailed_routes.dart';
+import '../screens/medium_level_pages/detailed_routes.dart';
+import '../screens/medium_level_pages/map_screen.dart';
 import '../screens/wrappers/landing_page.dart';
 
 class AppRouter {
@@ -23,7 +22,7 @@ class AppRouter {
       case cityDetail:
         return MaterialPageRoute(builder: (context) => DetailedCityRoutes(args: settings.arguments as DetailedCityRoutesArgs));
       case tripMap:
-        return MaterialPageRoute(builder: (context) => MapScreen(tripModel: settings.arguments as TripModel));
+        return MaterialPageRoute(builder: (context) => MapScreen(args: settings.arguments as MapScreenArgs));
       default:
         return null;
     }

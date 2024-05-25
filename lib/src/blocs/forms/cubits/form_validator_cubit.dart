@@ -11,7 +11,7 @@ import '../states/user_signup_state.dart';
 import '../states/user_login_state.dart';
 import '../../../util/fail_to_message.dart';
 import '../../../util/bad_response_model.dart';
-import '../../../helpers/authentication/base_helper.dart';
+import '../../../helpers/helpers.dart';
 
 part 'login_cubit.dart';
 part 'signup_cubit.dart';

@@ -7,6 +7,11 @@ class CustomMapStyle {
   factory CustomMapStyle() => _instance;
   CustomMapStyle._internal();
 
+  final initialCameraPosition = const CameraPosition(
+    target: LatLng(7.037584, -73.072450),
+    zoom: 12
+  );
+
   void onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(jsonEncode(_value));
   }

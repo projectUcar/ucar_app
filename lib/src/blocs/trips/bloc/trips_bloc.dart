@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../helpers/trips/trips_helper.dart';
+import '../../../helpers/helpers.dart';
 import '../../../util/fail_to_message.dart';
 import '../../../util/options/cities.dart';
 import '../../token_validation.dart';

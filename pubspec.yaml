@@ -37,8 +37,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5
+  flutter_polyline_points: ^2.0.0
   flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.10+1
+  geocoding: ^3.0.0
   geolocator: ^11.0.0
   google_maps_flutter: ^2.5.3
   image_picker: ^1.0.8

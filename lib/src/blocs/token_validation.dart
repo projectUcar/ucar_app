@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import '../helpers/authentication/refresh_token_helper.dart';
+import '../helpers/helpers.dart';
 import '../models/auth_response.dart';
 import '../storage/auth_client.dart';
 

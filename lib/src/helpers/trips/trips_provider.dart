@@ -23,7 +23,7 @@ class TripsProvider {
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        if (response.statusCode == 200 && response.data is! List<dynamic>) {
+        if (response.statusCode == 200 && response.data is Map<String, dynamic> && (response.data as Map<String, dynamic>).keys.length == 1) {
           handler.resolve(Response(requestOptions: response.requestOptions, data: <dynamic>[]));
         }else{
           return handler.next(response);
@@ -31,7 +31,8 @@ class TripsProvider {
       },
     ),
   );
-  Future<List<dynamic>?> getTrips(String endpoint, String token) async{
+  
+  Future<List<dynamic>?> getTripsByCity(String endpoint, String token) async{
     final response = await _client.get<List<dynamic>>(
       endpoint,
       options: Options(
@@ -43,6 +44,22 @@ class TripsProvider {
       ),
     );
     return response.data;
+  }
+
+  Future<Response<String>?> getTripById(String endpoint, String token) async{
+    final response = await _client.get<String>(
+      endpoint,
+      options: Options(
+        headers: {
+          HttpHeaders.contentTypeHeader: Headers.jsonContentType,
+          HttpHeaders.userAgentHeader: 'dio',
+          HttpHeaders.authorizationHeader: 'Bearer $token'
+        },
+        sendTimeout: const Duration(seconds: 50),
+        receiveTimeout: const Duration(seconds: 50)
+      ),
+    );
+    return response;
   }
 
   void closeClient() => _client.close();

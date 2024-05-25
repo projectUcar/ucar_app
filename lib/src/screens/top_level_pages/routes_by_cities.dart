@@ -9,7 +9,7 @@ import '../../config/size_config.dart';
 import '../../routes/app_router.dart';
 import '../../theme/themes.dart';
 import '../../widgets/container_list.dart';
-import 'detailed_routes.dart';
+import '../medium_level_pages/detailed_routes.dart';
 
 class RoutesByCities extends StatefulWidget {
 
@@ -64,8 +64,8 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
                           ],
                           selected: <int>{buttonIndex},
                           onSelectionChanged: (newSelection) {
-                            widget._bloc.add(buttonIndex == 0 ? const GetTripsFromU() : const GetTripsToU());
                             refresh(() => buttonIndex = newSelection.first);
+                            widget._bloc.add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU());
                           },
                         );
                       }
@@ -99,7 +99,7 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(iconSize: 50, onPressed: () => widget._bloc.add(buttonIndex == 0 ? const GetTripsFromU() : const GetTripsToU()), icon: const Icon(Icons.refresh_rounded), color: MyColors.purpleTheme),
+              IconButton(iconSize: 50, onPressed: () => widget._bloc.add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU()), icon: const Icon(Icons.refresh_rounded), color: MyColors.purpleTheme),
               Text("${current.message}. Inténtalo de nuevo", style: const TextStyle(color: MyColors.textGrey, fontWeight: FontWeight.bold, fontSize: Fontsizes.subTitleTwoFontSize), textAlign: TextAlign.justify),
             ],
           ),
