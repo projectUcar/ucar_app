@@ -14,9 +14,10 @@ mixin TokenValidation<T, U> on Bloc<T, U>{
       final expDate = JwtDecoder.getExpirationDate(accessToken);
       final currentDate = DateTime.now();
       if (expDate.difference(currentDate).inSeconds <= 250) {
-        final newToken = await RefreshTokenHelper().refreshToken(accessToken);
+        final refreshToken = await authclient.refreshToken;
+        final newToken = await RefreshTokenHelper().tokenRefresh(accessToken, refreshToken!);
         if (newToken != null) {
-          await authclient.saveAuth(AuthResponse.fromJWT(jwt: newToken, logged: true));
+          await authclient.saveAuth(AuthResponse.fromJWT(jwt: newToken, refreshToken: refreshToken, logged: true));
           debugPrint("$newToken | isExpired: ${JwtDecoder.isExpired(newToken)}");
           return newToken;
         }

@@ -63,7 +63,7 @@ class _LogInFormState extends _FormTemplateState<LogInForm> {
   @override
   Future<void> redirect() async {
     final session = await AuthClient().session;
-    if (session!.logged && context.mounted) {
+    if (session!.logged && session.refreshToken != null && context.mounted) {
       Navigator.pushNamedAndRemoveUntil(context, widget.successRoute, (_) => false, arguments: session.name);
       super.redirect();
     }

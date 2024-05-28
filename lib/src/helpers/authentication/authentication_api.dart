@@ -32,14 +32,14 @@ class AuthenticationAPI {
     return response;
   }
 
-  Future<Response<String>> refreshToken(String endpoint, String oldToken) async{
+  Future<Response<String>> tokenRefresh(String endpoint, String oldToken, String refreshToken) async{
     final response = await _client.get<String>(
       endpoint,
       options: Options(
         headers: {
           HttpHeaders.contentTypeHeader: Headers.jsonContentType,
           HttpHeaders.userAgentHeader: 'dio',
-          HttpHeaders.cookieHeader: 'refreshToken=$oldToken',
+          HttpHeaders.cookieHeader: refreshToken,
           HttpHeaders.authorizationHeader: 'Bearer $oldToken'
         },
       ),

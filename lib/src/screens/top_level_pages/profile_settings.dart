@@ -12,8 +12,7 @@ import '../../util/capitalizer.dart';
 import '../../util/options/genders.dart';
 
 class ProfileSettings extends StatefulWidget {
-  const ProfileSettings({super.key, required ProfileBloc bloc}) : _bloc = bloc;
-  final ProfileBloc _bloc;
+  const ProfileSettings({super.key});
 
   @override
   State<ProfileSettings> createState() => _ProfileSettingsState();
@@ -23,100 +22,97 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   @override
   void initState() {
-    widget._bloc.add(ProfileFetching());
+    BlocProvider.of<ProfileBloc>(context).add(ProfileFetching());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => widget._bloc,
-      child: BlocListener<ProfileBloc, ProfileState>(
-        listener: (context, state) {
-          if (state is ImageUploadFailed) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message, style: const TextStyle(color: MyColors.textWhite)), backgroundColor: Colors.red.shade400));
-          }
-        },
-        child: BlocBuilder<ProfileBloc, ProfileState>(
-          builder: ((context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(6),
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Center(
-                      child: SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            CircleAvatar(
-                              radius: 100,
-                              backgroundColor: (state is ProfileReturned) ? genderColor(state.match) : MyColors.textGrey,
-                              backgroundImage: (state is CompletelyReturned)? MemoryImage(state.imageBytes): null,
-                              child: (state is PartiallyReturned) ? const Icon(Icons.person_rounded, color: MyColors.primary, size: 60) : null,
-                            ),
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: (state is ProfileReturned) ? BoxDecoration(borderRadius: BorderRadius.circular(100), color: MyColors.purpleTheme) : null,
-                              child: (state is ProfileReturned) ? IconButton(
-                                padding: const EdgeInsets.all(1),
-                                icon: Icon((state is CompletelyReturned) ? Icons.drive_file_rename_outline_rounded : Icons.file_upload_rounded),
-                                color: Colors.black,
-                                onPressed: () async{
-                                  if (await permissionsStatus && context.mounted) {
-                                    await imageSourceModal(context, state.model);
-                                  }
-                                },
-                              ): null,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  content(context, state, () => widget._bloc.add(ProfileFetching())),
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+    return BlocListener<ProfileBloc, ProfileState>(
+      listener: (context, state) {
+        if (state is ImageUploadFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message, style: const TextStyle(color: MyColors.textWhite)), backgroundColor: Colors.red.shade400));
+        }
+      },
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: ((context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(6),
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Center(
+                    child: SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
                         children: [
-                          TextButton(
-                            style: ButtonStyle(
-                              foregroundColor: const MaterialStatePropertyAll(MyColors.textWhite),
-                              backgroundColor: MaterialStatePropertyAll(MyColors.backgroundBlue.withOpacity(0.4)),
-                              minimumSize: const MaterialStatePropertyAll(Size(300, 60)),
-                              shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
-                              side: const MaterialStatePropertyAll(BorderSide(color: MyColors.backgroundBlue))
-                            ),
-                            onPressed: () => {},
-                            child: const Text("Modo conductor", style: TextStyle(fontSize: Fontsizes.subTitleFontSize))
+                          CircleAvatar(
+                            radius: 100,
+                            backgroundColor: (state is ProfileReturned) ? genderColor(state.match) : MyColors.textGrey,
+                            backgroundImage: (state is CompletelyReturned)? MemoryImage(state.imageBytes): null,
+                            child: (state is PartiallyReturned) ? const Icon(Icons.person_rounded, color: MyColors.primary, size: 60) : null,
                           ),
-                          const SizedBox(height: 6),
-                          TextButton(
-                            style: ButtonStyle(
-                              foregroundColor: const MaterialStatePropertyAll(MyColors.textWhite),
-                              backgroundColor: MaterialStatePropertyAll(MyColors.danger.withOpacity(0.4)),
-                              minimumSize: const MaterialStatePropertyAll(Size(300, 60)),
-                              shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
-                              side: const MaterialStatePropertyAll(BorderSide(color: MyColors.danger))
-                            ),
-                            onPressed: (state is! ProfileLoading) ? logOut: null,
-                            child: const Text("Cerrar sesión", style: TextStyle(fontSize: Fontsizes.subTitleFontSize))
-                          ),
+                          Container(
+                            width: 30,
+                            height: 30,
+                            decoration: (state is ProfileReturned) ? BoxDecoration(borderRadius: BorderRadius.circular(100), color: MyColors.purpleTheme) : null,
+                            child: (state is ProfileReturned) ? IconButton(
+                              padding: const EdgeInsets.all(1),
+                              icon: Icon((state is CompletelyReturned) ? Icons.drive_file_rename_outline_rounded : Icons.file_upload_rounded),
+                              color: Colors.black,
+                              onPressed: () async{
+                                if (await permissionsStatus && context.mounted) {
+                                  await imageSourceModal(context, state.model);
+                                }
+                              },
+                            ): null,
+                          )
                         ],
                       ),
                     ),
-                  )
-                ],
-              ),
-            );
-          })
-        ),
+                  ),
+                ),
+                content(context, state, () => BlocProvider.of<ProfileBloc>(context).add(ProfileFetching())),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          style: ButtonStyle(
+                            foregroundColor: const MaterialStatePropertyAll(MyColors.textWhite),
+                            backgroundColor: MaterialStatePropertyAll(MyColors.backgroundBlue.withOpacity(0.4)),
+                            minimumSize: const MaterialStatePropertyAll(Size(300, 60)),
+                            shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
+                            side: const MaterialStatePropertyAll(BorderSide(color: MyColors.backgroundBlue))
+                          ),
+                          onPressed: () => {},
+                          child: const Text("Modo conductor", style: TextStyle(fontSize: Fontsizes.subTitleFontSize))
+                        ),
+                        const SizedBox(height: 6),
+                        TextButton(
+                          style: ButtonStyle(
+                            foregroundColor: const MaterialStatePropertyAll(MyColors.textWhite),
+                            backgroundColor: MaterialStatePropertyAll(MyColors.danger.withOpacity(0.4)),
+                            minimumSize: const MaterialStatePropertyAll(Size(300, 60)),
+                            shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
+                            side: const MaterialStatePropertyAll(BorderSide(color: MyColors.danger))
+                          ),
+                          onPressed: (state is! ProfileLoading) ? logOut: null,
+                          child: const Text("Cerrar sesión", style: TextStyle(fontSize: Fontsizes.subTitleFontSize))
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        })
       ),
     );
   }
@@ -156,7 +152,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      widget._bloc.add(UploadImage.fromGallery(model));
+                      BlocProvider.of<ProfileBloc>(context).add(UploadImage.fromGallery(model));
                       Navigator.pop(context);
                     },
                     child: const Column(
@@ -171,7 +167,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      widget._bloc.add(UploadImage.fromCamera(model));
+                      BlocProvider.of<ProfileBloc>(context).add(UploadImage.fromCamera(model));
                       Navigator.pop(context);
                     },
                     child: const Column(

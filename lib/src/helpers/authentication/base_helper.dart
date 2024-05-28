@@ -1,6 +1,7 @@
 library base_helper;
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../../env/env.dart';
 import '../../blocs/blocs.dart';
@@ -14,7 +15,8 @@ abstract class BaseHelper<T extends UserData>{
   BaseHelper({required this.endpoint});
 
   Future<Response<String>> submit(T data) async {
-    final response = await _client.postData(endpoint, jsonEncode(data.toJson()));
+    final token = await FirebaseMessaging.instance.getToken();
+    final response = await _client.postData(endpoint, jsonEncode(data.toJson()..addAll(<String, String>{'tokenDevice': token!})));
     return response;
   }
 

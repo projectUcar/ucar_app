@@ -4,12 +4,14 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class Session{
   final String _token, _name, _lastname, _email, _id;
+  final String? _refreshToken;
   final int _iat, _exp;
   final List<Role> _role;
   final DateTime _sessionCreatedAt;
   final bool _logged;
   
-  Session({required String name, required String lastname, required String email, required String id, required int iat, required int exp, required String token, DateTime? sessionCreatedAt, required List<Role> role, required bool logged}):
+  Session({required String? refreshToken, required String name, required String lastname, required String email, required String id, required int iat, required int exp, required String token, DateTime? sessionCreatedAt, required List<Role> role, required bool logged}):
+  _refreshToken = refreshToken,
   _role = role,
   _exp = exp,
   _iat = iat,
@@ -27,6 +29,7 @@ class Session{
   String get lastname => _lastname;
   String get email => _email;
   String get id => _id;
+  String? get refreshToken => _refreshToken;
   List<Role> get role => _role;
   int get iat => _iat;
   int get exp => _exp;
@@ -54,6 +57,7 @@ class Session{
       lastname: json["lastname"],
       email: json["email"],
       id: json["id"],
+      refreshToken: json["refreshToken"],
       role: List<Role>.from(json["role"].map((x) => Role.fromJson(jsonDecode(x)))),
       iat: json["iat"],
       exp: json["exp"],
@@ -69,15 +73,16 @@ class Session{
       "lastname": _lastname,
       "email": _email,
       "id": _id,
+      "refreshToken": _refreshToken,
       "role": List<dynamic>.from(_role.map((x) => jsonEncode(x.toJson()))),
       "iat": _iat,
       "exp": _exp,
       "sessionCreatedAt": _sessionCreatedAt.toString(),
-      "logged":_logged
+      "logged":_logged,
     };
   }
 
-  Session copyWith({String? name, String? lastname, String? email, String? id, int? iat, int? exp, String? token, List<Role>? role, bool? logged}) => Session(
+  Session copyWith({String? name, String? lastname, String? email, String? id, int? iat, int? exp, String? token, String? refreshToken, List<Role>? role, bool? logged}) => Session(
     name: name ?? _name,
     lastname: lastname ?? _lastname,
     email: email ?? _email,
@@ -88,6 +93,7 @@ class Session{
     sessionCreatedAt: _sessionCreatedAt,
     role: role ?? _role,
     logged: logged ?? _logged,
+    refreshToken: refreshToken ?? _refreshToken
   );
 }
 

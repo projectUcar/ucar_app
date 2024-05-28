@@ -21,7 +21,7 @@ class SignUpCubit extends FormValidatorCubit<UserSignupState, SignUpHelper> {
       if (response.statusCode! >= 400) {
         _updateResultState(ResultState.rejected(message: BadResponseModel.fromAPI(response).message));
       }else{
-        await authClient.saveAuth(AuthResponse.fromJWT(jwt: helper.getToken(response.data!), logged: false));
+        await authClient.saveAuth(AuthResponse.fromJWT(jwt: helper.getToken(response.data!), refreshToken: null, logged: false));
         _updateResultState(ResultState.accepted());
       }
     } on DioException catch (e) {

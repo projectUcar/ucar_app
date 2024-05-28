@@ -13,9 +13,8 @@ import '../medium_level_pages/detailed_routes.dart';
 
 class RoutesByCities extends StatefulWidget {
 
-  const RoutesByCities({super.key, required TripsBloc bloc}): _bloc = bloc;
+  const RoutesByCities({super.key});
 
-  final TripsBloc _bloc;
   @override
   State<RoutesByCities> createState() => _RoutesByCitiesState();
 }
@@ -25,7 +24,7 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
   @override
   void initState() {
     super.initState();
-    widget._bloc.add(const GetTripsToU());
+    BlocProvider.of<TripsBloc>(context).add(const GetTripsToU());
   }
 
   int buttonIndex = 0;
@@ -34,49 +33,46 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
   
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => widget._bloc,
-      child: BlocListener<TripsBloc, TripsState>(
-        listener: (context, state) {},
-        child: BlocBuilder<TripsBloc, TripsState>(
-          builder: ((context, state) {
-            return CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: SizeConfig.displayHeight(context) * 0.015),
-                    child: StatefulBuilder(
-                      builder: (context, refresh) {
-                        return SegmentedButton<int>(
-                          segments: <ButtonSegment<int>>[
-                            ButtonSegment(
-                              value: 0,
-                              icon: const Icon(Icons.school_rounded, color: MyColors.purpleTheme),
-                              label: const Text("UPB", style: TextStyle(color: MyColors.purpleTheme),),
-                              enabled: state is! TripsLoading
-                            ),
-                            ButtonSegment(
-                              value: 1,
-                              icon: const Icon(Icons.home_rounded, color: MyColors.purpleTheme),
-                              label: const Text("Casa", style: TextStyle(color: MyColors.purpleTheme),),
-                              enabled: state is! TripsLoading
-                            )
-                          ],
-                          selected: <int>{buttonIndex},
-                          onSelectionChanged: (newSelection) {
-                            refresh(() => buttonIndex = newSelection.first);
-                            widget._bloc.add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU());
-                          },
-                        );
-                      }
-                    ),
-                  )
-                ),
-                scrollable(context, state)
-              ],
-            );
-          })
-        ),
+    return BlocListener<TripsBloc, TripsState>(
+      listener: (context, state) {},
+      child: BlocBuilder<TripsBloc, TripsState>(
+        builder: ((context, state) {
+          return CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: SizeConfig.displayHeight(context) * 0.015),
+                  child: StatefulBuilder(
+                    builder: (context, refresh) {
+                      return SegmentedButton<int>(
+                        segments: <ButtonSegment<int>>[
+                          ButtonSegment(
+                            value: 0,
+                            icon: const Icon(Icons.school_rounded, color: MyColors.purpleTheme),
+                            label: const Text("UPB", style: TextStyle(color: MyColors.purpleTheme),),
+                            enabled: state is! TripsLoading
+                          ),
+                          ButtonSegment(
+                            value: 1,
+                            icon: const Icon(Icons.home_rounded, color: MyColors.purpleTheme),
+                            label: const Text("Casa", style: TextStyle(color: MyColors.purpleTheme),),
+                            enabled: state is! TripsLoading
+                          )
+                        ],
+                        selected: <int>{buttonIndex},
+                        onSelectionChanged: (newSelection) {
+                          refresh(() => buttonIndex = newSelection.first);
+                          BlocProvider.of<TripsBloc>(context).add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU());
+                        },
+                      );
+                    }
+                  ),
+                )
+              ),
+              scrollable(context, state)
+            ],
+          );
+        })
       ),
     );
   }
@@ -99,7 +95,7 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(iconSize: 50, onPressed: () => widget._bloc.add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU()), icon: const Icon(Icons.refresh_rounded), color: MyColors.purpleTheme),
+              IconButton(iconSize: 50, onPressed: () => BlocProvider.of<TripsBloc>(context).add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU()), icon: const Icon(Icons.refresh_rounded), color: MyColors.purpleTheme),
               Text("${current.message}. Inténtalo de nuevo", style: const TextStyle(color: MyColors.textGrey, fontWeight: FontWeight.bold, fontSize: Fontsizes.subTitleTwoFontSize), textAlign: TextAlign.justify),
             ],
           ),

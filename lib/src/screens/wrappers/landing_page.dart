@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/blocs.dart';
 import '../../components/app_bar_custom.dart';
@@ -29,44 +30,50 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GpsAccessScreen(
-      child: ValueListenableBuilder<_LandingState>(
-        valueListenable: _indexNotifier,
-        builder: (context, value, _) => Scaffold(
-          appBar: value.currentIndex == 0
-            ? PreferredSize(
-                preferredSize: const Size.fromHeight(50),
-                child: AppBarCustom(
-                  color: MyColors.backgroundSvg,
-                  text: "Hola, ${widget.name}",
-                  leadingBoolean: false,
-                ),
-              )
-            : null,
-          body: Background(
-            child: IndexedStack(
-              index: value.currentIndex,
-              children: [
-                HomePassenger(key: const PageStorageKey<String>("HomePassengerKEY"), bloc: TripsBloc()),
-                (value.loadedPages.contains(1)) ? const Center(key: PageStorageKey<String>("HistoryKEY"), child: Text('Página de viajes', style: TextStyle(color: MyColors.textWhite))) : Container(),
-                (value.loadedPages.contains(2)) ? ProfileSettings(key: const PageStorageKey<String>("ProfileKEY"), bloc: ProfileBloc()) : Container(),
-              ]
-            )
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: _bottomNavItems,
-            currentIndex: value.currentIndex,
-            onTap: (index) {
-              var pages = value.loadedPages;
-              if (!pages.contains(index)) {
-                _indexNotifier.value = value.copyWith(currentIndex: index, loadedPages: [...pages, index]);
-              }else{
-                _indexNotifier.value = value.copyWith(currentIndex: index);
-              }
-            },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => TripsBloc()),
+        BlocProvider(create: (context) => ProfileBloc())
+      ],
+      child: GpsAccessScreen(
+          child: ValueListenableBuilder<_LandingState>(
+            valueListenable: _indexNotifier,
+            builder: (context, value, _) => Scaffold(
+              appBar: value.currentIndex == 0
+                ? PreferredSize(
+                    preferredSize: const Size.fromHeight(50),
+                    child: AppBarCustom(
+                      color: MyColors.backgroundSvg,
+                      text: "Hola, ${widget.name}",
+                      leadingBoolean: false,
+                    ),
+                  )
+                : null,
+              body: Background(
+                child: IndexedStack(
+                  index: value.currentIndex,
+                  children: [
+                    const HomePassenger(key: PageStorageKey<String>("HomePassengerKEY")),
+                    (value.loadedPages.contains(1)) ? const Center(key: PageStorageKey<String>("HistoryKEY"), child: Text('Página de viajes', style: TextStyle(color: MyColors.textWhite))) : Container(),
+                    (value.loadedPages.contains(2)) ? const ProfileSettings(key: PageStorageKey<String>("ProfileKEY")) : Container(),
+                  ]
+                )
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                items: _bottomNavItems,
+                currentIndex: value.currentIndex,
+                onTap: (index) {
+                  var pages = value.loadedPages;
+                  if (!pages.contains(index)) {
+                    _indexNotifier.value = value.copyWith(currentIndex: index, loadedPages: [...pages, index]);
+                  }else{
+                    _indexNotifier.value = value.copyWith(currentIndex: index);
+                  }
+                },
+              ),
+            ),
           ),
         ),
-      ),
     );
   }
 }

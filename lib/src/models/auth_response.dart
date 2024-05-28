@@ -2,11 +2,13 @@ import 'dart:convert';
 
 class AuthResponse {
   final String _token, _name, _lastname, _email, _id;
+  final String? _refreshToken;
   final int _iat, _exp;
   final List<dynamic>_role;
   final bool _logged;
   
   AuthResponse._({
+    required String? refreshToken,
     required String token,
     required String name,
     required String lastname,
@@ -16,19 +18,20 @@ class AuthResponse {
     required int iat,
     required int exp,
     required bool logged
-  }) : _token = token, _exp = exp, _iat = iat, _id = id, _email = email, _lastname = lastname, _name = name, _role = role, _logged = logged;
+  }) : _token = token, _exp = exp, _iat = iat, _id = id, _email = email, _lastname = lastname, _name = name, _role = role, _logged = logged, _refreshToken = refreshToken;
 
   String get token => _token;
   String get name => _name;
   String get lastname => _lastname;
   String get email => _email;
   String get id => _id;
+  String? get refreshToken => _refreshToken;
   List<dynamic> get role => _role;
   int get iat => _iat;
   int get exp => _exp;
   bool get logged => _logged;
   
-  factory AuthResponse.fromJWT({required String jwt, required bool logged}) {
+  factory AuthResponse.fromJWT({required String jwt, required String? refreshToken, required bool logged}) {
     final json = _parseJWT(jwt);
     return AuthResponse._(
       token: jwt,
@@ -39,7 +42,8 @@ class AuthResponse {
       role: json["role"],
       iat: json["iat"],
       exp: json["exp"],
-      logged: logged
+      logged: logged,
+      refreshToken: refreshToken
     );
   }
 
@@ -52,7 +56,8 @@ class AuthResponse {
     "role": _role,
     "iat": _iat,
     "exp": _exp,
-    "logged": _logged
+    "logged": _logged,
+    "refreshToken": _refreshToken
   };
 
   static Map<String, dynamic> _parseJWT(String token) {

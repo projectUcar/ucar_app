@@ -16,6 +16,11 @@ class AuthClient{
     return current?.token;
   }
 
+  Future<String?> get refreshToken async{
+    final current = await session;
+    return current?.refreshToken;
+  }
+
   Future<void> saveAuth(AuthResponse authResponse) async{
     final list = <Role>[];
     for (Map<String, dynamic> element in authResponse.role) {
@@ -30,7 +35,8 @@ class AuthClient{
       role: list,
       iat: authResponse.iat,
       exp: authResponse.exp,
-      logged: authResponse.logged
+      logged: authResponse.logged,
+      refreshToken: authResponse.refreshToken
     );
     await _storage.write(key: "SESSION", value: jsonEncode(session.toJson()));
   }

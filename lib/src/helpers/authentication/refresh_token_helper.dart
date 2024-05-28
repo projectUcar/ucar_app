@@ -8,8 +8,8 @@ class RefreshTokenHelper{
   final String _endpoint;
   RefreshTokenHelper():_endpoint = Env.refreshTokenEndpoint;
 
-  Future<String?> refreshToken(String token) async {
-    final response = await _client.refreshToken(_endpoint, token);
+  Future<String?> tokenRefresh(String token, String refreshToken) async {
+    final response = await _client.tokenRefresh(_endpoint, token, refreshToken);
     if (response.statusCode != null && response.statusCode == 200) {
       final dataMap = jsonDecode(response.data!) as Map<String, dynamic>;
       return dataMap["token"];

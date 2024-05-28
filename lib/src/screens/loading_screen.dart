@@ -43,7 +43,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   Future<void> _readData() async{
     final session = await AuthClient().session;
-    if (session != null && session.logged && !session.sessionExpired && context.mounted) {
+    if (session != null && session.logged && !session.sessionExpired && session.refreshToken != null && context.mounted) {
       Navigator.pushReplacementNamed(context, AppRouter.landing, arguments: session.name);
     }else if(context.mounted){
       Navigator.pushReplacementNamed(context, AppRouter.login);

@@ -15,7 +15,8 @@ class LogInCubit extends FormValidatorCubit<UserLoginState, LogInHelper> {
       if (response.statusCode! >= 400) {
         _updateResultState(ResultState.rejected(message: BadResponseModel.fromAPI(response).message));
       }else{
-        await authClient.saveAuth(AuthResponse.fromJWT(jwt: helper.getToken(response.data!), logged: true));
+        final tokenCookie = response.headers.map['set-cookie']?[0];
+        await authClient.saveAuth(AuthResponse.fromJWT(jwt: helper.getToken(response.data!), refreshToken: tokenCookie, logged: true));
         _updateResultState(ResultState.accepted());
       }
     } on DioException catch (e) {

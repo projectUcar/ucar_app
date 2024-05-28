@@ -106,72 +106,75 @@ class _TripCard extends StatelessWidget {
   }@override
   Widget build(BuildContext context) {
     return Card(
-      color: MyColors.backgroundCard,
-      child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: ExpansionTile(
-          backgroundColor: Colors.transparent,
-          textColor: MyColors.textGrey,
-          title: routeRendering(),
-          subtitle: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(children: [const Icon(Icons.person_outline, size: 15, color: MyColors.textGrey), Text(" ${model.driverName}", style: const TextStyle(color: MyColors.textGrey))]),
-              Row(children: [const Icon(Icons.watch_later_outlined, size: 15, color: MyColors.textGrey), Text(' ${model.departureDate.day}/${model.departureDate.month}/${model.departureDate.year} - ${model.departureTime}', style: const TextStyle(color: MyColors.textGrey))])
-            ],
-          ),
-          children: <Widget>[
-            Text(model.description, style: const TextStyle(color: MyColors.textGrey)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton.icon(
-                  onPressed: () async{
-                    AsyncProgressDialog.show(context);
-                    List<Location> current = await locations;
-                    MapScreenArgs args = await MapScreenArgs.create(tripModel: model, locations: current);
-                    if (context.mounted) {
-                      AsyncProgressDialog.dismiss(context);
-                      Navigator.pushNamed(context, AppRouter.tripMap, arguments: args);
-                    }
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                      (Set<MaterialState> states) {
-                        Color detailColor = MyColors.purpleTheme;
-                        if (states.contains(MaterialState.pressed)) {
-                          return detailColor.withOpacity(0.5);
-                        }
-                        return detailColor;
-                      },
-                    ),
-                  ),
-                  icon: const Icon(Icons.text_snippet_outlined, color: MyColors.textWhite),
-                  label: const Text("Detalles", style: TextStyle(color: MyColors.textWhite, fontWeight: FontWeight.bold))
-                ),
-                TextButton.icon(
-                  onPressed: model.availableSeats != 0 
-                    ? () {
-                    
-                    }
-                    : null,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.pressed)) {
-                          return bookingColor.withOpacity(0.5);
-                        }
-                        return bookingColor;
-                      },
-                    ),
-                  ),
-                  icon: const Icon(Icons.send_sharp, color: MyColors.textWhite),
-                  label: const Text("Reservar", style: TextStyle(color: MyColors.textWhite, fontWeight: FontWeight.bold))
-                )
-              ],
-            ),
+      color: Colors.transparent,
+      clipBehavior: Clip.antiAlias,
+      child: ExpansionTile(
+        backgroundColor: MyColors.backgroundSvg.withOpacity(0.3),
+        collapsedBackgroundColor: MyColors.backgroundSvg.withOpacity(0.3),
+        childrenPadding: const EdgeInsets.symmetric(horizontal: 4),
+        textColor: MyColors.textGrey,
+        title: routeRendering(),
+        subtitle: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(children: [const Icon(Icons.person_outline, size: 15, color: MyColors.textGrey), Text(" ${model.driverName}", style: const TextStyle(color: MyColors.textGrey))]),
+            Row(children: [const Icon(Icons.watch_later_outlined, size: 15, color: MyColors.textGrey), Text(' ${model.departureDate.day}/${model.departureDate.month}/${model.departureDate.year} - ${model.departureTime}', style: const TextStyle(color: MyColors.textGrey))])
           ],
         ),
+        children: <Widget>[
+          Text(model.description, style: const TextStyle(color: MyColors.textGrey)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton.icon(
+                onPressed: () async{
+                  AsyncProgressDialog.show(context);
+                  List<Location> current = await locations;
+                  MapScreenArgs args = await MapScreenArgs.create(tripModel: model, locations: current);
+                  if (context.mounted) {
+                    AsyncProgressDialog.dismiss(context);
+                    Navigator.pushNamed(context, AppRouter.tripMap, arguments: args);
+                  }
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                    (Set<MaterialState> states) {
+                      Color detailColor = MyColors.purpleTheme;
+                      if (states.contains(MaterialState.pressed)) {
+                        return detailColor.withOpacity(0.5);
+                      }
+                      return detailColor;
+                    },
+                  ),
+                  shape: const MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.horizontal(left: Radius.circular(10)))),
+                ),
+                icon: const Icon(Icons.text_snippet_outlined, color: MyColors.textWhite),
+                label: const Text("Detalles", style: TextStyle(color: MyColors.textWhite, fontWeight: FontWeight.bold))
+              ),
+              TextButton.icon(
+                onPressed: model.availableSeats != 0 
+                  ? () {
+                  
+                  }
+                  : null,
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                    (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed)) {
+                        return bookingColor.withOpacity(0.5);
+                      }
+                      return bookingColor;
+                    },
+                  ),
+                  shape: const MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.horizontal(right: Radius.circular(10)))),
+                ),
+                icon: const Icon(Icons.send_sharp, color: MyColors.textWhite),
+                label: const Text("Reservar", style: TextStyle(color: MyColors.textWhite, fontWeight: FontWeight.bold))
+              )
+            ].map((e) => Expanded(child: e)).toList(),
+          ),
+        ],
       ),
     );
   }
