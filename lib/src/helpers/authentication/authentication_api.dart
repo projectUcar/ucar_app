@@ -32,8 +32,8 @@ class AuthenticationAPI {
     return response;
   }
 
-  Future<Response<String>> tokenRefresh(String endpoint, String oldToken, String refreshToken) async{
-    final response = await _client.get<String>(
+  Future<Response<Map<String, dynamic>?>> tokenRefresh(String endpoint, String oldToken, String refreshToken) async{
+    final response = await _client.get<Map<String, dynamic>?>(
       endpoint,
       options: Options(
         headers: {

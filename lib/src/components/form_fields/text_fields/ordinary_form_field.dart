@@ -17,11 +17,18 @@ class OrdinaryFormField extends TextFieldTemplate {
     super.readOnly = false,
     super.maxLength,
     super.autovalidateMode,
+    super.textCapitalization,
+    super.enabled,
+    this.onTap
   });
+
+  final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onTap,
+      enabled: enabled,
       readOnly: readOnly,
       autovalidateMode: autovalidateMode,
       focusNode: focusNode,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ucar_app/src/util/options/groups.dart';
-import 'package:ucar_app/src/util/options/enum_formatter.dart';
-import 'package:ucar_app/src/util/options/genders.dart';
+import 'package:ucar_app/src/util/options/cities.dart';
+import '../../util/options/document_types.dart';
+import '../../util/options/enum_formatter.dart';
+import '../../util/options/groups.dart';
+import '../../util/options/genders.dart';
 
 enum FieldTypes {
   id(labelText: 'ID', hintText: 'Ej. 372781', textInputType: TextInputType.number, prefixIcon: Icons.numbers_rounded),
@@ -13,8 +15,17 @@ enum FieldTypes {
   confirmation(labelText: 'Confirmación de contraseña', hintText: 'Digita el mismo valor anterior', textInputType: TextInputType.visiblePassword, prefixIcon: Icons.lock_outline_rounded),
   groups(labelText: 'Colectivo', hintText: 'Elige tu colectivo', prefixIcon: Icons.groups, textInputType: null),
   genders(labelText: 'Género', hintText: 'Elige tu género', prefixIcon: Icons.male_rounded, textInputType: null),
-  loginPassword(labelText: 'Contraseña', hintText: '', textInputType: TextInputType.visiblePassword, prefixIcon: Icons.lock_rounded);
-  
+  cities(labelText: 'Ciudad', hintText: 'Elige una ciudad', prefixIcon: Icons.location_city_rounded, textInputType: null),
+  loginPassword(labelText: 'Contraseña', hintText: '', textInputType: TextInputType.visiblePassword, prefixIcon: Icons.lock_rounded),
+  docType(labelText: 'Tipo de decumento', hintText: 'Elige el tipo', prefixIcon: Icons.badge_rounded, textInputType: null),
+  docNumber(labelText: 'Num. de decumento', hintText: 'Ej. 1001010110 ó 1001010110-1', prefixIcon: Icons.numbers_rounded, textInputType: TextInputType.datetime),
+  vehicleBrand(labelText: 'Marca', hintText: 'Ej. Renault', prefixIcon: Icons.branding_watermark_outlined, textInputType: TextInputType.name),
+  vehicleModel(labelText: 'Modelo', hintText: 'Ej. 2012', prefixIcon: Icons.date_range, textInputType: TextInputType.number),
+  vehicleLine(labelText: 'Línea', hintText: 'Ej. Clio', prefixIcon: Icons.featured_play_list, textInputType: TextInputType.visiblePassword),
+  vehiclePlate(labelText: 'Placa', hintText: 'Ej. AAA999', prefixIcon: Icons.numbers, textInputType: TextInputType.visiblePassword),
+  vehicleColor(labelText: 'Color de vehículo', hintText: 'Ej. Vinotinto', prefixIcon: Icons.palette_outlined, textInputType: TextInputType.name),
+  target(labelText: 'Dirección', hintText: 'Busca tu dirección', prefixIcon: Icons.streetview, textInputType: TextInputType.streetAddress);
+
   final String _labelText;
   final String? _hintText;
   final IconData? _prefixIcon;
@@ -35,7 +46,9 @@ enum FieldTypes {
 
 enum SelectionFieldTypes<T extends Enum> {
   groups(items: Groups.values),
-  genders(items: Genders.values);
+  genders(items: Genders.values),
+  cities(items: Cities.values),
+  docTypes(items: DocumentTypes.values);
   
   final List<T> _items;
 

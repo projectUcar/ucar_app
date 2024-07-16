@@ -80,10 +80,10 @@ abstract class _FormTemplateState<X extends FormTemplate> extends State<X>{
       foregroundColor: MyColors.primary,
       backgroundColor: MyColors.purpleTheme,
       onPressed: () => _onSubmit().then<void>((_) {
-        if (widget.cubit.state.isRejected) {DioAlertDialog.fromDioError(context, widget.cubit.state);}
+        if (widget.cubit.state.isRejected) {DioAlertDialog.fromUserState(context, widget.cubit.state);}
         else if (widget.cubit.state.isAccepted) {redirect();}
       }),
-      label: Text(widget.text, style: CustomStyles.boldStyle.copyWith(fontSize: 20))
+      label: Text(widget.text, style: CustomStyles.boldStyle.copyWith(fontSize: Fontsizes.subTitleFontSize))
     ));
     return list;
   }

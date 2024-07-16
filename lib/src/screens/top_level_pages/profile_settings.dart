@@ -5,6 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../blocs/blocs.dart';
 import '../../components/shimmer_card.dart';
 import '../../config/size_config.dart';
+import '../../models/driver_response_status.dart';
 import '../../routes/app_router.dart';
 import '../../storage/auth_client.dart';
 import '../../theme/themes.dart';
@@ -30,14 +31,28 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
-        if (state is ImageUploadFailed) {
+        if (state is ImageUploadFailed && !state.displayMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message, style: const TextStyle(color: MyColors.textWhite)), backgroundColor: Colors.red.shade400));
+        }
+        if (state is ProfileReturned && state.displayMessage) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(state.requestState.message, style: const TextStyle(color: MyColors.textWhite)),
+            backgroundColor: state.requestState.color,
+            duration: const Duration(seconds: 15),
+          ));
         }
       },
       child: BlocBuilder<ProfileBloc, ProfileState>(
-        builder: ((context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(6),
+        builder: (context, state) => Padding(
+          padding: const EdgeInsets.all(6),
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(const Duration(seconds: 1));
+              if (context.mounted && state is ProfileReturned) BlocProvider.of<ProfileBloc>(context).add(ProfileFetching());
+            },
+            displacement: 50.0,
+            color: MyColors.textGrey,
+            backgroundColor: MyColors.purpleTheme,
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
@@ -90,7 +105,24 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
                             side: const MaterialStatePropertyAll(BorderSide(color: MyColors.backgroundBlue))
                           ),
-                          onPressed: () => {},
+                          onPressed: (state is ProfileReturned) ? () async {
+                            final bool? isDriver = await AuthClient().isDriver;
+                            if (context.mounted) {
+                              if ((state.requestState == DriverResponseStatus.successful || isDriver == true)) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Al parecer, ya eres conductor o una solicitud a tu nombre está pendiente", style: TextStyle(color: MyColors.textWhite),),
+                                    backgroundColor: MyColors.purpleTheme,
+                                  )
+                                );
+                              }else{
+                                final value = await Navigator.pushNamed<bool>(context, AppRouter.driverForm);
+                                if (value == true && context.mounted) {
+                                  BlocProvider.of<ProfileBloc>(context).add(const ResultEvent(driverResponseStatus: DriverResponseStatus.successful));
+                                }
+                              }
+                            }
+                          }: null,
                           child: const Text("Modo conductor", style: TextStyle(fontSize: Fontsizes.subTitleFontSize))
                         ),
                         const SizedBox(height: 6),
@@ -111,8 +143,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 )
               ],
             ),
-          );
-        })
+          ),
+        )
       ),
     );
   }

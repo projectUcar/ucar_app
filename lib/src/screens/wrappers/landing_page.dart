@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ucar_app/src/screens/top_level_pages/history_screen.dart';
 
 import '../../blocs/blocs.dart';
 import '../../components/app_bar_custom.dart';
@@ -32,14 +33,15 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => TripsBloc()),
-        BlocProvider(create: (context) => ProfileBloc())
+        BlocProvider<TripsBloc>(create: (context) => TripsBloc()),
+        BlocProvider<ProfileBloc>(create: (context) => ProfileBloc()),
+        BlocProvider<HistoryBloc>(create: (context) => HistoryBloc()),
       ],
       child: GpsAccessScreen(
           child: ValueListenableBuilder<_LandingState>(
             valueListenable: _indexNotifier,
             builder: (context, value, _) => Scaffold(
-              appBar: value.currentIndex == 0
+              appBar: value.currentIndex != 2
                 ? PreferredSize(
                     preferredSize: const Size.fromHeight(50),
                     child: AppBarCustom(
@@ -54,7 +56,7 @@ class _LandingPageState extends State<LandingPage> {
                   index: value.currentIndex,
                   children: [
                     const HomePassenger(key: PageStorageKey<String>("HomePassengerKEY")),
-                    (value.loadedPages.contains(1)) ? const Center(key: PageStorageKey<String>("HistoryKEY"), child: Text('Página de viajes', style: TextStyle(color: MyColors.textWhite))) : Container(),
+                    (value.loadedPages.contains(1)) ? HistoryScreen(key: const PageStorageKey<String>("HistoryKEY")) : Container(),
                     (value.loadedPages.contains(2)) ? const ProfileSettings(key: PageStorageKey<String>("ProfileKEY")) : Container(),
                   ]
                 )

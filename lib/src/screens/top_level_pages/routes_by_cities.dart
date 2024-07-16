@@ -1,15 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-
-import '../../blocs/blocs.dart';
-import '../../components/container_background.dart';
-import '../../components/shimmer_card.dart';
-import '../../config/size_config.dart';
-import '../../routes/app_router.dart';
-import '../../theme/themes.dart';
-import '../../widgets/container_list.dart';
-import '../medium_level_pages/detailed_routes.dart';
+part of 'pass_home.dart';
 
 class RoutesByCities extends StatefulWidget {
 
@@ -36,8 +25,15 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
     return BlocListener<TripsBloc, TripsState>(
       listener: (context, state) {},
       child: BlocBuilder<TripsBloc, TripsState>(
-        builder: ((context, state) {
-          return CustomScrollView(
+        builder: (context, state) => RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(const Duration(seconds: 1));
+            if (context.mounted && state is! TripsLoading) BlocProvider.of<TripsBloc>(context).add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU());
+          },
+          displacement: 50.0,
+          color: MyColors.textGrey,
+          backgroundColor: MyColors.purpleTheme,
+          child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
                 child: Padding(
@@ -71,8 +67,8 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
               ),
               scrollable(context, state)
             ],
-          );
-        })
+          ),
+        )
       ),
     );
   }
@@ -85,18 +81,18 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
     }else if (current is TripsError){
       return SliverToBoxAdapter(
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: SizeConfig.displayHeight(context) * 0.2),
+          margin: EdgeInsets.symmetric(vertical: SizeConfig.displayHeight(context) * 0.2, horizontal: SizeConfig.displayWidth(context) * 0.1),
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
             border: Border.all(color: MyColors.purpleTheme, width: 5),
             borderRadius: const BorderRadius.all(Radius.circular(10)),
-            color: Colors.transparent,
+            color: MyColors.purpleTheme.withOpacity(0.2),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(iconSize: 50, onPressed: () => BlocProvider.of<TripsBloc>(context).add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU()), icon: const Icon(Icons.refresh_rounded), color: MyColors.purpleTheme),
-              Text("${current.message}. Inténtalo de nuevo", style: const TextStyle(color: MyColors.textGrey, fontWeight: FontWeight.bold, fontSize: Fontsizes.subTitleTwoFontSize), textAlign: TextAlign.justify),
+              IconButton(iconSize: 50, onPressed: () => BlocProvider.of<TripsBloc>(context).add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU()), icon: const Icon(Icons.refresh_rounded), color: MyColors.textGrey),
+              Text("${current.message}. Inténtalo de nuevo", style: const TextStyle(color: MyColors.textGrey, fontWeight: FontWeight.bold, fontSize: Fontsizes.subTitleTwoFontSize), textAlign: TextAlign.center),
             ],
           ),
         ),

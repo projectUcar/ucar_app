@@ -56,6 +56,7 @@ class _SignUpFormState extends _FormTemplateState<SignUpForm> {
       focusNode: nameFocusNode,
       nextFocusNode: lastnameFocusNode,
       fieldType: FieldTypes.name,
+      textCapitalization: TextCapitalization.words,
     ),
     //APELLIDOS
     OrdinaryFormField(
@@ -66,6 +67,7 @@ class _SignUpFormState extends _FormTemplateState<SignUpForm> {
       focusNode: lastnameFocusNode,
       nextFocusNode: genderFocusNode,
       fieldType: FieldTypes.lastname,
+      textCapitalization: TextCapitalization.words,
     ),
     //GENERO
     SelectionFormField(

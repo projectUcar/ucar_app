@@ -22,4 +22,10 @@ class UploadImage extends ProfileEvent{
   bool get originFromCamera => _origin == ImageOrigin.camera;
 }
 
+class ResultEvent extends ProfileEvent{
+  final DriverResponseStatus driverResponseStatus;
+
+  const ResultEvent({required this.driverResponseStatus});
+}
+
 enum ImageOrigin{camera, gallery}

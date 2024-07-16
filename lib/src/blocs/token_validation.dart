@@ -6,7 +6,7 @@ import '../helpers/helpers.dart';
 import '../models/auth_response.dart';
 import '../storage/auth_client.dart';
 
-mixin TokenValidation<T, U> on Bloc<T, U>{
+mixin TokenValidation<T> on BlocBase<T>{
   Future<String?> verifyToken() async{
     final authclient = AuthClient();
     final accessToken = await authclient.accessToken;

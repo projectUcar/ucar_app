@@ -3,3 +3,4 @@ export 'trips/trips.dart';
 export 'forms/forms.dart';
 export 'profile/profile.dart';
 export 'directions/directions.dart';
+export 'driver/driver_cubit.dart';

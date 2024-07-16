@@ -12,4 +12,13 @@ enum Cities{
         return "${name[0].toUpperCase()}${name.substring(1).replaceAll(RegExp("o"), "ó")}";
     }
   }
+
+  static Cities? fromString(String? s){
+    for (Cities element in Cities.values) {
+      if (element.nameFormat == s) {
+        return element;
+      }
+    }
+    return null;
+  }
 }

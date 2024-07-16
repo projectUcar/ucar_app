@@ -1,4 +1,6 @@
+import 'package:date_time_format/date_time_format.dart';
 import 'package:equatable/equatable.dart';
+import '../../../util/hour_formatter.dart';
 
 class TripModel extends Equatable{
   final String _id, origin, destination, city, description, departureTime, vehicleId, driverUserId, status, driverName;
@@ -6,8 +8,17 @@ class TripModel extends Equatable{
   final List<dynamic> passengers;
   final DateTime departureDate, createdAt, updatedAt;
 
+  int get availablePlaces => availableSeats - passengers.length;
+
   String get id => _id;
   bool get toUniversity => destination.contains("Universidad Pontificia Bolivariana");
+
+  DateTime get fullDateTime {
+    final formatted = departureDate.add(departureTime.toDuration());
+    return formatted;
+  }
+
+  String get formatDT => '${DateTimeFormat.format(departureDate, format: r'd/m/Y')} $departureTime';
 
   const TripModel({
     required String id,
@@ -34,7 +45,7 @@ class TripModel extends Equatable{
     city: json["city"],
     description: json["description"],
     departureDate: DateTime.parse(json["departureDate"]),
-    departureTime: json["departureTime"],
+    departureTime: (json["departureTime"] as String),
     availableSeats: json["availableSeats"],
     vehicleId: json["vehicleId"],
     driverUserId: json["driverUserId"],

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'authentication_api.dart';
 import '../../../env/env.dart';
 
@@ -11,7 +9,7 @@ class RefreshTokenHelper{
   Future<String?> tokenRefresh(String token, String refreshToken) async {
     final response = await _client.tokenRefresh(_endpoint, token, refreshToken);
     if (response.statusCode != null && response.statusCode == 200) {
-      final dataMap = jsonDecode(response.data!) as Map<String, dynamic>;
+      final dataMap = response.data!;
       return dataMap["token"];
     }
     return token;

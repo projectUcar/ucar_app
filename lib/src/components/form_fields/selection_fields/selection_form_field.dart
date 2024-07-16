@@ -28,7 +28,7 @@ class SelectionFormField extends FormFieldTemplate {
           labelText: fieldType.getLabelText,
           hintText: fieldType.getHintText
         ),
-        icon: const Icon(Icons.arrow_drop_down_rounded, color: MyColors.textGrey, size: 35),
+        icon: const Icon(Icons.arrow_drop_down_rounded, color: MyColors.textGrey, size: 28),
         items: selectionFieldType.getItems.map<DropdownMenuItem<String>>((value) => DropdownMenuItem(value: value, child: Text(value))).toList(),
         onChanged: onChanged,
       ),

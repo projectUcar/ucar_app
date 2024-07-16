@@ -31,6 +31,15 @@ abstract class Env{
   @EnviedField(varName: 'TRIPS_FROM_U_ENDPOINT', obfuscate: true)
   static final String tripsFromUEndpoint = _Env.tripsFromUEndpoint;
 
+  @EnviedField(varName: 'VEHICLES_BASE_URL', obfuscate: true)
+  static final String vehiclesBaseUrl = _Env.vehiclesBaseUrl;
+
+  @EnviedField(varName: 'DRIVER_REQUEST_ENDPOINT', obfuscate: true)
+  static final String driverRequestEndpoint = _Env.driverRequestEndpoint;
+
+    @EnviedField(varName: 'NEW_VEHICLE_ENDPOINT', obfuscate: true)
+  static final String newVehicleEndpoint = _Env.newVehicleEndpoint;
+
   @EnviedField(varName: 'ORS_KEY', obfuscate: true)
   static final String orsKey = _Env.orsKey;
 }

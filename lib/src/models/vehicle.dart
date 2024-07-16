@@ -1,8 +1,11 @@
-class Vehicle {
-  String? brand, model, line, plate, color;
-  int? doors;
+import '../util/options/document_types.dart';
 
-  Vehicle({required this.brand, required this.model, required this.line, required this.plate, required this.color, required this.doors});
+class Vehicle{
+  final String? brand, model, line, plate, color, documentTypeOwner, documentNumberOwner;
+  final int? doors, seats;
+  final bool isOwner;
+
+  const Vehicle({required this.brand, required this.model, required this.line, required this.plate, required this.color, required this.doors, required this.seats, this.isOwner = false, required this.documentTypeOwner, required this.documentNumberOwner});
 
   String get defaultText => "Info. no disponible";
 
@@ -12,7 +15,11 @@ class Vehicle {
     line: json["line"],
     plate: json["plate"],
     color: json["color"],
+    seats: json["seats"],
     doors: json["doors"],
+    isOwner: json["isOwner"] ?? false, //Corregir
+    documentTypeOwner: json["documentTypeOwner"],
+    documentNumberOwner: json["documentNumberOwner"]
   );
 
   factory Vehicle.empty() => Vehicle(
@@ -21,7 +28,11 @@ class Vehicle {
     line: null,
     plate: null,
     color: null,
+    seats: null,
     doors: null,
+    isOwner: false,
+    documentTypeOwner: DocumentTypes.cc.name,
+    documentNumberOwner: null
   );
 
   Map<String, dynamic> toJson() => {
@@ -30,8 +41,12 @@ class Vehicle {
     "line": line,
     "plate": plate,
     "color": color,
+    "seats": seats,
     "doors": doors,
+    "isOwner": isOwner,
+    "documentTypeOwner": documentTypeOwner,
+    "documentNumberOwner": documentNumberOwner
   };
 
-  bool get isEmpty => brand == null && model == null && line == null && plate == null && color == null && doors == null;
+  bool get isEmpty => brand == null && model == null && line == null && plate == null && color == null && seats == null && doors == null && documentTypeOwner == null && documentNumberOwner == null;
 }

@@ -21,10 +21,27 @@ class AuthClient{
     return current?.refreshToken;
   }
 
+  Future<bool?> get isDriver async{
+    final current = await session;
+    if (current != null) {
+      return current.role.length > 1;
+    }
+    return null;
+  }
+
+  Future<String?> get userId async{
+    final current = await session;
+    return current?.id;
+  }
+
   Future<void> saveAuth(AuthResponse authResponse) async{
     final list = <Role>[];
-    for (Map<String, dynamic> element in authResponse.role) {
-      list.add(Role(name: element["name"]));
+    for (var element in authResponse.role) {
+      if (element is Map<String, dynamic>) {
+        list.add(Role(name: element['name']));
+      }else{
+        list.add(Role(name: element));
+      }
     }
     final Session session = Session(
       token: authResponse.token,
