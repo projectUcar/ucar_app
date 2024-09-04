@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../helpers/helpers.dart';
+import '../../../models/vehicle.dart';
 import '../../../util/options/cities.dart';
 import '../../../util/regex_comparison.dart';
 import '../../blocs.dart';
@@ -13,7 +14,6 @@ part 'new_trip_state.dart';
 class NewTripCubit extends Cubit<NewTripState> with TokenValidation<NewTripState>{
   NewTripCubit() : super(NewTripState.initial());
   final TripsHelper _helper = TripsHelper();
-
   void _updateState(NewTripState newState){
     emit(newState);
   }
@@ -27,7 +27,7 @@ class NewTripCubit extends Cubit<NewTripState> with TokenValidation<NewTripState
   void updateToU(bool? value) => _updateState(state.copyWith(toU: value));
   void updateCity(Cities? value) => _updateState(state.copyWith(city: value));
   void updateTarget(String? value) => _updateState(state.copyWith(target: value));
-  void updateVehicle(String? value) => _updateState(state.copyWith(vehicleId: value));
+  void updateVehicle(Vehicle? value) => _updateState(state.copyWith(vehicle: value));
   void updateSeats(int value) => _updateState(state.copyWith(availableSeats: value));
   void updateDescription(String? value) => _updateState(state.copyWith(description: value));
   void updateDepartureDate (DateTime? value) => _updateState(state.copyWith(departureDate: value));

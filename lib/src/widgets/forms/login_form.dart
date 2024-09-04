@@ -64,7 +64,7 @@ class _LogInFormState extends _FormTemplateState<LogInForm> {
   Future<void> redirect() async {
     final session = await AuthClient().session;
     if (session!.logged && session.refreshToken != null && context.mounted) {
-      Navigator.pushNamedAndRemoveUntil(context, widget.successRoute, (_) => false, arguments: session.name);
+      Navigator.pushNamedAndRemoveUntil(context, widget.successRoute, (_) => false, arguments: LandingPageArgs(name: session.name, isDriver: session.isDriver()));
       super.redirect();
     }
   }

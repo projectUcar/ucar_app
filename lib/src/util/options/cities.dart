@@ -1,5 +1,11 @@
 enum Cities{ 
-  bucaramanga, floridablanca, giron, piedecuesta;
+  bucaramanga("bucaramanga"),
+  floridablanca("floridablanca"),
+  giron("giron"),
+  piedecuesta("piedecuesta");
+
+  final String name;
+  const Cities(this.name);
 
   String get nameFormat {
     switch (this) {

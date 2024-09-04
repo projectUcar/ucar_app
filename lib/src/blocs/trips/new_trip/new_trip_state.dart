@@ -5,16 +5,18 @@ class NewTripState{
   final NewTripModel newTripModel;
   final bool submitted, toU;
 
-  factory NewTripState.initial() => NewTripState(newTripModel: NewTripModel.empty());
+  factory NewTripState.initial() => NewTripState(newTripModel: NewTripModel.initial());
 
   AutovalidateMode get autoValidateMode => submitted ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled;
 
-  bool get isValid => cityValidator(newTripModel.city.nameFormat) == null
+  bool get isValid => cityValidator(newTripModel.city?.nameFormat) == null
   && targetValidator(newTripModel.target) == null
   && vehicleValidator(newTripModel.vehicleId) == null
-  && seatsValidator(newTripModel.availableSeats.toString()) == null;
+  && seatsValidator(newTripModel.availableSeats.toString()) == null
+  && descriptionValidator(newTripModel.description) == null
+  && departureValidator == true;
 
-  NewTripState copyWith({bool? toU, Cities? city, String? target, String? description, DateTime? departureDate, String? departureTime, String? vehicleId, int? availableSeats, bool? submitted}) => NewTripState(
+  NewTripState copyWith({bool? toU, Cities? city, String? target, String? description, DateTime? departureDate, String? departureTime, Vehicle? vehicle, int? availableSeats, bool? submitted, List<Vehicle>? vehicles}) => NewTripState(
     newTripModel: NewTripModel(
       city: city ?? newTripModel.city,
       target: target ?? newTripModel.target,
@@ -22,13 +24,19 @@ class NewTripState{
       departureDate: departureDate ?? newTripModel.departureDate,
       departureTime: departureTime ?? newTripModel.departureTime,
       availableSeats: availableSeats ?? newTripModel.availableSeats,
-      vehicleId: vehicleId ?? newTripModel.vehicleId
+      vehicle: vehicle ?? newTripModel.vehicle
     ),
     toU: toU ?? this.toU,
-    submitted: submitted ?? this.submitted
+    submitted: submitted ?? this.submitted,
   );
 
-  
+  bool get departureValidator {
+    final currentDT = DateTime.now();
+    if (newTripModel.departureDate != null) {
+      return newTripModel.departureDate!.isAfter(currentDT.add(Duration(minutes: toU ? 40: 10))) && newTripModel.departureDate!.isBefore(currentDT.add(const Duration(days: 7)));
+    }
+    return false;
+  }
 
   String? cityValidator(String? value) => RegexComparison.selectionValidator(value, "Ciudad");
 
@@ -38,6 +46,8 @@ class NewTripState{
 
   String? seatsValidator(String? value) => RegexComparison.defaultValidator(value, "Asientos disponibles", RegexComparison.seatsRegExp);
 
-  String? descriptionValidator(String? value) {
-  }
+  String? descriptionValidator(String? value) => RegexComparison.selectionValidator(value, "Descripción");
+
+  @override
+  String toString() => '$toU, ${newTripModel.toString()}';
 }

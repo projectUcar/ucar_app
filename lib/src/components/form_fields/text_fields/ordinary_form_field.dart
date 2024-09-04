@@ -16,6 +16,7 @@ class OrdinaryFormField extends TextFieldTemplate {
     required super.fieldType,
     super.readOnly = false,
     super.maxLength,
+    super.maxLines = 1,
     super.autovalidateMode,
     super.textCapitalization,
     super.enabled,
@@ -38,6 +39,7 @@ class OrdinaryFormField extends TextFieldTemplate {
       maxLength: maxLength,
       maxLengthEnforcement: maxLength != null ? MaxLengthEnforcement.enforced : MaxLengthEnforcement.none,
       onChanged: onChanged,
+      maxLines: maxLines,
       cursorColor: MyColors.purpleTheme,
       style: CustomStyles.whiteStyle,
       decoration: InputDecoration(

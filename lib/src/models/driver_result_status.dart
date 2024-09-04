@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../theme/themes.dart';
 
-enum DriverResponseStatus {
+enum DriverResultStatus {
   missing("", Colors.transparent),
   successful("Solicitud enviada. Pronto te daremos respuesta", MyColors.success);
 
   final String message;
   final Color color;
 
-  const DriverResponseStatus(this.message, this.color);
+  const DriverResultStatus(this.message, this.color);
 }

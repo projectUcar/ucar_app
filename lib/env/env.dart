@@ -22,6 +22,9 @@ abstract class Env{
   @EnviedField(varName: 'UPLOAD_IMAGE_ENDPOINT', obfuscate: true)
   static final String uploadImageEndpoint = _Env.uploadImageEndpoint;
 
+  @EnviedField(varName: 'USER_BY_ID_ENDPOINT', obfuscate: true)
+  static final String userByIdEndpoint = _Env.userByIdEndpoint;
+
   @EnviedField(varName: 'TRIPS_BASE_URL', obfuscate: true)
   static final String tripsBaseUrl = _Env.tripsBaseUrl;
 
@@ -31,14 +34,20 @@ abstract class Env{
   @EnviedField(varName: 'TRIPS_FROM_U_ENDPOINT', obfuscate: true)
   static final String tripsFromUEndpoint = _Env.tripsFromUEndpoint;
 
+  @EnviedField(varName: 'REQUEST_SEAT_ENDPOINT', obfuscate: true)
+  static final String requestSeatEndpoint = _Env.requestSeatEndpoint;
+
   @EnviedField(varName: 'VEHICLES_BASE_URL', obfuscate: true)
   static final String vehiclesBaseUrl = _Env.vehiclesBaseUrl;
 
   @EnviedField(varName: 'DRIVER_REQUEST_ENDPOINT', obfuscate: true)
   static final String driverRequestEndpoint = _Env.driverRequestEndpoint;
 
-    @EnviedField(varName: 'NEW_VEHICLE_ENDPOINT', obfuscate: true)
+  @EnviedField(varName: 'NEW_VEHICLE_ENDPOINT', obfuscate: true)
   static final String newVehicleEndpoint = _Env.newVehicleEndpoint;
+
+  @EnviedField(varName: 'MY_VEHICLES_ENDPOINT', obfuscate: true)
+  static final String myVehiclesEndpoint = _Env.myVehiclesEndpoint;
 
   @EnviedField(varName: 'ORS_KEY', obfuscate: true)
   static final String orsKey = _Env.orsKey;

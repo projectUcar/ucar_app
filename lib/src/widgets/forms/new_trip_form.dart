@@ -1,20 +1,23 @@
+import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/cupertino.dart' as cupertino;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:geocoding/geocoding.dart';
 
 import '../../blocs/blocs.dart';
+import '../../components/address_search.dart';
 import '../../components/form_fields/field_types.dart';
-import '../../components/form_fields/selection_fields/selection_form_field.dart';
 import '../../components/form_fields/text_fields/ordinary_form_field.dart';
-import '../../config/size_config.dart';
+import '../../models/vehicle.dart';
 import '../../theme/themes.dart';
 import '../../util/options/cities.dart';
 import '../temporaries/async_progress_dialog.dart';
 
 class NewTripForm extends StatefulWidget {
-  const NewTripForm({super.key, required NewTripCubit cubit}) : _cubit = cubit;
+  const NewTripForm({super.key, required NewTripCubit cubit, required this.vehicles}) : _cubit = cubit;
   final NewTripCubit _cubit;
+  final List<Vehicle> vehicles;
 
   @override
   State<NewTripForm> createState() => _NewTripFormState();
@@ -26,31 +29,32 @@ class _NewTripFormState extends State<NewTripForm> {
 
   NewTripCubit get cubit => widget._cubit;
 
-  late final FocusNode toUniversityFN, cityFN, targetFN, vehicleFN, seatsFN, descriptionFN, dateFN, timeFN;
+  DateTime? get departureDate => cubit.state.newTripModel.departureDate;
+
+  late final FocusNode toUniversityFN, targetFN, /*vehicleFN,*/ seatsFN, descriptionFN;
+
+  late final TextEditingController targetController;
 
   @override
   void initState() {
     toUniversityFN = FocusNode();
-    cityFN = FocusNode();
     targetFN = FocusNode();
-    vehicleFN = FocusNode();
+    //vehicleFN = FocusNode();
     seatsFN = FocusNode();
     descriptionFN = FocusNode();
-    dateFN = FocusNode();
-    timeFN = FocusNode();
+    targetController = TextEditingController();
     super.initState();
+    cubit.updateVehicle(widget.vehicles[0]);
   }
 
   @override
   void dispose() {
     toUniversityFN.dispose();
-    cityFN.dispose();
     targetFN.dispose();
-    vehicleFN.dispose();
+    //vehicleFN.dispose();
     seatsFN.dispose();
     descriptionFN.dispose();
-    dateFN.dispose();
-    timeFN.dispose();
+    targetController.dispose();
     super.dispose();
   }
 
@@ -68,7 +72,7 @@ class _NewTripFormState extends State<NewTripForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("¿Vas para la U?", style: TextStyle(color: MyColors.textGrey, fontSize: Fontsizes.smallTextFontSize)),
+                const Text("¿Vas para la U?", style: TextStyle(color: MyColors.textGrey, fontSize: Fontsizes.bodyTextFontSize)),
                 cupertino.CupertinoSwitch(
                   focusNode: toUniversityFN,
                   value: newTripState.toU,
@@ -77,74 +81,81 @@ class _NewTripFormState extends State<NewTripForm> {
                 )
               ],
             ),
-            //CIUDAD
-            SelectionFormField(
-              onChanged: (s) {
-                cubit.updateCity(Cities.fromString(s));
-                targetFN.requestFocus();
-              },
-              currentValue: newTripState.newTripModel.city.nameFormat,
-              focusNode: cityFN,
-              fieldType: FieldTypes.cities,
-              validator: newTripState.cityValidator,
-              selectionFieldType: SelectionFieldTypes.cities,
-              autovalidateMode: newTripState.autoValidateMode,
-            ),
-            //DIRECCIÓN
-            OrdinaryFormField(
-              onChanged: cubit.updateTarget,
-              validator: newTripState.targetValidator,
-              currentValue: newTripState.newTripModel.target,
+            TextField(
+              controller: targetController,
+              style: CustomStyles.whiteStyle,
               focusNode: targetFN,
-              nextFocusNode: vehicleFN,
-              fieldType: FieldTypes.target,
-              autovalidateMode: newTripState.autoValidateMode,
               textCapitalization: TextCapitalization.words,
-              enabled: false,
+              readOnly: true,
+              decoration: const InputDecoration(
+                labelText: 'Dirección',
+                hintText: 'Busca tu dirección',
+                prefixIcon: Icon(Icons.streetview),
+              ),
+              onTap: () async {
+                final Placemark? placemark = await showSearch(
+                  context: context,
+                  delegate: AddressSearch(),
+                );
+                if (placemark != null) {
+                  targetController.text = '${placemark.name}, ${placemark.street}, ${placemark.locality}';
+                  cubit.updateCity(Cities.fromString(placemark.locality));
+                  cubit.updateTarget(placemark.name);
+                  //vehicleFN.requestFocus();
+                  seatsFN.requestFocus();
+                }
+              },
             ),
-            //VEHÍCULO
-            OrdinaryFormField(
-              onChanged: cubit.updateVehicle,
-              validator: newTripState.vehicleValidator,
-              currentValue: newTripState.newTripModel.vehicleId,
-              focusNode: vehicleFN,
-              nextFocusNode: seatsFN,
-              fieldType: FieldTypes.vehicleBrand,
-              autovalidateMode: newTripState.autoValidateMode,
+            // DropdownButtonFormField<Vehicle>(
+            //   focusNode: vehicleFN,
+            //   items: widget.vehicles.map((e) => DropdownMenuItem<Vehicle>(child: Text(e.plate!))).toList(),
+            //   onChanged: (s) {
+            //     debugPrint(s.toString());
+            //     cubit.updateVehicle(s);
+            //     seatsFN.requestFocus();
+            //   },
+            //   dropdownColor: MyColors.secondary,
+            //   menuMaxHeight: 142.0,
+            //   value: newTripState.newTripModel.vehicle,
+            //   style: CustomStyles.whiteStyle.copyWith(fontSize: 16),
+            //   validator: (value) => newTripState.vehicleValidator(value?.plate),
+            //   icon: const Icon(Icons.arrow_drop_down_rounded, color: MyColors.textGrey, size: 28),
+            //   borderRadius: const BorderRadius.all(Radius.circular(20)),
+            //   decoration: const InputDecoration(labelText: "Vehículo", hintText: "Elige un vehículo"),
+            //   autovalidateMode: newTripState.autoValidateMode,
+            // ),
+            //ASIENTOS DISPONIBLES
+            SpinBox(
+              focusNode: seatsFN,
+              min: 1,
+              max: newTripState.newTripModel.vehicle?.seats?.toDouble() ?? 4,
+              step: 1,
+              value: 1,
+              textStyle: const TextStyle(color: MyColors.purpleTheme),
+              validator: newTripState.seatsValidator,
+              iconColor: const MaterialStatePropertyAll(MyColors.purpleTheme),
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: "Núm. Asientos", hintText: "Ej. 6"),
+              direction: Axis.vertical,
+              onChanged: (s) => cubit.updateSeats(s.toInt()),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                //VEHÍCULO
-                ListTile(),
-                //ASIENTOS DISPONIBLES
-                SpinBox(
-                  focusNode: seatsFN,
-                  min: 1,
-                  max: 59,
-                  step: 1,
-                  value: 1,
-                  textStyle: const TextStyle(color: MyColors.purpleTheme),
-                  validator: newTripState.seatsValidator,
-                  iconColor: const MaterialStatePropertyAll(MyColors.purpleTheme),
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(labelText: "Núm. Asientos", hintText: "Ej. 6"),
-                  direction: Axis.vertical,
-                  onChanged: (s) {
-                    cubit.updateSeats(s.toInt());
-                    descriptionFN.requestFocus();
+            cupertino.CupertinoButton(
+              onPressed: () {
+                final currentDT = DateTime.now();
+                _showDialog(
+                cupertino.CupertinoDatePicker(
+                  initialDateTime: currentDT.add(Duration(minutes: cubit.state.toU ? 40: 10)),
+                  minimumDate: currentDT.add(Duration(minutes: cubit.state.toU ? 40: 10)),
+                  maximumDate: currentDT.add(const Duration(days: 7)),
+                  use24hFormat: false,
+                  onDateTimeChanged: (s) {
+                    cubit.updateDepartureDate(s);
+                    cubit.updateDepartureTime(s.format(r'g\:i A'));
                   },
                 ),
-              ].map((e) => SizedBox(width: SizeConfig.displayWidth(context) * 0.35, child: e)).toList(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                //FECHA DE PARTIDA
-                ListTile(),
-                //HORA DE PARTIDA
-                ListTile()
-              ].map((e) => SizedBox(width: SizeConfig.displayWidth(context) * 0.35, child: e)).toList(),
+              );
+              },
+              child: Text(dateTimeShowFormat, style: const TextStyle(fontSize: 22.0)),
             ),
             //DESCRIPCION
             OrdinaryFormField(
@@ -153,10 +164,10 @@ class _NewTripFormState extends State<NewTripForm> {
               currentValue: newTripState.newTripModel.description,
               focusNode: descriptionFN,
               nextFocusNode: null,
-              fieldType: FieldTypes.vehiclePlate,
+              maxLines: 5,
+              fieldType: FieldTypes.description,
               autovalidateMode: newTripState.autoValidateMode,
-              maxLength: 6,
-              textCapitalization: TextCapitalization.characters,
+              maxLength: 120,
             ),
             FloatingActionButton.extended(
               onPressed: () async{
@@ -166,9 +177,10 @@ class _NewTripFormState extends State<NewTripForm> {
                   final bool successful = await cubit.submit();
                   if(context.mounted){
                     if (successful) {
+                      AsyncProgressDialog.dismiss(context);
                       Navigator.pop<bool>(context, successful);
-                      dispose();
                     } else {
+                      AsyncProgressDialog.dismiss(context);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: const Text("Error en el envío de solicitud. Inténtalo más tarde", style: TextStyle(color: MyColors.textWhite)), backgroundColor: Colors.red.shade400)
                       );
@@ -181,6 +193,26 @@ class _NewTripFormState extends State<NewTripForm> {
               label: const Text("Enviar solicitud", style: TextStyle(color: MyColors.textWhite, fontSize: Fontsizes.subTitleFontSize))
             )
           ].map((e) => Padding(padding: const EdgeInsets.symmetric(vertical: 6), child: e)).toList()
+        ),
+      ),
+    );
+  }
+
+  String get dateTimeShowFormat => departureDate != null ? '${departureDate?.month}-${departureDate?.day}-${departureDate?.year} ${departureDate?.hour}:${departureDate?.minute}' : '00-00-0000 00:00';
+
+  void _showDialog(Widget child) {
+    cupertino.showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => Container(
+        height: 216,
+        padding: const EdgeInsets.only(top: 6.0),
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        color: MyColors.purpleTheme,
+        child: SafeArea(
+          top: false,
+          child: child,
         ),
       ),
     );

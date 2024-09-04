@@ -58,6 +58,12 @@ class AuthClient{
     await _storage.write(key: "SESSION", value: jsonEncode(session.toJson()));
   }
 
+  Future<void> updateToken(String newToken) async{
+    final refToken = await refreshToken;
+    final logged = await session.then((session) => session?.logged);
+    await saveAuth(AuthResponse.fromJWT(jwt: newToken, refreshToken: refToken, logged: logged ?? false));
+  }
+
   Future<bool> logout() async => await session.then((value) {
     if (value != null){
       try {

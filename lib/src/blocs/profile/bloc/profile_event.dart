@@ -23,7 +23,7 @@ class UploadImage extends ProfileEvent{
 }
 
 class ResultEvent extends ProfileEvent{
-  final DriverResponseStatus driverResponseStatus;
+  final DriverResultStatus driverResponseStatus;
 
   const ResultEvent({required this.driverResponseStatus});
 }

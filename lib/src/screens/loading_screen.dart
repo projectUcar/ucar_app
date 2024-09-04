@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ucar_app/src/config/size_config.dart';
 import 'package:ucar_app/src/routes/app_router.dart';
+import 'package:ucar_app/src/screens/wrappers/landing_page.dart';
 import '../storage/auth_client.dart';
 import '../theme/themes.dart';
 
@@ -44,7 +45,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Future<void> _readData() async{
     final session = await AuthClient().session;
     if (session != null && session.logged && !session.sessionExpired && session.refreshToken != null && context.mounted) {
-      Navigator.pushReplacementNamed(context, AppRouter.landing, arguments: session.name);
+      Navigator.pushReplacementNamed(context, AppRouter.landing, arguments: LandingPageArgs(name: session.name, isDriver: session.isDriver()));
     }else if(context.mounted){
       Navigator.pushReplacementNamed(context, AppRouter.login);
     }

@@ -5,7 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../blocs/blocs.dart';
 import '../../components/shimmer_card.dart';
 import '../../config/size_config.dart';
-import '../../models/driver_response_status.dart';
+import '../../models/driver_result_status.dart';
 import '../../routes/app_router.dart';
 import '../../storage/auth_client.dart';
 import '../../theme/themes.dart';
@@ -13,7 +13,8 @@ import '../../util/capitalizer.dart';
 import '../../util/options/genders.dart';
 
 class ProfileSettings extends StatefulWidget {
-  const ProfileSettings({super.key});
+  const ProfileSettings({super.key, required this.isDriver});
+  final bool isDriver;
 
   @override
   State<ProfileSettings> createState() => _ProfileSettingsState();
@@ -23,9 +24,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   @override
   void initState() {
-    BlocProvider.of<ProfileBloc>(context).add(ProfileFetching());
+    bloc.add(ProfileFetching());
     super.initState();
   }
+
+  ProfileBloc get bloc => BlocProvider.of<ProfileBloc>(context);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           child: RefreshIndicator(
             onRefresh: () async {
               await Future.delayed(const Duration(seconds: 1));
-              if (context.mounted && state is ProfileReturned) BlocProvider.of<ProfileBloc>(context).add(ProfileFetching());
+              if (context.mounted && state is ProfileReturned) bloc.add(ProfileFetching());
             },
             displacement: 50.0,
             color: MyColors.textGrey,
@@ -89,7 +92,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     ),
                   ),
                 ),
-                content(context, state, () => BlocProvider.of<ProfileBloc>(context).add(ProfileFetching())),
+                content(context, state, () => bloc.add(ProfileFetching())),
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: Align(
@@ -97,18 +100,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        TextButton(
-                          style: ButtonStyle(
-                            foregroundColor: const MaterialStatePropertyAll(MyColors.textWhite),
-                            backgroundColor: MaterialStatePropertyAll(MyColors.backgroundBlue.withOpacity(0.4)),
-                            minimumSize: const MaterialStatePropertyAll(Size(300, 60)),
-                            shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
-                            side: const MaterialStatePropertyAll(BorderSide(color: MyColors.backgroundBlue))
-                          ),
-                          onPressed: (state is ProfileReturned) ? () async {
-                            final bool? isDriver = await AuthClient().isDriver;
+                        (!widget.isDriver) ? _bottomButton(context, MyColors.backgroundBlue, "Modo Conductor", (state is ProfileReturned) ? () async {
                             if (context.mounted) {
-                              if ((state.requestState == DriverResponseStatus.successful || isDriver == true)) {
+                              if ((state.requestState == DriverResultStatus.successful || widget.isDriver == true)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Al parecer, ya eres conductor o una solicitud a tu nombre está pendiente", style: TextStyle(color: MyColors.textWhite),),
@@ -118,25 +112,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               }else{
                                 final value = await Navigator.pushNamed<bool>(context, AppRouter.driverForm);
                                 if (value == true && context.mounted) {
-                                  BlocProvider.of<ProfileBloc>(context).add(const ResultEvent(driverResponseStatus: DriverResponseStatus.successful));
+                                  bloc.add(const ResultEvent(driverResponseStatus: DriverResultStatus.successful));
                                 }
                               }
                             }
-                          }: null,
-                          child: const Text("Modo conductor", style: TextStyle(fontSize: Fontsizes.subTitleFontSize))
-                        ),
+                          }: null
+                        ) : _bottomButton(context, MyColors.yellow, "Mis vehículos", () => Navigator.pushNamed(context, AppRouter.vehicles)), //Corregir
                         const SizedBox(height: 6),
-                        TextButton(
-                          style: ButtonStyle(
-                            foregroundColor: const MaterialStatePropertyAll(MyColors.textWhite),
-                            backgroundColor: MaterialStatePropertyAll(MyColors.danger.withOpacity(0.4)),
-                            minimumSize: const MaterialStatePropertyAll(Size(300, 60)),
-                            shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
-                            side: const MaterialStatePropertyAll(BorderSide(color: MyColors.danger))
-                          ),
-                          onPressed: (state is! ProfileLoading) ? logOut: null,
-                          child: const Text("Cerrar sesión", style: TextStyle(fontSize: Fontsizes.subTitleFontSize))
-                        ),
+                        _bottomButton(context, MyColors.danger, "Cerrar sesión", (state is! ProfileLoading) ? logOut: null)
                       ],
                     ),
                   ),
@@ -148,6 +131,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       ),
     );
   }
+
+  TextButton _bottomButton(BuildContext context, Color color, String label, VoidCallback? onPressed) => TextButton(
+    onPressed: onPressed,
+    style: ButtonStyle(
+      foregroundColor: const MaterialStatePropertyAll(MyColors.textWhite),
+      backgroundColor: MaterialStatePropertyAll(color.withOpacity(0.4)),
+      minimumSize: const MaterialStatePropertyAll(Size(300, 60)),
+      shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
+      side: MaterialStatePropertyAll(BorderSide(color: color))
+    ),
+    child: Text(label, style: const TextStyle(fontSize: Fontsizes.subTitleFontSize))
+  );
 
   Future<void> logOut() async{
     bool successLogout = await AuthClient().logout();
@@ -184,7 +179,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      BlocProvider.of<ProfileBloc>(context).add(UploadImage.fromGallery(model));
+                      bloc.add(UploadImage.fromGallery(model));
                       Navigator.pop(context);
                     },
                     child: const Column(
@@ -199,7 +194,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      BlocProvider.of<ProfileBloc>(context).add(UploadImage.fromCamera(model));
+                      bloc.add(UploadImage.fromCamera(model));
                       Navigator.pop(context);
                     },
                     child: const Column(

@@ -32,4 +32,18 @@ class VehiclesProvider{
     );
     return response;
   }
+
+  Future<List<dynamic>?> getVehicles(String endpoint, String token) async{
+    final response = await _client.get<List<dynamic>>(
+      endpoint,
+      options: Options(
+        headers: {
+          HttpHeaders.contentTypeHeader: Headers.jsonContentType,
+          HttpHeaders.userAgentHeader: 'dio',
+          HttpHeaders.authorizationHeader: 'Bearer $token'
+        },
+      ),
+    );
+    return response.data;
+  }
 }

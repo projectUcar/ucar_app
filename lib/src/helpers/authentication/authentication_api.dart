@@ -14,7 +14,7 @@ class AuthenticationAPI {
       connectTimeout: const Duration(seconds: 10),
       sendTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
-      validateStatus: (statusCode) => (statusCode == null || (statusCode >= 300 && statusCode < 400)) ? false : true,
+      validateStatus: (statusCode) => (statusCode != null) && (statusCode < 300 || statusCode >= 400),
       receiveDataWhenStatusError: true
     )
   );

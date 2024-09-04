@@ -34,7 +34,7 @@ class DriverRequestScreen extends StatelessWidget {
                 FocusScopeNode currentFocus = FocusScope.of(context);
                 if (!currentFocus.hasPrimaryFocus) currentFocus.unfocus();
               },
-              icon:const Icon(Icons.arrow_back_ios)
+              icon:const Icon(Icons.arrow_back_ios, color: MyColors.purpleTheme)
             ),
           ),
           body: Background(

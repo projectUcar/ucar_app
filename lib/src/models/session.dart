@@ -40,14 +40,14 @@ class Session{
     for (Role element in role) {
       if (element.isDriver) return true;
     }
-    return false;
+    return role.length > 1;
   }
 
   bool isAdmin() {
     for (Role element in role) {
       if (element.isAdmin) return true;
     }
-    return false;
+    return role.length > 1;
   }
   
   factory Session.fromJson(Map<String, dynamic> json){

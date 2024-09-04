@@ -24,6 +24,7 @@ enum FieldTypes {
   vehicleLine(labelText: 'Línea', hintText: 'Ej. Clio', prefixIcon: Icons.featured_play_list, textInputType: TextInputType.visiblePassword),
   vehiclePlate(labelText: 'Placa', hintText: 'Ej. AAA999', prefixIcon: Icons.numbers, textInputType: TextInputType.visiblePassword),
   vehicleColor(labelText: 'Color de vehículo', hintText: 'Ej. Vinotinto', prefixIcon: Icons.palette_outlined, textInputType: TextInputType.name),
+  description(labelText: 'Descripción', hintText: 'Agrega una descripción', prefixIcon: null, textInputType: TextInputType.multiline),
   target(labelText: 'Dirección', hintText: 'Busca tu dirección', prefixIcon: Icons.streetview, textInputType: TextInputType.streetAddress);
 
   final String _labelText;

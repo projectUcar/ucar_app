@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ucar_app/src/blocs/blocs.dart';
-import 'package:ucar_app/src/theme/themes.dart';
+import '../../blocs/blocs.dart';
+import '../../models/vehicle.dart';
+import '../../theme/themes.dart';
 import '../../widgets/forms/new_trip_form.dart';
 import '../wrappers/background.dart';
 import '../wrappers/gps_access_screen.dart';
 
 class NewTripScreen extends StatelessWidget {
-  NewTripScreen({super.key});
-  final NewTripCubit cubit = NewTripCubit();
-
+  NewTripScreen({super.key, required this.vehicles}): cubit = NewTripCubit();
+  final NewTripCubit cubit;
+  final List<Vehicle> vehicles;
   @override
   Widget build(BuildContext context) => GpsAccessScreen(
     child: GestureDetector(
@@ -53,7 +54,7 @@ class NewTripScreen extends StatelessWidget {
     ),
     BlocProvider<NewTripCubit>(
       create: (context) => cubit,
-      child: NewTripForm(cubit: cubit),
+      child: NewTripForm(cubit: cubit, vehicles: vehicles),
     )
   ];
 }

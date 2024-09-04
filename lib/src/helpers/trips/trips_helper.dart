@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:ucar_app/src/storage/auth_client.dart';
 
 import '../../../env/env.dart';
 import '../../models/vehicle.dart';
@@ -17,24 +18,20 @@ class TripsHelper{
 
   Future<bool> _createTrip(String endpoint, Map<String, dynamic> data, String token) async {
     try {
-      final response = await _client.postTrip(endpoint, token, jsonEncode(data));
+      final response = await _client.postData(endpoint, token, jsonEncode(data));
       return (response != null && response.statusCode! < 300);
     } on DioException {
       return false;
     }
   }
 
-  Future<bool> createTripToU( Map<String, dynamic> data, String token) async => _createTrip("${Env.tripsToUEndpoint}/create-route", data, token);
+  Future<bool> createTripToU(Map<String, dynamic> data, String token) async => _createTrip("${Env.tripsToUEndpoint}/create-route", data, token);
 
-  Future<bool> createTripFromU( Map<String, dynamic> data, String token) async => _createTrip("${Env.tripsFromUEndpoint}/create-route", data, token);
+  Future<bool> createTripFromU(Map<String, dynamic> data, String token) async => _createTrip("${Env.tripsFromUEndpoint}/create-route", data, token);
 
   Future<List<TripModel>> fetchTripsFromU(String city, String token) async => _fetchTrips("${Env.tripsFromUEndpoint}/city/$city", token);
 
   Future<List<TripModel>> fetchTripsToU(String city, String token) async => _fetchTrips("${Env.tripsToUEndpoint}/city/$city", token);
-
-  Future<List<TripModel>> fetchHistoryFromU(String id, String token) async => _fetchTrips("${Env.tripsToUEndpoint}/my-routes/$id", token);
-
-  Future<List<TripModel>> fetchHistoryToU(String id, String token) async => _fetchTrips("${Env.tripsToUEndpoint}/my-routes/$id", token);
 
   Future<Vehicle> fetchVehicleFeatures(TripModel model, String token) async {
     try {
@@ -43,6 +40,16 @@ class TripsHelper{
       return Vehicle.empty();
     } on DioException {
       return Vehicle.empty();
+    }
+  }
+
+  Future<bool> requestSeat(String tripId, String driverId) async {
+    try {
+      final token = await AuthClient().accessToken;
+      final response = await _client.postData('${Env.requestSeatEndpoint}/$tripId', token!, jsonEncode(<String, dynamic>{"idDriver": driverId}));
+      return (response != null && response.statusCode! < 300);
+    } on DioException {
+      return false;
     }
   }
 

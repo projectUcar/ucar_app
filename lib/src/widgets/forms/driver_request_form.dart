@@ -114,7 +114,7 @@ class _DriverRequestFormState extends State<DriverRequestForm> {
               validator: driverState.brandValidator,
               currentValue: driverState.vehicle.brand,
               focusNode: brandFN,
-              nextFocusNode: modelFN,
+              nextFocusNode: lineFN,
               fieldType: FieldTypes.vehicleBrand,
               autovalidateMode: driverState.autoValidateMode,
               textCapitalization: TextCapitalization.words,
@@ -197,7 +197,12 @@ class _DriverRequestFormState extends State<DriverRequestForm> {
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(labelText: "Núm. Puertas", hintText: "Ej. 4"),
                     direction: Axis.vertical,
-                    onChanged: (s) => cubit.updateDoors(s.toInt()),
+                    onChanged: (s) {
+                      cubit.updateDoors(s.toInt());
+                      if (!driverState.vehicle.isOwner) {
+                        ownerDocTypeFN.requestFocus();
+                      }
+                    },
                   ),
                 ),
               ],
@@ -239,9 +244,10 @@ class _DriverRequestFormState extends State<DriverRequestForm> {
                   final bool successful = await cubit.submit();
                   if(context.mounted){
                     if (successful) {
+                      AsyncProgressDialog.dismiss(context);
                       Navigator.pop<bool>(context, successful);
-                      dispose();
                     } else {
+                      AsyncProgressDialog.dismiss(context);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: const Text("Error en el envío de solicitud. Inténtalo más tarde", style: TextStyle(color: MyColors.textWhite)), backgroundColor: Colors.red.shade400)
                       );

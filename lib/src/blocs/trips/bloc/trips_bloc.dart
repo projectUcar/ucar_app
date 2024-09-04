@@ -17,8 +17,8 @@ class TripsBloc extends Bloc<TripsEvent, TripsState> with TokenValidation<TripsS
     on<TripsEvent>((event, emit) async{
       if (state is! TripsLoading) emit(const TripsLoading());
       List<CitySummaryModel> summaries = [];
-      final token = await verifyToken();
       try {
+        final token = await verifyToken();
         for (Cities city in Cities.values) {
           List<TripModel> data;
           if (event is GetTripsFromU) {

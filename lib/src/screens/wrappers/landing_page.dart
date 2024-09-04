@@ -11,9 +11,16 @@ import '../top_level_pages/profile_settings.dart';
 import 'background.dart';
 import 'gps_access_screen.dart';
 
-class LandingPage extends StatefulWidget {
-  const LandingPage({super.key, this.name = "nuevo"});
+class LandingPageArgs {
   final String name;
+  final bool isDriver;
+
+  LandingPageArgs({this.name = "nuevo", this.isDriver = false});
+}
+
+class LandingPage extends StatefulWidget {
+  const LandingPage({super.key, required this.args});
+  final LandingPageArgs args;
 
   @override
   State<LandingPage> createState() => _LandingPageState();
@@ -46,7 +53,7 @@ class _LandingPageState extends State<LandingPage> {
                     preferredSize: const Size.fromHeight(50),
                     child: AppBarCustom(
                       color: MyColors.backgroundSvg,
-                      text: "Hola, ${widget.name}",
+                      text: "Hola, ${widget.args.name}",
                       leadingBoolean: false,
                     ),
                   )
@@ -56,8 +63,8 @@ class _LandingPageState extends State<LandingPage> {
                   index: value.currentIndex,
                   children: [
                     const HomePassenger(key: PageStorageKey<String>("HomePassengerKEY")),
-                    (value.loadedPages.contains(1)) ? HistoryScreen(key: const PageStorageKey<String>("HistoryKEY")) : Container(),
-                    (value.loadedPages.contains(2)) ? const ProfileSettings(key: PageStorageKey<String>("ProfileKEY")) : Container(),
+                    (value.loadedPages.contains(1)) ? HistoryScreen(key: const PageStorageKey<String>("HistoryKEY"), isDriver: widget.args.isDriver) : Container(),
+                    (value.loadedPages.contains(2)) ? ProfileSettings(key: const PageStorageKey<String>("ProfileKEY"), isDriver: widget.args.isDriver) : Container(),
                   ]
                 )
               ),

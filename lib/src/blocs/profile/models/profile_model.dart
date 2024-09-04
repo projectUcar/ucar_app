@@ -15,6 +15,8 @@ class ProfileModel {
     roles: List<String>.from(json["roles"].map((x) => x)),
   );
 
+  String get id => _id;
+
   Map<String, dynamic> toJson() => {
     "_id": _id,
     "firstName": firstName,

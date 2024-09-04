@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../helpers/helpers.dart';
-import '../../../storage/auth_client.dart';
+import '../../../models/vehicle.dart';
 import '../../../util/fail_to_message.dart';
 import '../../blocs.dart';
 import '../../token_validation.dart';
@@ -11,24 +11,34 @@ import '../../token_validation.dart';
 part 'history_event.dart';
 part 'history_state.dart';
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> with TokenValidation<HistoryState>{
-  HistoryBloc(): _helper = TripsHelper(), super(const HistoryLoading()) {
+  HistoryBloc(): _historyHelper = HistoryHelper(), _vehiclesHelper = VehiclesHelper(), super(const HistoryLoading()) {
     on<HistoryEvent>((event, emit) async{
       if (state is! HistoryLoading) emit(const HistoryLoading());
-      final token = await verifyToken();
-      final id = await AuthClient().userId;
+      List<HistoryModel> list = [];
       try {
-        final List<TripModel> list;
+        final token = await verifyToken();
         if (event is GetHistoryToU) {
-          list = await _helper.fetchHistoryToU(id!,token!);
+          list = await _historyHelper.fetchHistoryToU(token!);
           emit(HistoryReturned(list));
         } else if (event is GetHistoryFromU) {
-          list = await _helper.fetchHistoryFromU(id!,token!);
+          list = await _historyHelper.fetchHistoryFromU(token!);
           emit(HistoryReturned(list));
         }
-      } on DioException catch (e) {
-        emit(HistoryError(e.getMessage()));
+      } on Exception catch (e) {
+        emit(HistoryError((e is DioException) ? e.getMessage() : "Ocurrió un error inesperado"));
       }
     });
   }
-  final TripsHelper _helper;
+  final HistoryHelper _historyHelper;
+  final VehiclesHelper _vehiclesHelper;
+
+  Future<List<Vehicle>> vehicles() async {
+    try {
+      final token = await verifyToken();
+      final vehicles = await _vehiclesHelper.myVehicles(token!);
+      return vehicles;
+    } on Exception{
+      return List<Vehicle>.empty();
+    }
+  }
 }

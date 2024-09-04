@@ -19,7 +19,7 @@ class ListContainer extends StatelessWidget {
             for (String item in destinations)
               Container(
                 margin: const EdgeInsets.only(right: 5),
-                padding: const EdgeInsets.only(left: 8, right: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: MyColors.secondary,

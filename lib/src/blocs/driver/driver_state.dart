@@ -47,6 +47,7 @@ class DriverState{
     documentType: documentType ?? this.documentType,
     docValue: docValue ?? this.docValue,
     vehicle: Vehicle(
+      id: null,
       brand: brand ?? vehicle.brand,
       model: model ?? vehicle.model,
       line: line ?? vehicle.line,

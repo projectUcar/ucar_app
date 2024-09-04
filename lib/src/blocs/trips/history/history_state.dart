@@ -12,12 +12,12 @@ class HistoryLoading extends HistoryState {
 }
 
 class HistoryReturned extends HistoryState {
-  final List<TripModel> tripList;
+  final List<HistoryModel> tripList;
   const HistoryReturned(this.tripList);
   @override
-  List<Object> get props => [List.generate(tripList.length, (index) => tripList.elementAt(index).props)];
+  List<Object> get props => [List.generate(tripList.length, (index) => tripList.elementAt(index).tripModel.props)];
 
-  HistoryReturned copyWith(int newIndex) => HistoryReturned(tripList);
+  HistoryReturned copyWith(List<HistoryModel> newList) => HistoryReturned(newList);
 }
 
 class HistoryError extends HistoryState {

@@ -1,7 +1,6 @@
 import 'dart:convert';
-
-import '../../blocs/blocs.dart';
 import '../../../env/env.dart';
+import '../../models/directions_model.dart';
 import 'directions_provider.dart';
 
 class DirectionsHelper {

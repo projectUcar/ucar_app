@@ -13,8 +13,10 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<TripsBloc>(context).add(const GetTripsToU());
+    bloc.add(const GetTripsToU());
   }
+
+  TripsBloc get bloc => BlocProvider.of<TripsBloc>(context);
 
   int buttonIndex = 0;
 
@@ -28,7 +30,7 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
         builder: (context, state) => RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(const Duration(seconds: 1));
-            if (context.mounted && state is! TripsLoading) BlocProvider.of<TripsBloc>(context).add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU());
+            if (context.mounted && state is! TripsLoading) bloc.add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU());
           },
           displacement: 50.0,
           color: MyColors.textGrey,
@@ -37,7 +39,7 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
             slivers: [
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: SizeConfig.displayHeight(context) * 0.015),
+                  padding: EdgeInsets.symmetric(vertical: SizeConfig.displayHeight(context) * 0.015, horizontal: SizeConfig.displayWidth(context) / 19.5),
                   child: StatefulBuilder(
                     builder: (context, refresh) {
                       return SegmentedButton<int>(
@@ -58,7 +60,7 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
                         selected: <int>{buttonIndex},
                         onSelectionChanged: (newSelection) {
                           refresh(() => buttonIndex = newSelection.first);
-                          BlocProvider.of<TripsBloc>(context).add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU());
+                          bloc.add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU());
                         },
                       );
                     }
@@ -91,7 +93,7 @@ class _RoutesByCitiesState extends State<RoutesByCities> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(iconSize: 50, onPressed: () => BlocProvider.of<TripsBloc>(context).add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU()), icon: const Icon(Icons.refresh_rounded), color: MyColors.textGrey),
+              IconButton(iconSize: 50, onPressed: () => bloc.add(buttonIndex == 0 ? const GetTripsToU() : const GetTripsFromU()), icon: const Icon(Icons.refresh_rounded), color: MyColors.textGrey),
               Text("${current.message}. Inténtalo de nuevo", style: const TextStyle(color: MyColors.textGrey, fontWeight: FontWeight.bold, fontSize: Fontsizes.subTitleTwoFontSize), textAlign: TextAlign.center),
             ],
           ),

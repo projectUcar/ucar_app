@@ -2,16 +2,17 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:ucar_app/src/widgets/temporaries/dio_alert_dialog.dart';
 
 import '../../blocs/blocs.dart';
 import '../../config/size_config.dart';
 import '../../helpers/helpers.dart';
+import '../../models/directions_model.dart';
 import '../../models/vehicle.dart';
 import '../../theme/themes.dart';
 import '../../util/latlng_to_string.dart';
 import '../../util/location_to_latlng.dart';
 import '../../storage/auth_client.dart';
+import '../../widgets/temporaries/dio_alert_dialog.dart';
 import '../wrappers/gps_access_screen.dart';
 
 class MapScreenArgs{
@@ -129,9 +130,12 @@ class _BottomDetailsSheet extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32), side: const BorderSide(color: MyColors.backgroundBlue)),
                   onPressed: () async{
                     try {
-                      final bool result = await Future.value(true); //REEMPLAZAR POR FUNCIÓN DE RESERVAR CUPO
-                      if (result == true && context.mounted) {
-                        Navigator.pop<bool>(context, true);
+                      final result = await TripsHelper().requestSeat(tripModel.id, tripModel.driverUserId);
+                      if (context.mounted) {
+                        result == true ? Navigator.pop<bool>(context, result)
+                        : ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: const Text("Error en el envío de solicitud. Inténtalo más tarde", style: TextStyle(color: MyColors.textWhite)), backgroundColor: Colors.red.shade400)
+                        );
                       }
                     } on DioException catch (e) {
                       if (context.mounted) {
