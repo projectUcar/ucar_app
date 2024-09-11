@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 
 import '../../blocs/blocs.dart';
+import '../../config/size_config.dart';
 import '../../util/widget_list_format.dart';
 import '../../components/already_have_an_account.dart';
 import '../../components/app_bar_custom.dart';

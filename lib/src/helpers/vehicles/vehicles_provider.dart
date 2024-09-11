@@ -18,7 +18,7 @@ class VehiclesProvider{
       receiveDataWhenStatusError: true
     )
   );
-  Future<Response<String>?> postData(String endpoint, String token, String data) async{
+  Future<Response<String>?> postData(String endpoint, String token, String? data) async{
     final response = await _client.post<String>(
       endpoint,
       options: Options(

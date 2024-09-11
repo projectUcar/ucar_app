@@ -9,15 +9,12 @@ import '../../blocs/blocs.dart';
 import '../../components/address_search.dart';
 import '../../components/form_fields/field_types.dart';
 import '../../components/form_fields/text_fields/ordinary_form_field.dart';
-import '../../models/vehicle.dart';
 import '../../theme/themes.dart';
 import '../../util/options/cities.dart';
 import '../temporaries/async_progress_dialog.dart';
 
 class NewTripForm extends StatefulWidget {
-  const NewTripForm({super.key, required NewTripCubit cubit, required this.vehicles}) : _cubit = cubit;
-  final NewTripCubit _cubit;
-  final List<Vehicle> vehicles;
+  const NewTripForm({super.key});
 
   @override
   State<NewTripForm> createState() => _NewTripFormState();
@@ -27,11 +24,11 @@ class _NewTripFormState extends State<NewTripForm> {
 
   static final GlobalKey<FormState> formKey = GlobalKey<FormState>(debugLabel: "DriverFormKEY");
 
-  NewTripCubit get cubit => widget._cubit;
+  NewTripCubit get cubit => BlocProvider.of<NewTripCubit>(context);
 
   DateTime? get departureDate => cubit.state.newTripModel.departureDate;
 
-  late final FocusNode toUniversityFN, targetFN, /*vehicleFN,*/ seatsFN, descriptionFN;
+  late final FocusNode toUniversityFN, targetFN, vehicleFN, seatsFN, descriptionFN;
 
   late final TextEditingController targetController;
 
@@ -39,19 +36,18 @@ class _NewTripFormState extends State<NewTripForm> {
   void initState() {
     toUniversityFN = FocusNode();
     targetFN = FocusNode();
-    //vehicleFN = FocusNode();
+    vehicleFN = FocusNode();
     seatsFN = FocusNode();
     descriptionFN = FocusNode();
     targetController = TextEditingController();
     super.initState();
-    cubit.updateVehicle(widget.vehicles[0]);
   }
 
   @override
   void dispose() {
     toUniversityFN.dispose();
     targetFN.dispose();
-    //vehicleFN.dispose();
+    vehicleFN.dispose();
     seatsFN.dispose();
     descriptionFN.dispose();
     targetController.dispose();
@@ -72,7 +68,7 @@ class _NewTripFormState extends State<NewTripForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("¿Vas para la U?", style: TextStyle(color: MyColors.textGrey, fontSize: Fontsizes.bodyTextFontSize)),
+                const Text("¿Vas para la U?", style: TextStyle(color: MyColors.textOrange, fontSize: Fontsizes.bodyTextFontSize + 2)),
                 cupertino.CupertinoSwitch(
                   focusNode: toUniversityFN,
                   value: newTripState.toU,
@@ -106,24 +102,24 @@ class _NewTripFormState extends State<NewTripForm> {
                 }
               },
             ),
-            // DropdownButtonFormField<Vehicle>(
-            //   focusNode: vehicleFN,
-            //   items: widget.vehicles.map((e) => DropdownMenuItem<Vehicle>(child: Text(e.plate!))).toList(),
-            //   onChanged: (s) {
-            //     debugPrint(s.toString());
-            //     cubit.updateVehicle(s);
-            //     seatsFN.requestFocus();
-            //   },
-            //   dropdownColor: MyColors.secondary,
-            //   menuMaxHeight: 142.0,
-            //   value: newTripState.newTripModel.vehicle,
-            //   style: CustomStyles.whiteStyle.copyWith(fontSize: 16),
-            //   validator: (value) => newTripState.vehicleValidator(value?.plate),
-            //   icon: const Icon(Icons.arrow_drop_down_rounded, color: MyColors.textGrey, size: 28),
-            //   borderRadius: const BorderRadius.all(Radius.circular(20)),
-            //   decoration: const InputDecoration(labelText: "Vehículo", hintText: "Elige un vehículo"),
-            //   autovalidateMode: newTripState.autoValidateMode,
-            // ),
+            DropdownButtonFormField<String>(
+              focusNode: vehicleFN,
+              items: cubit.plates.map((e) => DropdownMenuItem<String>(child: Text(e))).toList(),
+              onChanged: (s) {
+                debugPrint(s.toString());
+                cubit.updateVehicle(s);
+                seatsFN.requestFocus();
+              },
+              dropdownColor: MyColors.secondary,
+              menuMaxHeight: 142.0,
+              value: newTripState.newTripModel.vehicle?.plate,
+              style: CustomStyles.whiteStyle.copyWith(fontSize: 16),
+              validator: newTripState.vehicleValidator,
+              icon: const Icon(Icons.arrow_drop_down_rounded, color: MyColors.textGrey, size: 28),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              decoration: const InputDecoration(labelText: "Vehículo", hintText: "Elige un vehículo"),
+              autovalidateMode: newTripState.autoValidateMode,
+            ),
             //ASIENTOS DISPONIBLES
             SpinBox(
               focusNode: seatsFN,

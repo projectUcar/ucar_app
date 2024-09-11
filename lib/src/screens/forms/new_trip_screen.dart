@@ -8,7 +8,7 @@ import '../wrappers/background.dart';
 import '../wrappers/gps_access_screen.dart';
 
 class NewTripScreen extends StatelessWidget {
-  NewTripScreen({super.key, required this.vehicles}): cubit = NewTripCubit();
+  NewTripScreen({super.key, required this.vehicles}): cubit = NewTripCubit(vehicles: vehicles);
   final NewTripCubit cubit;
   final List<Vehicle> vehicles;
   @override
@@ -54,7 +54,7 @@ class NewTripScreen extends StatelessWidget {
     ),
     BlocProvider<NewTripCubit>(
       create: (context) => cubit,
-      child: NewTripForm(cubit: cubit, vehicles: vehicles),
+      child: const NewTripForm(),
     )
   ];
 }

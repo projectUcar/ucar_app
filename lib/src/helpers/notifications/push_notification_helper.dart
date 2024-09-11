@@ -45,7 +45,5 @@ class PushNotificationHelper{
     FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenApp);
   }
 
-  static void closeStream(){
-    _messageStreamController.close();
-  }
+  static void closeStream() => _messageStreamController.close();
 }

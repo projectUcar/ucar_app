@@ -43,6 +43,9 @@ abstract class Env{
   @EnviedField(varName: 'DRIVER_REQUEST_ENDPOINT', obfuscate: true)
   static final String driverRequestEndpoint = _Env.driverRequestEndpoint;
 
+  @EnviedField(varName: 'SAVE_DOCUMENT_ENDPOINT', obfuscate: true)
+  static final String saveDocumentEndpoint = _Env.saveDocumentEndpoint;
+
   @EnviedField(varName: 'NEW_VEHICLE_ENDPOINT', obfuscate: true)
   static final String newVehicleEndpoint = _Env.newVehicleEndpoint;
 

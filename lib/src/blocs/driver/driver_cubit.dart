@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+
 import '../../helpers/helpers.dart';
 import '../../models/vehicle.dart';
 import '../../util/options/document_types.dart';
@@ -9,7 +9,6 @@ import '../../util/regex_comparison.dart';
 import '../token_validation.dart';
 
 part 'driver_state.dart';
-
 class DriverCubit extends Cubit<DriverState> with TokenValidation<DriverState>{
   DriverCubit() : super(DriverState.initial());
   final VehiclesHelper _helper = VehiclesHelper();
@@ -18,10 +17,20 @@ class DriverCubit extends Cubit<DriverState> with TokenValidation<DriverState>{
     emit(newState);
   }
 
+  Future<bool> _saveDocuments(String token) async{
+    final saveDriver = await _helper.saveDocument(token, jsonEncode(state.driverToJson()));
+    if (state.vehicle.isOwner == false) {
+      final saveOwner = await _helper.saveDocument(token, jsonEncode(state.ownerToJson()));
+      return saveDriver && saveOwner;
+    }
+    return saveDriver;
+  }
+
   Future<bool> submit() async{
     final token = await verifyToken();
-    final List<bool> results = await Future.wait<bool>([_helper.sendDriverRequest(token ?? '', jsonEncode(state.driverToJson())), _helper.addVehicleRequest(token ?? '', jsonEncode(state.vehicle.toJson()))]);
-    return results[0] && results[1];
+    final sendVehicle = await _helper.addVehicleRequest(token!, jsonEncode(state.vehicle.toJson()));
+    final driversResult = await _saveDocuments(token).then((value) async => value == true ? await _helper.sendDriverRequest(token) : value);
+    return driversResult && sendVehicle;
   }
 
   void updateDocumentType(String? s) => _updateState(state.copyWith(documentType: s));

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:ucar_app/src/theme/themes.dart';
+import '../theme/themes.dart';
 
 class AddressSearch extends SearchDelegate<Placemark> {
   @override

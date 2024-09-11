@@ -72,7 +72,7 @@ class _DriverRequestFormState extends State<DriverRequestForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("¿Eres el propietario del vehículo?", style: TextStyle(color: MyColors.textGrey, fontSize: Fontsizes.smallTextFontSize)),
+                const Text("¿Eres el propietario del vehículo?", style: TextStyle(color: MyColors.textOrange, fontSize: Fontsizes.bodyTextFontSize + 2)),
                 cupertino.CupertinoSwitch(
                   focusNode: isOwnerFN,
                   value: driverState.vehicle.isOwner,

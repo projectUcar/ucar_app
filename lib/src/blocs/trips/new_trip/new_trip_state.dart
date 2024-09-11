@@ -1,11 +1,12 @@
 part of 'new_trip_cubit.dart';
 
 class NewTripState{
-  const NewTripState({required this.newTripModel, this.toU = true, this.submitted = false});
+  const NewTripState({required this.vehicles, required this.newTripModel, this.toU = true, this.submitted = false});
   final NewTripModel newTripModel;
   final bool submitted, toU;
+  final List<Vehicle> vehicles;
 
-  factory NewTripState.initial() => NewTripState(newTripModel: NewTripModel.initial());
+  factory NewTripState.initial(List<Vehicle> vehicles) => NewTripState(vehicles: vehicles, newTripModel: NewTripModel.initial());
 
   AutovalidateMode get autoValidateMode => submitted ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled;
 
@@ -16,7 +17,7 @@ class NewTripState{
   && descriptionValidator(newTripModel.description) == null
   && departureValidator == true;
 
-  NewTripState copyWith({bool? toU, Cities? city, String? target, String? description, DateTime? departureDate, String? departureTime, Vehicle? vehicle, int? availableSeats, bool? submitted, List<Vehicle>? vehicles}) => NewTripState(
+  NewTripState copyWith({bool? toU, Cities? city, String? target, String? description, DateTime? departureDate, String? departureTime, String? plate, int? availableSeats, bool? submitted, List<Vehicle>? vehicles}) => NewTripState(
     newTripModel: NewTripModel(
       city: city ?? newTripModel.city,
       target: target ?? newTripModel.target,
@@ -24,8 +25,9 @@ class NewTripState{
       departureDate: departureDate ?? newTripModel.departureDate,
       departureTime: departureTime ?? newTripModel.departureTime,
       availableSeats: availableSeats ?? newTripModel.availableSeats,
-      vehicle: vehicle ?? newTripModel.vehicle
+      vehicle: this.vehicles.firstWhere((element) => element.plate == plate)
     ),
+    vehicles: this.vehicles,
     toU: toU ?? this.toU,
     submitted: submitted ?? this.submitted,
   );

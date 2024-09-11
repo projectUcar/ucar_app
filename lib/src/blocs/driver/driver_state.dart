@@ -18,6 +18,11 @@ class DriverState{
     "documentNumber": docValue
   };
 
+  Map<String, dynamic> ownerToJson() => {
+    "documentType": vehicle.documentTypeOwner,
+    "documentNumber": vehicle.documentNumberOwner
+  };
+
   String? docTypeValidator(String? s) => RegexComparison.selectionValidator(s, "Tipo de Documento");
   String? docNumberValidator(String? s) => RegexComparison.defaultValidator(s, "Documento", documentType == DocumentTypes.nit.name ? RegexComparison.nitRegExp : RegexComparison.ccOrTiRegExp);
   String? brandValidator(String? s) => RegexComparison.defaultValidator(s, "Marca", RegexComparison.brandRegExp);
