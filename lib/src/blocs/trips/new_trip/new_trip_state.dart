@@ -17,7 +17,7 @@ class NewTripState{
   && descriptionValidator(newTripModel.description) == null
   && departureValidator == true;
 
-  NewTripState copyWith({bool? toU, Cities? city, String? target, String? description, DateTime? departureDate, String? departureTime, String? plate, int? availableSeats, bool? submitted, List<Vehicle>? vehicles}) => NewTripState(
+  NewTripState copyWith({bool? toU, Cities? city, String? target, String? description, DateTime? departureDate, String? departureTime, int? availableSeats, bool? submitted, List<Vehicle>? vehicles}) => NewTripState(
     newTripModel: NewTripModel(
       city: city ?? newTripModel.city,
       target: target ?? newTripModel.target,
@@ -25,7 +25,7 @@ class NewTripState{
       departureDate: departureDate ?? newTripModel.departureDate,
       departureTime: departureTime ?? newTripModel.departureTime,
       availableSeats: availableSeats ?? newTripModel.availableSeats,
-      vehicle: this.vehicles.firstWhere((element) => element.plate == plate)
+      vehicle: this.vehicles[0]
     ),
     vehicles: this.vehicles,
     toU: toU ?? this.toU,

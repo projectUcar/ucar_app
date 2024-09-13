@@ -102,24 +102,24 @@ class _NewTripFormState extends State<NewTripForm> {
                 }
               },
             ),
-            DropdownButtonFormField<String>(
-              focusNode: vehicleFN,
-              items: cubit.plates.map((e) => DropdownMenuItem<String>(child: Text(e))).toList(),
-              onChanged: (s) {
-                debugPrint(s.toString());
-                cubit.updateVehicle(s);
-                seatsFN.requestFocus();
-              },
-              dropdownColor: MyColors.secondary,
-              menuMaxHeight: 142.0,
-              value: newTripState.newTripModel.vehicle?.plate,
-              style: CustomStyles.whiteStyle.copyWith(fontSize: 16),
-              validator: newTripState.vehicleValidator,
-              icon: const Icon(Icons.arrow_drop_down_rounded, color: MyColors.textGrey, size: 28),
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              decoration: const InputDecoration(labelText: "Vehículo", hintText: "Elige un vehículo"),
-              autovalidateMode: newTripState.autoValidateMode,
-            ),
+            // DropdownButtonFormField<String>(
+            //   focusNode: vehicleFN,
+            //   items: cubit.plates.map((e) => DropdownMenuItem<String>(child: Text(e))).toList(),
+            //   onChanged: (s) {
+            //     debugPrint(s.toString());
+            //     cubit.updateVehicle(s);
+            //     seatsFN.requestFocus();
+            //   },
+            //   dropdownColor: MyColors.secondary,
+            //   menuMaxHeight: 142.0,
+            //   value: newTripState.newTripModel.vehicle?.plate,
+            //   style: CustomStyles.whiteStyle.copyWith(fontSize: 16),
+            //   validator: newTripState.vehicleValidator,
+            //   icon: const Icon(Icons.arrow_drop_down_rounded, color: MyColors.textGrey, size: 28),
+            //   borderRadius: const BorderRadius.all(Radius.circular(20)),
+            //   decoration: const InputDecoration(labelText: "Vehículo", hintText: "Elige un vehículo"),
+            //   autovalidateMode: newTripState.autoValidateMode,
+            // ),
             //ASIENTOS DISPONIBLES
             SpinBox(
               focusNode: seatsFN,

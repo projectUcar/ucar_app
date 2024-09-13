@@ -4,7 +4,7 @@ class LogInScreen extends FormScreen<UserLoginState, LogInCubit> with WidgetList
 
   @override
   List<Widget> _buildChildren(BuildContext context) => formatList(<Widget>[
-    SvgPicture.asset("assets/icons/ucar_logo.svg", height: SizeConfig.displayHeight(context) * 0.15),
+    SvgPicture.asset("assets/icons/ucar_logo.svg", height: 101),
     Text("¡Bienvenido\nNuevamente!",
       style: CustomStyles.whiteStyle.copyWith(fontSize: Fontsizes.titleFontSize, fontWeight: FontWeight.w900),
       textAlign: TextAlign.center,

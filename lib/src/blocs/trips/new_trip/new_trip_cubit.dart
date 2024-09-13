@@ -30,7 +30,7 @@ class NewTripCubit extends Cubit<NewTripState> with TokenValidation<NewTripState
   void updateToU(bool? value) => _updateState(state.copyWith(toU: value));
   void updateCity(Cities? value) => _updateState(state.copyWith(city: value));
   void updateTarget(String? value) => _updateState(state.copyWith(target: value));
-  void updateVehicle(String? value) => _updateState(state.copyWith(plate: value));
+  //void updateVehicle(String? value) => _updateState(state.copyWith(plate: value));
   void updateSeats(int value) => _updateState(state.copyWith(availableSeats: value));
   void updateDescription(String? value) => _updateState(state.copyWith(description: value));
   void updateDepartureDate (DateTime? value) => _updateState(state.copyWith(departureDate: value));
