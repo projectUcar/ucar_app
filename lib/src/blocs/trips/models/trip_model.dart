@@ -12,7 +12,7 @@ class TripModel extends Equatable{
 
   static const upbVal = "Universidad Pontificia Bolivariana";
 
-  int get availablePlaces => availableSeats - passengers.length;
+  bool alreadyBooked(String userID) => (driverUserId == userID) || passengers.contains(userID);
 
   String get id => _id;
   bool get toUniversity => destination.contains(upbVal);

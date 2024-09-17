@@ -17,13 +17,15 @@ class TripCard extends StatelessWidget{
   final TripsHelper _helper;
   
   Color get bookingColor {
-    if (tripModel.availableSeats > tripModel.passengers.length && _notifier.value == false) {
+    if (enabled) {
       return MyColors.orangeDark;
     }
     else{
       return MyColors.backgroundSvg;
     }
   }
+
+  bool get enabled => tripModel.availableSeats == 0 && _notifier.value == false;
   
   @override
   Widget build(BuildContext context) {
@@ -92,14 +94,16 @@ class TripCard extends StatelessWidget{
                     label: const Text("Detalles", style: TextStyle(color: MyColors.textWhite, fontWeight: FontWeight.bold))
                   ),
                   TextButton.icon(
-                    onPressed: tripModel.availableSeats > tripModel.passengers.length 
+                    onPressed: enabled
                       ? () async{
+                        AsyncProgressDialog.show(context);
                         final result = await _helper.requestSeat(tripModel.id, tripModel.driverUserId);
-                        if (result == true && context.mounted) {
+                        if (context.mounted) {
                           _notifier.value = result;
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text("Reservación exitosa", style: TextStyle(color: MyColors.textWhite)),
-                            backgroundColor: MyColors.success,
+                          AsyncProgressDialog.dismiss(context);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(result == true ? "Reservación exitosa" : "Error al reservar. Inténtalo de nuevo", style: const TextStyle(color: MyColors.textWhite)),
+                            backgroundColor: result == true ? MyColors.success : MyColors.danger
                           ));
                         }
                       }
@@ -115,8 +119,8 @@ class TripCard extends StatelessWidget{
                       ),
                       shape: const MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.horizontal(right: Radius.circular(10)))),
                     ),
-                    icon: const Icon(Icons.send_sharp, color: MyColors.textWhite),
-                    label: const Text("Reservar", style: TextStyle(color: MyColors.textWhite, fontWeight: FontWeight.bold))
+                    icon: Icon(enabled ? Icons.send_sharp : Icons.check, color: MyColors.textWhite),
+                    label: Text("Reserva${enabled ? 'r': 'do'}", style: const TextStyle(color: MyColors.textWhite, fontWeight: FontWeight.bold))
                   )
                 ].map((e) => Expanded(child: e)).toList(),
               );

@@ -22,7 +22,7 @@ class NewTripForm extends StatefulWidget {
 
 class _NewTripFormState extends State<NewTripForm> {
 
-  static final GlobalKey<FormState> formKey = GlobalKey<FormState>(debugLabel: "DriverFormKEY");
+  static final GlobalKey<FormState> formKey = GlobalKey<FormState>(debugLabel: "NewTripKEY");
 
   NewTripCubit get cubit => BlocProvider.of<NewTripCubit>(context);
 

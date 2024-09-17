@@ -9,11 +9,13 @@ import 'trips_provider.dart';
 
 class TripsHelper{
   final TripsProvider _client = TripsProvider();
+  final AuthClient _authClient = AuthClient();
 
   Future<List<TripModel>> _fetchTrips(String endpoint, String token) async {
+    final userId = await _authClient.userId;
     final trips = await _client.getTrips(endpoint, token);
     List<TripModel> formatted = trips != null && trips.isNotEmpty ? List<TripModel>.generate(trips.length, (index) => TripModel.fromJson(trips[index])): List<TripModel>.empty();
-    return formatted;
+    return formatted.where((tripModel) => !tripModel.alreadyBooked(userId!)).toList();
   }
 
   Future<bool> _createTrip(String endpoint, Map<String, dynamic> data, String token) async {

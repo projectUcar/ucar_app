@@ -29,7 +29,7 @@ class CitySummaryModel extends Equatable{
     int seats = 0;
     if (list.isNotEmpty) {
       for (TripModel trip in list) {
-        seats += trip.availablePlaces;
+        seats += trip.availableSeats;
       }
     }
     return seats;

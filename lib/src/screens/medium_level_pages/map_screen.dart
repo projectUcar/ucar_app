@@ -163,7 +163,7 @@ class _BottomDetailsSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(!vehicle.isEmpty ? "${vehicle.brand} ${vehicle.model} ${vehicle.line} ${vehicle.color}" : vehicle.defaultText, style: _textStyle.copyWith(color: MyColors.backgroundBlue, fontSize: Fontsizes.bodyTextFontSize)),
-          Text("${tripModel.availablePlaces} cupos", style: _textStyle)
+          Text("${tripModel.availableSeats} cupos", style: _textStyle)
         ],
       ),
       subtitleTextStyle: _textStyle,

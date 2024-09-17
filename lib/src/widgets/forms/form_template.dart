@@ -2,7 +2,6 @@ library form_template;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ucar_app/src/screens/wrappers/landing_page.dart';
 
 import '../../blocs/blocs.dart';
 import '../../components/form_fields/field_types.dart';
@@ -11,6 +10,7 @@ import '../../components/form_fields/text_fields/ordinary_form_field.dart';
 import '../../components/form_fields/text_fields/password_form_field.dart';
 import '../../config/size_config.dart';
 import '../../routes/app_router.dart';
+import '../../screens/wrappers/landing_page.dart';
 import '../../storage/auth_client.dart';
 import '../../theme/themes.dart';
 import '../../util/widget_list_format.dart';

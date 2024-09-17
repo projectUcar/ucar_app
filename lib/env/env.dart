@@ -13,6 +13,9 @@ abstract class Env{
   @EnviedField(varName: 'SIGN_UP_ENDPOINT', obfuscate: true)
   static final String signUpEndpoint = _Env.signUpEndpoint;
 
+  @EnviedField(varName: 'FORGOT_PASSWORD_ENDPOINT', obfuscate: true)
+  static final String forgotPasswordEndpoint = _Env.forgotPasswordEndpoint;
+
   @EnviedField(varName: 'REFRESH_TOKEN_ENDPOINT', obfuscate: true)
   static final String refreshTokenEndpoint = _Env.refreshTokenEndpoint;
 
