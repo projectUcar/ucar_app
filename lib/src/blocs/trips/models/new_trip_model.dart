@@ -24,15 +24,28 @@ class NewTripModel {
     vehicle: null,
   );
 
-  Map<String, dynamic> toJson(bool toU) => {
-    "city": city?.nameFormat,
-    (toU ? "origin" : "destination"): target,
-    "description": description,
-    "departureDate": departureDate?.format(r'm/d/Y'),
-    "departureTime": departureTime,
-    "availableSeats": availableSeats,
-    "vehicleId": vehicleId,
+  Map<String, dynamic> toJson(bool toU) {
+    if (toU == true) {
+      return {
+        "city": city?.nameFormat,
+        "origin" : target,
+        "description": description,
+        "departureDate": departureDate?.format(r'Y/m/d'),
+        "departureTime": departureTime,
+        "availableSeats": availableSeats,
+        "vehicleId": vehicleId,
+      };
+    }
+    return {
+      "city": city?.nameFormat,
+      "destination": target,
+      "description": description,
+      "departureDate": departureDate?.format(r'Y/m/d'),
+      "departureTime": departureTime,
+      "availableSeats": availableSeats,
+      "vehicleId": vehicleId,
   };
+  }
 
   @override
   String toString() => '$city, $target, $description, $departureDate, $departureTime, $availableSeats, $vehicle';
