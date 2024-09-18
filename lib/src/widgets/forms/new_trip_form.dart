@@ -28,7 +28,7 @@ class _NewTripFormState extends State<NewTripForm> {
 
   DateTime? get departureDate => cubit.state.newTripModel.departureDate;
 
-  late final FocusNode toUniversityFN, targetFN, vehicleFN, seatsFN, descriptionFN;
+  late final FocusNode toUniversityFN, targetFN, /*vehicleFN,*/ seatsFN, descriptionFN;
 
   late final TextEditingController targetController;
 
@@ -36,7 +36,7 @@ class _NewTripFormState extends State<NewTripForm> {
   void initState() {
     toUniversityFN = FocusNode();
     targetFN = FocusNode();
-    vehicleFN = FocusNode();
+    //vehicleFN = FocusNode();
     seatsFN = FocusNode();
     descriptionFN = FocusNode();
     targetController = TextEditingController();
@@ -47,7 +47,7 @@ class _NewTripFormState extends State<NewTripForm> {
   void dispose() {
     toUniversityFN.dispose();
     targetFN.dispose();
-    vehicleFN.dispose();
+    //vehicleFN.dispose();
     seatsFN.dispose();
     descriptionFN.dispose();
     targetController.dispose();

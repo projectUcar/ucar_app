@@ -40,7 +40,7 @@ class AddressSearch extends SearchDelegate<Placemark> {
   Future<List<Placemark>> getSuggestions(String query) async{
     try {
       final List<Placemark> places = [];
-      final List<Location> locations = query.length > 6 ? await locationFromAddress(query) : List<Location>.empty();
+      final List<Location> locations = query.length > 3 ? await locationFromAddress(query) : List<Location>.empty();
       for (Location location in locations) {
         places.addAll(await placemarkFromCoordinates(location.latitude, location.longitude)
           .then((list) => list.where((element) => element.isoCountryCode == 'CO' && element.administrativeArea == 'Santander').toList()));

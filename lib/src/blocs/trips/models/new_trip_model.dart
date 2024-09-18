@@ -27,8 +27,8 @@ class NewTripModel {
   Map<String, dynamic> toJson(bool toU) {
     if (toU == true) {
       return {
-        "city": city?.nameFormat,
         "origin" : target,
+        "city": city?.nameFormat,
         "description": description,
         "departureDate": departureDate?.format(r'Y/m/d'),
         "departureTime": departureTime,
