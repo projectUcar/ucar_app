@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ucar_app/src/storage/auth_client.dart';
 
 import '../../../env/env.dart';
 import '../../blocs/blocs.dart';
@@ -21,9 +20,8 @@ class ProfileHelper{
     return ProfileModel.fromJson(dataMap.containsKey('rating') ? dataMap['user'] : dataMap);
   }
 
-  Future<ProfileModel?> userById(String id) async {
-    final token = await AuthClient().accessToken;
-    final response = await _client.getRequestWithToken('$_userByIdEndpoint/$id', token!);
+  Future<ProfileModel> userById(String id, String token) async {
+    final response = await _client.getRequestWithToken('$_userByIdEndpoint/$id', token);
     final dataMap = jsonDecode(response.data!) as Map<String, dynamic>;
     return ProfileModel.fromJson(dataMap.containsKey('rating') ? dataMap['user'] : dataMap);
   }

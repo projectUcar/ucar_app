@@ -29,6 +29,10 @@ class TripModel extends Equatable{
 
   String get formatDT => '${DateTimeFormat.format(departureDate, format: r'd/m/Y')} $departureTime';
 
+  List<String> get ids => <String>[driverUserId, ...passIds];
+
+  List<String> get passIds => passengers.map<String>((e) => (e as Map<String, dynamic>)['user']).toList();
+
   const TripModel({
     required String id,
     required this.origin,

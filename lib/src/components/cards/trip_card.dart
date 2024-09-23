@@ -25,7 +25,7 @@ class TripCard extends StatelessWidget{
     }
   }
 
-  bool get enabled => tripModel.availableSeats == 0 && _notifier.value == false;
+  bool get enabled => tripModel.availableSeats > 0 && _notifier.value == false;
   
   @override
   Widget build(BuildContext context) {

@@ -4,3 +4,4 @@ export 'forms/forms.dart';
 export 'profile/profile.dart';
 export 'driver/driver_cubit.dart';
 export 'vehicles/vehicles_bloc.dart';
+export 'holders/holders_bloc.dart';
